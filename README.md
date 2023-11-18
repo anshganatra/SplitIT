@@ -54,7 +54,7 @@ The new design of the Telegram Bot resolves the issues of the Phase 3
 - Support for other currencies- users can choose their choice of currency for conversion(edit/update in the history) for any transaction.
 
 ## What more can be done?
-Please refer to the issue list available [here](https://github.com/nainisha-b/MyExpenseBot/issues) to see what more can be done to make MyExpenseBot better. Please refer to the MyExpense project present [here](https://github.com/users/nainisha-b/projects/1) to have a look at the tasks to be done, tasks currently in progress and tasks already done.
+Please refer to the issue list available [here]([https://github.com/nainisha-b/MyExpenseBot/issues](https://github.com/orgs/NCSU-Group70-CSC505-SE-Fall-23/projects/1/views/1)) to see what more can be done to make MyExpenseBot better. Please refer to the MyExpense project present [here](https://github.com/users/nainisha-b/projects/1) to have a look at the tasks to be done, tasks currently in progress and tasks already done.
 
 
 ## Demo
