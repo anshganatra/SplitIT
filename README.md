@@ -23,7 +23,7 @@ MyExpenseBot shows the features added to the exisiting TrackMyDollar to improve 
 ![Fork](https://img.shields.io/github/forks/nainisha-b/MyExpenseBot?style=social)
 <hr>
 
-## About MyExpenseBot(Based on Phase 2 and 3)
+## About MyExpenseBot(Based on Phase 2, 3 and Phase 4)
 
 MyExpenseBot is an easy-to-use Telegram Bot that assists you in recording your daily expenses on a local system without any hassle 
 With simple commands, this bot allows you to:
@@ -44,14 +44,19 @@ With simple commands, this bot allows you to:
   User can see the daily and monthly expenses for spending history.
 - Deployment on GCP (the bot is now available, and can be used on any device by searching for @testforbudgetmanagerbot on Telegram) 
 
-## What's new? (From Phase 3 to Phase 4)
+## What's new? (From Phase 4 to Phase 5)
 The new design of the Telegram Bot resolves the issues of the Phase 3
-- Income Feature and Cash Flow graphs- Users can add income of the user as the telegram bot is used for storing the daily expenses. Graphs are implemented for tracking income.
-- Pdf Feature- User can record his/her income and daily expenses in a pdf format.
-- Add Calender Feature- Users can store the input date of their income and expenses
-- Edit Calender Feature-Users can edit the input date entered in future.
-- Display summary of expenses (category-wise, duration-wise) in sorted (descending) order.
-- Support for other currencies- users can choose their choice of currency for conversion(edit/update in the history) for any transaction.
+- Incorporated 17 more currencies into the Telegram Expense Bot using Currency API.
+- Implemented Local JSON Caching to reduce API calls for currency values.
+- Added the feature which stops taking the future date input for income and expenditure.
+
+
+## What's new? (From Phase 4 to Phase 5)
+The new design of the Telegram Bot resolves the issues of the Phase 3
+- Incorporated 17 more currencies into the Telegram Expense Bot using Currency API.
+- Implemented Local JSON Caching to reduce API calls for currency values.
+- Added the feature which stops taking the future date input for income and expenditure.
+
 
 ## What more can be done?
 Please refer to the issue list available [here](https://github.com/orgs/NCSU-Group70-CSC505-SE-Fall-23/projects/1/views/1) to see what more can be done to make MyExpenseBot better. Please refer to the MyExpense project present [here](https://github.com/users/nainisha-b/projects/1) to have a look at the tasks to be done, tasks currently in progress and tasks already done.
