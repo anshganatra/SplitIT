@@ -51,13 +51,6 @@ The new design of the Telegram Bot resolves the issues of the Phase 3
 - Added the feature which stops taking the future date input for income and expenditure.
 
 
-## What's new? (From Phase 4 to Phase 5)
-The new design of the Telegram Bot resolves the issues of the Phase 3
-- Incorporated 17 more currencies into the Telegram Expense Bot using Currency API.
-- Implemented Local JSON Caching to reduce API calls for currency values.
-- Added the feature which stops taking the future date input for income and expenditure.
-
-
 ## What more can be done?
 Please refer to the issue list available [here](https://github.com/orgs/NCSU-Group70-CSC505-SE-Fall-23/projects/1/views/1) to see what more can be done to make MyExpenseBot better. Please refer to the MyExpense project present [here](https://github.com/users/nainisha-b/projects/1) to have a look at the tasks to be done, tasks currently in progress and tasks already done.
 
