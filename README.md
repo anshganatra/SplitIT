@@ -46,7 +46,7 @@ With simple commands, this bot allows you to:
 
 ## What's new? (From Phase 4 to Phase 5)
 The new design of the Telegram Bot resolves the issues of the Phase 3
-- Incorporated 17 more currencies into the Telegram Expense Bot using [Currency API](currencyapi.com).
+- Incorporated 17 more currencies into the Telegram Expense Bot using [Currency API](https://www.currencyapi.com).
 - Implemented Local JSON Caching to reduce API calls for currency values.
 - Added the feature which stops taking the future date input for income and expenditure.
 
