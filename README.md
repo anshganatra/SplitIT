@@ -72,6 +72,11 @@ The below instructions can be followed in order to set-up this bot at your end i
   pip install -r requirements.txt
 ```
 
+3. Include the file path for "currencies.json" (which is situated in the main directory) within the add.py file (found in the main directory under the code subdirectory). In the add.py file, locate the "actual_curr_value" function. Refer to the image below.
+
+   <img width="512" alt="image" src="https://github.com/NCSU-Group70-CSC505-SE-Fall-23/MyExpenseBot/assets/70905787/43ea13cb-b141-4ca1-a806-8f6d3354fdb6">
+
+
 3. In Telegram, search for "BotFather". Click on "Start", and enter the following command:
 ```
   /newbot
