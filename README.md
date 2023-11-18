@@ -122,7 +122,7 @@ You can download and install the Telegram desktop application for your system fr
 
 <hr>
 <p>Title:'Track My Income and Expense'</p>
-<p>Version: '4.1'</p>
+<p>Version: '5.1'</p>
 <p>Description: 'An easy to use Telegram Bot to track everyday income and expenses'</p>
 <p>Authors(Iteration 5):'Nisarg, Chaitanya, Mitesh, Aniruddha'</p>
 <p>Authors(Iteration 4):'Anvitha, Nainisha, Vaishnavi'</p>
