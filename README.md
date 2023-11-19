@@ -72,7 +72,7 @@ The below instructions can be followed in order to set-up this bot at your end i
 
 1. ### Clone this Repository:
 ```bash
-  git clone https://github.com/nainisha-b/MyExpenseBot.git
+  git clone https://github.com/NCSU-Group70-CSC505-SE-Fall-23/MyExpenseBot.git
 ```
 
 2. ### Start a terminal session in the directory where the project has been cloned. Run the following command to install the required dependencies:
