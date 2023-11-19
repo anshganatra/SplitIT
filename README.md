@@ -1,4 +1,20 @@
-# 💰 TrackMyDollar V5.0 - MyExpenseBot 💰
+# TrackMyDollar V5.0 - MyExpenseBot
+![MIT license](https://img.shields.io/badge/License-MIT-green.svg)
+[![Platform](https://img.shields.io/badge/Platform-Telegram-blue)](https://desktop.telegram.org/)
+![GitHub](https://img.shields.io/badge/Language-Python-blue.svg)
+[![GitHub contributors](https://img.shields.io/github/contributors/nainisha-b/MyExpenseBot)](https://github.com/nainisha-b/MyExpenseBot/graphs/contributors)
+[![DOI](https://zenodo.org/badge/414661894.svg)](https://zenodo.org/badge/latestdoi/414661894)
+[![Build Status](https://app.travis-ci.com/sak007/MyDollarBot-BOTGo.svg?branch=main)](https://app.travis-ci.com/github/sak007/MyDollarBot-BOTGo)
+[![codecov](https://codecov.io/gh/sak007/MyDollarBot-BOTGo/branch/main/graph/badge.svg?token=5AYMR8MNMP)](https://codecov.io/gh/sak007/MyDollarBot-BOTGo)
+[![GitHub issues](https://img.shields.io/github/issues/nainisha-b/MyExpenseBot)](https://github.com/nainisha-b/MyExpenseBot/issues?q=is%3Aopen+is%3Aissue)
+[![GitHub closed issues](https://img.shields.io/github/issues-closed/nainisha-b/MyExpenseBot)](https://github.com/nainisha-b/MyExpenseBot/issues?q=is%3Aissue+is%3Aclosed)
+![Fork](https://img.shields.io/github/forks/nainisha-b/MyExpenseBot?style=social)
+<hr>
+<p align="center">
+<a><br><br><br><img  height=25% width=25% 
+  src="https://github.com/NCSU-Group70-CSC505-SE-Fall-23/MyExpenseBot/assets/70905787/9a750927-f4d0-4078-a49e-c90894371ed8" alt="Income and Expense tracking made easy!"></a>
+</p>
+<hr>
 
 <p align="center">
   <a href="#movie_camera-checkout-our-video">Checkout our video</a>
@@ -19,25 +35,6 @@
 
 </p>
 
-<hr>
-<p align="center">
-<a><img  height=360 width=550 
-  src="https://github.com/nainisha-b/MyExpenseBot/blob/main/docs/Tracking_income_and_expenses.png" alt="Income and Expense tracking made easy!"></a>
-</p>
-<hr>
-
-![MIT license](https://img.shields.io/badge/License-MIT-green.svg)
-[![Platform](https://img.shields.io/badge/Platform-Telegram-blue)](https://desktop.telegram.org/)
-![GitHub](https://img.shields.io/badge/Language-Python-blue.svg)
-[![GitHub contributors](https://img.shields.io/github/contributors/nainisha-b/MyExpenseBot)](https://github.com/nainisha-b/MyExpenseBot/graphs/contributors)
-[![DOI](https://zenodo.org/badge/414661894.svg)](https://zenodo.org/badge/latestdoi/414661894)
-[![Build Status](https://app.travis-ci.com/sak007/MyDollarBot-BOTGo.svg?branch=main)](https://app.travis-ci.com/github/sak007/MyDollarBot-BOTGo)
-[![codecov](https://codecov.io/gh/sak007/MyDollarBot-BOTGo/branch/main/graph/badge.svg?token=5AYMR8MNMP)](https://codecov.io/gh/sak007/MyDollarBot-BOTGo)
-[![GitHub issues](https://img.shields.io/github/issues/nainisha-b/MyExpenseBot)](https://github.com/nainisha-b/MyExpenseBot/issues?q=is%3Aopen+is%3Aissue)
-[![GitHub closed issues](https://img.shields.io/github/issues-closed/nainisha-b/MyExpenseBot)](https://github.com/nainisha-b/MyExpenseBot/issues?q=is%3Aissue+is%3Aclosed)
-
-![Fork](https://img.shields.io/github/forks/nainisha-b/MyExpenseBot?style=social)
-<hr>
 
 ## 🤖 Unleash the Power of MyExpenseBot (Version 5.0)
 
