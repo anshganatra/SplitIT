@@ -19,7 +19,7 @@ def update_currencies(json_file_path, json_data, new_date):
 
     for curr in result["data"]:
         if curr in supported_currencies:
-            new_json_data["data"][curr] = result["data"][curr]
+            new_json_data["data"][curr]["value"] = result["data"][curr]["value"]
 
     data_to_update = new_json_data
     update_json_file(json_file_path, data_to_update)
