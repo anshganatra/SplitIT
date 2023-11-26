@@ -1,0 +1,83 @@
+{
+    "meta": {
+        "last_updated_at": "2023-08-21T23:59:59Z"
+    },
+    "data": {
+        "AUD": {
+            "code": "AUD",
+            "value": 1.5591602043
+        },
+        "BRL": {
+            "code": "BRL",
+            "value": 4.9794807943
+        },
+        "CAD": {
+            "code": "CAD",
+            "value": 1.3543302398
+        },
+        "CHF": {
+            "code": "CHF",
+            "value": 0.8785001304
+        },
+        "DKK": {
+            "code": "DKK",
+            "value": 6.8371909366
+        },
+        "EUR": {
+            "code": "EUR",
+            "value": 0.9174501033
+        },
+        "GBP": {
+            "code": "GBP",
+            "value": 0.7836901052
+        },
+        "HKD": {
+            "code": "HKD",
+            "value": 7.838510912
+        },
+        "INR": {
+            "code": "INR",
+            "value": 83.0621950528
+        },
+        "JPY": {
+            "code": "JPY",
+            "value": 146.228138886
+        },
+        "KRW": {
+            "code": "KRW",
+            "value": 1338.5999436868
+        },
+        "MXN": {
+            "code": "MXN",
+            "value": 17.0170520569
+        },
+        "NOK": {
+            "code": "NOK",
+            "value": 10.6172319656
+        },
+        "NZD": {
+            "code": "NZD",
+            "value": 1.6866403249
+        },
+        "PLN": {
+            "code": "PLN",
+            "value": 4.1045407207
+        },
+        "SEK": {
+            "code": "SEK",
+            "value": 10.9488116647
+        },
+        "TWD": {
+            "code": "TWD",
+            "value": 31.9518547049
+        },
+        "USD": {
+            "code": "USD",
+            "value": 1
+        },
+        "ZAR": {
+            "code": "ZAR",
+            "value": 18.9685921117
+        }
+    }
+}
