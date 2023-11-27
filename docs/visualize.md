@@ -6,7 +6,7 @@ The `visualize` module in MyExpenseBot facilitates the generation of graphical r
 
 ### Location of Code
 
-The source code for the `visualize` module can be found [here](path/to/visualize.py).
+The source code for the `visualize` module can be found [here](https://github.com/NCSU-Group70-CSC505-SE-Fall-23/MyExpenseBot/blob/project3/code/visualize.py).
 
 ## Functions
 
