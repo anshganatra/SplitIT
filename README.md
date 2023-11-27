@@ -8,7 +8,7 @@
 [![codecov](https://codecov.io/gh/sak007/MyDollarBot-BOTGo/branch/main/graph/badge.svg?token=5AYMR8MNMP)](https://codecov.io/gh/sak007/MyDollarBot-BOTGo)
 [![GitHub issues](https://img.shields.io/github/issues/nainisha-b/MyExpenseBot)](https://github.com/nainisha-b/MyExpenseBot/issues?q=is%3Aopen+is%3Aissue)
 [![GitHub closed issues](https://img.shields.io/github/issues-closed/nainisha-b/MyExpenseBot)](https://github.com/nainisha-b/MyExpenseBot/issues?q=is%3Aissue+is%3Aclosed)
-![Fork](https://img.shields.io/github/forks/nainisha-b/MyExpenseBot?style=social)
+![Fork](https://img.shields.io/github/forks/NCSU-Group70-CSC505-SE-Fall-23/MyExpenseBot?style=social)
 <hr>
 <p align="center">
 <a><img 
