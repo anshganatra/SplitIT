@@ -36,15 +36,15 @@ def post_category_selection(message, bot):
         if category == "Income":
             message = bot.reply_to(message, f'Generating your Income graph', reply_markup=markup)
             visualize.income_plot()
-            bot.send_document(chat_id, open("/Users/nisargdoshi/Downloads/MyExpenseBot-main/graphs/income_chart.pdf", "rb"))
+            bot.send_document(chat_id, open("./graphs/income_chart.pdf", "rb"))
         elif category == "Expense":
             message = bot.reply_to(message, f'Generating your Expense graph', reply_markup=markup)
             visualize.expense_plot()
-            bot.send_document(chat_id, open("/Users/nisargdoshi/Downloads/MyExpenseBot-main/graphs/expense_chart.pdf", "rb"))
+            bot.send_document(chat_id, open("./graphs/expense_chart.pdf", "rb"))
         elif category == "Group Expense":
             message = bot.reply_to(message, f'Generating your Group Expense graph', reply_markup=markup)
             visualize.grp_exp_plot()
-            bot.send_document(chat_id, open("/Users/nisargdoshi/Downloads/MyExpenseBot-main/graphs/grp_expense_chart.pdf", "rb"))
+            bot.send_document(chat_id, open("./graphs/grp_expense_chart.pdf", "rb"))
         else:
             bot.send_message(chat_id, 'Invalid', reply_markup=types.ReplyKeyboardRemove())
             raise ValueError("Please enter a valid category.")
