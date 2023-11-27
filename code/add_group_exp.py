@@ -143,3 +143,44 @@ def expense_date(message, bot, category, individual_amount, date_entered, member
         logging.exception(str(e))
         restart_script()
 
+def amount_validation(message, bot, total_members, category, member_list):
+    try:
+        print(member_list)
+        chat_id = message.chat.id
+        markup = types.ReplyKeyboardMarkup(one_time_keyboard=True)
+        total_amount = message.text
+
+        if not total_amount.isnumeric() or not int(total_amount) > 0:
+            raise ValueError(f"Please enter a valid expense.")
+
+        individual_amount = float(total_amount) / (total_members + 1)
+
+        calendar, step = DetailedTelegramCalendar().build()
+        bot.send_message(chat_id, f"Select {LSTEP[step]}", reply_markup=calendar)
+
+        @bot.callback_query_handler(func=DetailedTelegramCalendar.func())
+        def cal(c):
+            result, key, step = DetailedTelegramCalendar().process(c.data)
+
+            if not result and key:
+                bot.edit_message_text(
+                    f"Select {LSTEP[step]}",
+                    c.message.chat.id,
+                    c.message.message_id,
+                    reply_markup=key,
+                )
+            elif result:
+                print(member_list)
+                expense_date(message, bot, category, individual_amount, result, member_list)
+                bot.edit_message_text(
+                    f"Date is set: {result}",
+                    c.message.chat.id,
+                    c.message.message_id,
+                )
+
+
+    except Exception as e:
+        logging.exception(str(e))
+        helper.throw_exception(e, message, bot, logging)
+        restart_script()
+
