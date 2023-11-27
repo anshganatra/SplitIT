@@ -221,4 +221,22 @@ def members_validation(message, bot, total_members):
         helper.throw_exception(e, message, bot, logging)
         restart_script()
 
+def post_member_selection(message, bot):
+    try:
+        markup = types.ReplyKeyboardMarkup(one_time_keyboard=True)
+        chat_id = message.chat.id
+        total_members_text = message.text
+
+        if total_members_text.isnumeric() and int(total_members_text) > 0:
+            total_members = int(total_members_text)
+        else:
+            bot.send_message(chat_id, 'Invalid', reply_markup=types.ReplyKeyboardRemove())
+            raise ValueError("Please enter a valid number of members.")
+
+        message = bot.reply_to(message, f'Enter the names of members involved with you separated by comma.', reply_markup=markup)
+        bot.register_next_step_handler(message, lambda msg: members_validation(msg, bot, total_members))
+    except Exception as e:
+        helper.throw_exception(e, message, bot, logging)
+        restart_script()
+
 
