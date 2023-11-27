@@ -5,9 +5,9 @@ import logging
 import sys
 import telebot
 
-sys.path.append('MyExpenseBot-main/code/helper.py')
-sys.path.append('/Users/nisargdoshi/Downloads/MyExpenseBot-main/code/visualize.py')
-sys.path.append('MyExpenseBot-main/code/plot_graphs.py')
+sys.path.append('./code/helper.py')
+sys.path.append('./code/visualize.py')
+sys.path.append('./code/plot_graphs.py')
 
 # Replace 'YOUR_BOT_TOKEN' with the actual token obtained from BotFather
 api_token = '6678704280:AAF377dyGdJLbYGmLt46O9nwKY6PqShdlNw'
