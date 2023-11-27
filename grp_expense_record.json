@@ -1,0 +1,23 @@
+{
+    "6619121674": {
+        "expense": [
+            "2022-08-28,2.9,JPY,400.0,['Nisarg', ' Aniruddha']",
+            "2022-01-01,189.52,EUR,166.66666666666666,['Chaitanya', ' Mitesh']",
+            "2022-01-11,0.03,JPY,4.0,['Nisarg', ' Chaitanya']",
+            "2023-05-18,7.33,USD,7.333333333333333,['Wolf', ' Pack']",
+            "2023-05-31,8.98,JPY,1250.0,['Nisarg', ' Chaitanya', ' Mitesh']",
+            "2023-02-14,30.28,AUD,43.333333333333336,['Abdul', ' Bari']"
+        ],
+        "details": {
+            "Nisarg": 11.91,
+            " Aniruddha": 2.9,
+            "Chaitanya": 189.52,
+            " Mitesh": 198.5,
+            " Chaitanya": 9.01,
+            "Wolf": 7.33,
+            " Pack": 7.33,
+            "Abdul": 30.28,
+            " Bari": 30.28
+        }
+    }
+}
