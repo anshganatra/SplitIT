@@ -23,18 +23,12 @@
   ::
   <a href="#New-Features">New Features</a>
   ::
-  <a href="#bulb-use-case">Use Case</a>
+  <a href="#Installation-guide">Installation Guide</a>
   ::
-  <a href="#file_cabinet-api">APIs used in the Project</a>
+  <a href="#Testing">Testing</a>
   ::
-  <a href="#golf-future-roadmap">Future Roadmap</a>
-  ::
-  <a href="#sparkles-contributors">Contributors</a>
-  ::
-  <a href="#email-support">Support</a>
-
+  <a href="#connect">Connect with authors</a>
 </p>
-
 
 ## MyExpenseBot Documentation - Version 5.0
 
@@ -70,7 +64,7 @@ Bid farewell to future-dated inputs for income and expenditure. MyExpenseBot 5.0
 Enjoy a faster and more responsive MyExpenseBot with the implementation of Local JSON Caching. This enhancement drastically reduces API calls, providing lightning-fast currency value retrieval for a smoother user experience.
 
 ## 🌟 What more can be done?
-Please refer to the [issue list available](https://github.com/orgs/NCSU-Group70-CSC505-SE-Fall-23/projects/1/views/1) to see what more can be done to make MyExpenseBot better. Please refer to the [MyExpense project present](https://github.com/users/nainisha-b/projects/1) to have a look at the tasks to be done, tasks currently in progress and tasks already done.
+Please refer to the [issue list available](https://github.com/orgs/NCSU-Group70-CSC505-SE-Fall-23/projects/1/views/1) to see what more can be done to make MyExpenseBot better and to have a look at the tasks to be done, tasks currently in progress and tasks already done.
 
 ## :movie_camera: Checkout our video
 https://github.com/NCSU-Group70-CSC505-SE-Fall-23/slash/assets/70905787/fe229f61-2bec-4920-96f4-6b693a468bcf
@@ -81,7 +75,7 @@ Also, you can watch the video demo of the Slash project with audio explanation h
 
 ---
 
-
+<a id="Installation-guide"></a>
 ## 🚀 Installation guide
 
 The below instructions can be followed in order to set-up this bot at your end in a span of few minutes! Let's get started:
@@ -116,6 +110,7 @@ The below instructions can be followed in order to set-up this bot at your end i
 
 7. ### A successful run will display "TeleBot: Started polling."
 
+<a id="Testing"></a>
 ## 🧪 Testing
 
 We use pytest to perform testing on all unit tests together. The command needs to be run from the home directory of the project. The command is:
@@ -134,6 +129,7 @@ coverage run -m pytest test/
 coverage report
 ```
 
+<a id="connect"></a>
 ### 🌐 Connect with the Authors
 
 - **Title:** 'Track My Income and Expense'
