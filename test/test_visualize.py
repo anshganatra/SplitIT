@@ -35,8 +35,8 @@ def test_grp_exp_plot(mock_open_function):
             visualize.grp_exp_plot()
 
     # Add assertions based on your expected behavior
-    mock_open.assert_called_once_with('/Users/nisargdoshi/Downloads/MyExpenseBot-main/grp_expense_record.json', 'r')
-    mock_savefig.assert_called_once_with('/Users/nisargdoshi/Downloads/MyExpenseBot-main/graphs/grp_expense_chart.pdf')
+    mock_open.assert_called_once_with('./grp_expense_record.json', 'r')
+    mock_savefig.assert_called_once_with('./graphs/grp_expense_chart.pdf')
 
 def test_income_plot(mock_open_function):
     # Ensure that the file is opened with the correct path
@@ -45,8 +45,8 @@ def test_income_plot(mock_open_function):
             visualize.income_plot()
 
     # Add assertions based on your expected behavior
-    mock_open.assert_called_once_with('/Users/nisargdoshi/Downloads/MyExpenseBot-main/expense_record.json', 'r')
-    mock_savefig.assert_called_once_with('/Users/nisargdoshi/Downloads/MyExpenseBot-main/graphs/income_chart.pdf')
+    mock_open.assert_called_once_with('./expense_record.json', 'r')
+    mock_savefig.assert_called_once_with('./graphs/income_chart.pdf')
 
 def test_expense_plot(mock_open_function):
     # Ensure that the file is opened with the correct path
@@ -55,5 +55,5 @@ def test_expense_plot(mock_open_function):
             visualize.expense_plot()
 
     # Add assertions based on your expected behavior
-    mock_open.assert_called_once_with('/Users/nisargdoshi/Downloads/MyExpenseBot-main/expense_record.json', 'r')
-    mock_savefig.assert_called_once_with('/Users/nisargdoshi/Downloads/MyExpenseBot-main/graphs/expense_chart.pdf')
+    mock_open.assert_called_once_with('./expense_record.json', 'r')
+    mock_savefig.assert_called_once_with('./graphs/expense_chart.pdf')
