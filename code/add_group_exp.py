@@ -89,4 +89,30 @@ def add_user_expense_record(bot, chat_id, record_to_be_added, member_list, conve
     user_list[str(chat_id)]['expense'].append(record_to_be_added)
     return user_list
 
+def actual_curr_val(currency, amount, formatted_date):
+    amount = float(amount)
+    json_file_path = './currencies.json'
+    json_data = ""
+
+    with open(json_file_path, 'r') as file:
+        json_data = json.load(file)
+
+    last_updated_at = json_data['meta']['last_updated_at']
+    last_updated_date = date(int(last_updated_at[:4]), int(last_updated_at[5:7]), int(last_updated_at[8:10]))
+    if str(last_updated_date) != str(formatted_date):
+        print(formatted_date, last_updated_date)
+        updated_json_data = update_currencies(json_file_path, json_data, formatted_date)
+    else:
+        print("Used the old currency data")
+
+    with open(json_file_path, 'r') as file:
+        json_data = json.load(file)
+
+    for curr in json_data['data']:
+        if currency == json_data['data'][curr]['code']:
+            amount /= json_data['data'][curr]['value']
+            break
+    amount = round(amount, 2)
+    return amount
+
 
