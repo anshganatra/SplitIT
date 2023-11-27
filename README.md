@@ -94,16 +94,7 @@ The below instructions can be followed in order to set-up this bot at your end i
   pip install -r requirements.txt
 ```
 
-3. ### Configure Currency Path:
-
-- Open `code/add.py`.
-- Locate the "actual_curr_value" function.
-- Set the file path for "currencies.json" (main directory). Refer the image below
-
-   <img width="512" alt="image" src="https://github.com/NCSU-Group70-CSC505-SE-Fall-23/MyExpenseBot/assets/70905787/43ea13cb-b141-4ca1-a806-8f6d3354fdb6">
-
-
-4. ### Create Your Telegram Bot:
+3. ### Create Your Telegram Bot:
 
 - Search for "BotFather" in Telegram.
 - Use `/newbot` to create a new bot.
