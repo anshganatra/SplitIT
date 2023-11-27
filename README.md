@@ -19,9 +19,9 @@
 <p align="center">
   <a href="#movie_camera-checkout-our-video">Checkout our video</a>
   ::
-  <a href="#rocket-installation">Installation</a>
+  <a href="#Introduction">Introduction</a>
   ::
-  <a href="#computer-technology-used">Technology Used</a>
+  <a href="#New-Features">New Features</a>
   ::
   <a href="#bulb-use-case">Use Case</a>
   ::
@@ -40,10 +40,12 @@
 
 🤖 **Welcome to MyExpenseBot 5.0 - Unleash the Power of Financial Wizardry on Telegram!** 🎉
 
+<a id="Introduction"></a>
 ## Introduction
 
 MyExpenseBot has undergone a major transformation in Version 5.0, introducing groundbreaking features to redefine your financial experience. Explore the exciting enhancements that make managing your finances easier and more visually engaging.
 
+<a id="New-Features"></a>
 ## 🎉 New Features
 
 ### 1. Simplify Group Expense
