@@ -199,3 +199,26 @@ def currency_category(message, bot, total_members, member_list):
         helper.throw_exception(e, message, bot, logging)
         restart_script()
 
+def members_validation(message, bot, total_members):
+    try:
+        markup = types.ReplyKeyboardMarkup(one_time_keyboard=True)
+        curr_member = message.text
+
+        member_list = curr_member.split(',')
+        if len(member_list) != total_members:
+            raise ValueError(f"Please enter {total_members} members.")
+
+        options = helper.getCurrencyOptions()
+        markup.row_width = 3
+
+        for c in options.values():
+            markup.add(c)
+
+        reply = bot.reply_to(message, 'Select Currency', reply_markup=markup)
+        bot.register_next_step_handler(reply, lambda msg: currency_category(msg, bot, total_members, member_list))
+
+    except Exception as e:
+        helper.throw_exception(e, message, bot, logging)
+        restart_script()
+
+
