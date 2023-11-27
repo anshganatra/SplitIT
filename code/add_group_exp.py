@@ -184,3 +184,18 @@ def amount_validation(message, bot, total_members, category, member_list):
         helper.throw_exception(e, message, bot, logging)
         restart_script()
 
+def currency_category(message, bot, total_members, member_list):
+    try:
+        markup = types.ReplyKeyboardMarkup(one_time_keyboard=True)
+        category = message.text
+
+        if category not in helper.getCurrencyOptions():
+            raise ValueError(f"Please enter a valid currency type.")
+
+        message = bot.reply_to(message, f'Enter the total amount spent.', reply_markup=markup)
+        bot.register_next_step_handler(message, lambda msg: amount_validation(msg, bot, total_members, category, member_list))
+
+    except Exception as e:
+        helper.throw_exception(e, message, bot, logging)
+        restart_script()
+
