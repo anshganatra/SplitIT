@@ -115,4 +115,31 @@ def actual_curr_val(currency, amount, formatted_date):
     amount = round(amount, 2)
     return amount
 
+def expense_date(message, bot, category, individual_amount, date_entered, member_list):
+    try:
+        chat_id = message.chat.id
+        amount = individual_amount
+        currency = category
+
+        formatted_date = date_entered.strftime('%Y-%m-%d')
+        date_object = datetime.strptime(formatted_date, '%Y-%m-%d')
+        start_date = datetime.strptime('1999-01-01', '%Y-%m-%d')
+        end_date = datetime.today()
+
+        # Check if the date falls within the range
+        if start_date <= date_object <= end_date:
+            amountval = actual_curr_val(currency, amount, formatted_date)
+        else:
+            raise Exception(f"The date {formatted_date} is outside the range ({start_date} -- {end_date}).")
+
+        date_str, amount_str, convert_value_str, currency_str = str(formatted_date), str(amount), str(amountval), str(category)
+        write_json(add_user_expense_record(bot, chat_id, "{},{},{},{},{}".format(date_str, convert_value_str, currency_str, amount_str, member_list), member_list, convert_value_str))
+        bot.send_message(chat_id, 'The following expenditure has been recorded: You have spent ${} in group expenses on {}. Actual currency is {} and value is {}\n'.format(convert_value_str, date_str, currency_str,amount_str))
+        restart_script()
+
+    except Exception as e:
+        error_message = f'Oh no. An error occurred:\n{e}'
+        bot.reply_to(message, error_message)
+        logging.exception(str(e))
+        restart_script()
 
