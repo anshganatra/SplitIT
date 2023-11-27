@@ -7,3 +7,4 @@ coverage
 pytest-mock
 python-telegram-bot
 python-telegram-bot-calendar
+currencyapicom
