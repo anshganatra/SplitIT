@@ -136,6 +136,6 @@ def expense_plot():
     # plt.show()
 
     # clean the plot to avoid the old data remains on it
-    plt.clf(
+    plt.clf()
     plt.cla()
     plt.close()
