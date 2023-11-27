@@ -7,7 +7,7 @@ def grp_exp_plot():
     plt.title('Expense Details')
 
     # Read JSON data from file
-    with open('/Users/nisargdoshi/Downloads/MyExpenseBot-main/grp_expense_record.json', 'r') as file:
+    with open('./grp_expense_record.json', 'r') as file:
         json_data = file.read()
 
     # Load JSON data
@@ -25,7 +25,7 @@ def grp_exp_plot():
     plt.ylabel('Values')
 
     # Saves the figure as a PNG image
-    plt.savefig('/Users/nisargdoshi/Downloads/MyExpenseBot-main/graphs/grp_expense_chart.pdf')
+    plt.savefig('./graphs/grp_expense_chart.pdf')
 
     # plt.show()
 
@@ -37,7 +37,7 @@ def grp_exp_plot():
 
 def income_plot():
     # Read JSON data from file
-    with open('/Users/nisargdoshi/Downloads/MyExpenseBot-main/expense_record.json', 'r') as file:
+    with open('./expense_record.json', 'r') as file:
         json_data = file.read()
 
     # Load JSON data
@@ -79,7 +79,7 @@ def income_plot():
     plt.pie(values, labels=labels, autopct=autopct_format_income, startangle=140, explode=explode)
     plt.axis('equal')  # Equal aspect ratio ensures that the pie chart is drawn as a circle.
     plt.title('Income Distribution by Category')
-    plt.savefig('/Users/nisargdoshi/Downloads/MyExpenseBot-main/graphs/income_chart.pdf')
+    plt.savefig('./graphs/income_chart.pdf')
     # plt.show()
 
     # clean the plot to avoid the old data remains on it
@@ -90,7 +90,7 @@ def income_plot():
 
 def expense_plot():
     # Read JSON data from file
-    with open('/Users/nisargdoshi/Downloads/MyExpenseBot-main/expense_record.json', 'r') as file:
+    with open('./expense_record.json', 'r') as file:
         json_data = file.read()
 
     # Load JSON data
@@ -132,7 +132,7 @@ def expense_plot():
     plt.pie(values, labels=labels, autopct=autopct_format_expense, startangle=140, explode=explode)
     plt.axis('equal')  # Equal aspect ratio ensures that the pie chart is drawn as a circle.
     plt.title('Expense Distribution by Category')
-    plt.savefig('/Users/nisargdoshi/Downloads/MyExpenseBot-main/graphs/expense_chart.pdf')
+    plt.savefig('./graphs/expense_chart.pdf')
     # plt.show()
 
     # clean the plot to avoid the old data remains on it
