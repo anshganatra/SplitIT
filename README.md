@@ -36,22 +36,36 @@
 </p>
 
 
-## 🤖 Unleash the Power of MyExpenseBot (Version 5.0)
+## MyExpenseBot Documentation - Version 5.0
 
-Welcome to the all-new MyExpenseBot – your financial wizard on Telegram! 
+🤖 **Welcome to MyExpenseBot 5.0 - Unleash the Power of Financial Wizardry on Telegram!** 🎉
 
-### 🎉 Features That Redefine Your Financial Experience:
+## Introduction
 
-- **Record with Ease:** Effortlessly add and record your daily spending adventures.
-- **Instant Summons:** Get real-time summaries of your expenditures for the day or month.
-- **Visual Brilliance:** Dive into a world of visual data with stunning pie charts and bar graphs.
-- **On-the-Go Editing:** Edit and modify spending details at your fingertips.
-- **Recurring Magic:** Set up recurring expenses, adding a touch of automation to your financial game.
-- **Budget Bliss:** Gain insights with budget values for total expenses and individual categories.
-- **Multi-Currency Marvel:** Now supports 17 additional currencies with lightning-fast local caching.
-- **Time Travel Protection:** No more future-dated inputs for income and expenditure.
-- **Speed Boost:** Implemented Local JSON Caching, slashing API calls for lightning-fast currency value retrieval.
+MyExpenseBot has undergone a major transformation in Version 5.0, introducing groundbreaking features to redefine your financial experience. Explore the exciting enhancements that make managing your finances easier and more visually engaging.
 
+## 🎉 New Features
+
+### 1. Simplify Group Expense
+
+Effortlessly manage group expenses with the newly added feature. This includes the ability to add, and view expenses within a group setting, streamlining the process of collaborative financial tracking.
+
+
+### 2. Visual Brilliance
+
+Dive into a world of visual data representation with stunning pie charts and bar graphs. Visualize your income, expenses, and group expenses like never before, gaining deeper insights into your financial landscape.
+
+### 3. Multi-Currency Marvel
+
+MyExpenseBot now supports 17 additional currencies, offering you a diverse range of choices for your transactions. Benefit from lightning-fast local caching, ensuring swift currency value retrieval and a seamless user experience.
+
+### 4. Time Travel Protection
+
+Bid farewell to future-dated inputs for income and expenditure. MyExpenseBot 5.0 introduces Time Travel Protection, ensuring that your financial records stay rooted in the present.
+
+### 5. Speed Boost
+
+Enjoy a faster and more responsive MyExpenseBot with the implementation of Local JSON Caching. This enhancement drastically reduces API calls, providing lightning-fast currency value retrieval for a smoother user experience.
 
 ## 🌟 What more can be done?
 Please refer to the [issue list available](https://github.com/orgs/NCSU-Group70-CSC505-SE-Fall-23/projects/1/views/1) to see what more can be done to make MyExpenseBot better. Please refer to the [MyExpense project present](https://github.com/users/nainisha-b/projects/1) to have a look at the tasks to be done, tasks currently in progress and tasks already done.
