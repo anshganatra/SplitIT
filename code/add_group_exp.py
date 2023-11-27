@@ -61,3 +61,17 @@ def read_json():
     except FileNotFoundError:
         print("---------NO RECORDS FOUND---------")
         restart_script()
+        
+def write_json(user_list):
+    try:
+        existing_data = read_json()
+
+        # Update existing_data with new user_list
+        existing_data.update(user_list)
+
+        with open('grp_expense_record.json', 'w') as json_file:
+            json.dump(existing_data, json_file, ensure_ascii=False, indent=4)
+    except FileNotFoundError:
+        print('Sorry, the data file could not be found.')
+        restart_script()
+
