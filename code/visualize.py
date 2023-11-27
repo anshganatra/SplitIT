@@ -114,7 +114,7 @@ def expense_plot():
     percentages = [(category, expense / total_expense * 100) for category, expense in expense_per_category.items()]
 
     # Create a pie chart
-    labels, values = zip(percentages)
+    labels, values = zip(*percentages)
     explode = [0.1] * len(labels)  # explode the slices for better visibility
 
     # Create a function to format the autopct
