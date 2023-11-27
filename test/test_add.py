@@ -6,6 +6,7 @@ from telebot import types
 from code import add
 from mock import ANY
 from unittest.mock import Mock, ANY
+from datetime import datetime, timedelta
 from telegram_bot_calendar import DetailedTelegramCalendar
 
 dateFormat = '%d-%b-%Y'
@@ -142,3 +143,32 @@ def test_read_json():
 
     except FileNotFoundError:
         print("---------NO RECORDS FOUND---------")
+
+
+@patch('telebot.telebot')
+def test_post_amount_input_future_date(mock_telebot, mocker):
+    mc = mock_telebot.return_value
+    mc.send_message.return_value = True
+    mocker.patch.object(add, 'helper')
+
+    # Set up mock responses for helper functions
+    add.helper.validate_entered_amount.return_value = 10
+    add.helper.write_json.return_value = True
+    add.helper.getDateFormat.return_value = dateFormat
+    add.helper.getTimeFormat.return_value = timeFormat
+    mocker.patch.object(add, 'option')
+    add.option.return_value = {11, "here"}
+
+    # Set up future date
+    future_date = datetime.now() + timedelta(days=7)  # 7 days into the future
+    future_date_str = future_date.strftime(dateFormat)
+
+    # Create a message with future date
+    message_text = f"hello from testing! {future_date_str}"
+    message = create_message(message_text)
+
+    # Call the function to be tested
+    add.post_amount_input(message, mc, 'Income')
+
+    # Assert that the appropriate response is sent
+    mc.reply_to.assert_called_with(message, "Error: Future dates are not allowed.")
