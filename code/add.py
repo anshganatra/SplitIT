@@ -126,7 +126,7 @@ def post_amount_input(message, bot, selectedCurrency):
 
 def actual_curr_val(currency, amount, formatted_date):
     amount = float(amount)
-    json_file_path = 'currency.json'
+    json_file_path = './currencies.json'
     json_data = ""
 
     with open(json_file_path, 'r') as file:
