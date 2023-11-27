@@ -6,7 +6,7 @@ The `add_group_expense` module plays a pivotal role in MyExpenseBot, functioning
 
 ### Location of Code
 
-The source code for the `add_group_expense` module can be found [here](path/to/expense_manager.py).
+The source code for the `add_group_expense` module can be found [here](https://github.com/NCSU-Group70-CSC505-SE-Fall-23/MyExpenseBot/blob/project3/code/add_group_exp.py).
 
 ## Functions
 
