@@ -9,7 +9,7 @@ from unittest.mock import Mock, ANY
 from datetime import datetime, timedelta
 from telegram_bot_calendar import DetailedTelegramCalendar
 
-dateFormat = '%d-%b-%Y'
+dateFormat = '%d-%b-%Y' 
 timeFormat = '%H:%M'
 monthFormat = '%b-%Y'
 
