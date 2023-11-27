@@ -85,5 +85,5 @@ class TestYourModule(unittest.TestCase):
         bot.send_message.assert_called_once_with(message.chat.id, 'Invalid', reply_markup=mock_reply_keyboard_remove.return_value)
 
 
-if _name_ == '_main_':
+if __name__ == '__main__':
     unittest.main()
