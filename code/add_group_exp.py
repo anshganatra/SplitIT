@@ -44,8 +44,10 @@ data_format = {
     }
 }
 
+
 def createNewUserRecord():
     return data_format
+
 
 def read_json():
     try:
@@ -61,7 +63,8 @@ def read_json():
     except FileNotFoundError:
         print("---------NO RECORDS FOUND---------")
         restart_script()
-        
+
+
 def write_json(user_list):
     try:
         existing_data = read_json()
@@ -74,6 +77,7 @@ def write_json(user_list):
     except FileNotFoundError:
         print('Sorry, the data file could not be found.')
         restart_script()
+
 
 def add_user_expense_record(bot, chat_id, record_to_be_added, member_list, convert_value_str):
     user_list = read_json()
@@ -88,6 +92,7 @@ def add_user_expense_record(bot, chat_id, record_to_be_added, member_list, conve
 
     user_list[str(chat_id)]['expense'].append(record_to_be_added)
     return user_list
+
 
 def actual_curr_val(currency, amount, formatted_date):
     amount = float(amount)
@@ -114,6 +119,7 @@ def actual_curr_val(currency, amount, formatted_date):
             break
     amount = round(amount, 2)
     return amount
+
 
 def expense_date(message, bot, category, individual_amount, date_entered, member_list):
     try:
@@ -142,6 +148,7 @@ def expense_date(message, bot, category, individual_amount, date_entered, member
         bot.reply_to(message, error_message)
         logging.exception(str(e))
         restart_script()
+
 
 def amount_validation(message, bot, total_members, category, member_list):
     try:
@@ -184,6 +191,7 @@ def amount_validation(message, bot, total_members, category, member_list):
         helper.throw_exception(e, message, bot, logging)
         restart_script()
 
+
 def currency_category(message, bot, total_members, member_list):
     try:
         markup = types.ReplyKeyboardMarkup(one_time_keyboard=True)
@@ -198,6 +206,7 @@ def currency_category(message, bot, total_members, member_list):
     except Exception as e:
         helper.throw_exception(e, message, bot, logging)
         restart_script()
+
 
 def members_validation(message, bot, total_members):
     try:
@@ -221,6 +230,7 @@ def members_validation(message, bot, total_members):
         helper.throw_exception(e, message, bot, logging)
         restart_script()
 
+
 def post_member_selection(message, bot):
     try:
         markup = types.ReplyKeyboardMarkup(one_time_keyboard=True)
@@ -238,5 +248,3 @@ def post_member_selection(message, bot):
     except Exception as e:
         helper.throw_exception(e, message, bot, logging)
         restart_script()
-
-
