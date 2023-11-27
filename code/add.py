@@ -154,18 +154,34 @@ def actual_curr_val(currency, amount, formatted_date):
 
 
 def post_date_input(message, bot, date_entered):
-    
-    chat_id = message.chat.id
-    amount = float(selectedAm[chat_id])
-    currency = str(selectedCurr[chat_id])
+    try:
+        chat_id = message.chat.id
+        amount = float(selectedAm[chat_id])
+        currency = str(selectedCurr[chat_id])
 
         ####################################################
 
-    formatted_date = date_entered.strftime('%Y-%m-%d')
-    date_object = datetime.strptime(formatted_date, '%Y-%m-%d')
-    start_date = datetime.strptime('1999-01-01', '%Y-%m-%d')
-    end_date = datetime.today()
+        formatted_date = date_entered.strftime('%Y-%m-%d')
+        date_object = datetime.strptime(formatted_date, '%Y-%m-%d')
+        start_date = datetime.strptime('1999-01-01', '%Y-%m-%d')
+        end_date = datetime.today()
 
+        # Check if the date falls within the range
+        if start_date <= date_object <= end_date:
+            amountval = actual_curr_val(currency, amount, formatted_date)
+        else:
+            raise Exception(f"The date {formatted_date} is outside the range ({start_date} -- {end_date}).")
+            date_str, category_str, amount_str, convert_value_str, currency_str = str(formatted_date), str(selectedCat[chat_id]), str(amount), str(amountval), str(selectedCurr[chat_id])
+        if str(selectedTyp[chat_id])=="Income":
+            helper.write_json(add_user_income_record(bot,chat_id, "{},{},{},{},{}".format(date_str, category_str, convert_value_str, currency_str, amount_str)))
+        else:
+            helper.write_json(add_user_expense_record(bot,chat_id, "{},{},{},{},{}".format(date_str, category_str, convert_value_str, currency_str, amount_str)))
+        bot.send_message(chat_id, 'The following expenditure has been recorded: You have spent/received ${} for {} on {}. Actual currency is {} and value is {}\n'.format(convert_value_str, category_str, date_str, currency_str,amount_str))
+        helper.display_remaining_budget(message, bot, selectedCat[chat_id])
+    except Exception as e:
+        error_message = f'Oh no. An error occurred:\n{e}'
+        bot.reply_to(message, error_message)
+        logging.exception(str(e))
 
 def add_user_expense_record(bot,chat_id, record_to_be_added):
     user_list = helper.read_json()
