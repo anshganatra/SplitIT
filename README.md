@@ -116,7 +116,7 @@ The below instructions can be followed in order to set-up this bot at your end i
 5. ### Run the Telegram Bot:
 
 ```bash
-./run.sh
+./run.sh (or) bash run.sh (or) sh run.sh 
 ```
 
 6. ### Paste the Telegram API token when prompted.
