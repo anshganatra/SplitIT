@@ -44,6 +44,20 @@ data_format = {
     }
 }
 
-
 def createNewUserRecord():
     return data_format
+
+def read_json():
+    try:
+        if not os.path.exists('grp_expense_record.json'):
+            with open('grp_expense_record.json', 'w') as json_file:
+                json_file.write('{}')
+            return json.dumps('{}')
+        elif os.stat('grp_expense_record.json').st_size != 0:
+            with open('grp_expense_record.json') as expense_record:
+                expense_record_data = json.load(expense_record)
+            return expense_record_data
+
+    except FileNotFoundError:
+        print("---------NO RECORDS FOUND---------")
+        restart_script()
