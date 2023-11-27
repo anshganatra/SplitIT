@@ -2,15 +2,18 @@ import helper
 import logging
 import telebot
 import calendar
+import json
 from telegram_bot_calendar import DetailedTelegramCalendar, LSTEP
 from telebot import types
-from datetime import datetime
+from datetime import datetime, date
+from currency_api import update_currencies
 
 option = {}
 selectedTyp = {}
 selectedCat = {}
 selectedAm = {}
 selectedCurr = {}
+
 
 def run(message, bot):
     markup = types.ReplyKeyboardMarkup(one_time_keyboard=True)
@@ -20,6 +23,7 @@ def run(message, bot):
         markup.add(c)
     msg = bot.reply_to(message, 'Select Income or Expense', reply_markup=markup)
     bot.register_next_step_handler(msg, post_type_selection, bot)
+
 
 def post_type_selection(message, bot):
     try:
@@ -39,6 +43,7 @@ def post_type_selection(message, bot):
         # print("hit exception")
         helper.throw_exception(e, message, bot, logging)
 
+
 def post_category_selection(message, bot, selectedType):
     try:
         chat_id = message.chat.id
@@ -53,7 +58,7 @@ def post_category_selection(message, bot, selectedType):
         selectedCat[chat_id] = selected_category
         markup = types.ReplyKeyboardMarkup(one_time_keyboard=True)
         options = helper.getCurrencyOptions()
-        markup.row_width = 2
+        markup.row_width = 3
         for c in options.values():
             markup.add(c)
         msg = bot.reply_to(message, 'Select Currency', reply_markup=markup)
@@ -61,6 +66,7 @@ def post_category_selection(message, bot, selectedType):
     except Exception as e:
         logging.exception(str(e))
         bot.reply_to(message, 'Oh no. ' + str(e))
+
 
 def post_currency_selection(message, bot, selected_category):
     try:
@@ -80,6 +86,7 @@ def post_currency_selection(message, bot, selected_category):
     except Exception as e:
         # print("hit exception")
         helper.throw_exception(e, message, bot, logging)
+
 
 def post_amount_input(message, bot, selectedCurrency):
     try:
@@ -114,30 +121,51 @@ def post_amount_input(message, bot, selectedCurrency):
         logging.exception(str(e))
         bot.reply_to(message, 'Oh no. ' + str(e))
 
-def post_date_input(message, bot, date_entered):
-    try:
-        chat_id = message.chat.id
-        amount = float(selectedAm[chat_id])
-        currency = str(selectedCurr[chat_id])
-        formatted_date = date_entered.strftime('%d-%b-%y')
-        if currency == 'Euro':
-            actual_value = float(amount) * 1.05
-        elif currency == 'INR':
-            actual_value = float(amount) * 0.012
-        else:
-            actual_value = float(amount) * 1.0
-        amountval = round(actual_value, 2)
-        date_str, category_str, amount_str, convert_value_str, currency_str = str(formatted_date), str(selectedCat[chat_id]), str(amount), str(amountval), str(selectedCurr[chat_id])
-        if str(selectedTyp[chat_id])=="Income":
-            helper.write_json(add_user_income_record(bot,chat_id, "{},{},{},{},{}".format(date_str, category_str, convert_value_str, currency_str, amount_str)))
-        else:
-            helper.write_json(add_user_expense_record(bot,chat_id, "{},{},{},{},{}".format(date_str, category_str, convert_value_str, currency_str, amount_str)))
-        bot.send_message(chat_id, 'The following expenditure has been recorded: You have spent/received ${} for {} on {}. Actual currency is {} and value is {}\n'.format(convert_value_str, category_str, date_str, currency_str,amount_str))
-        helper.display_remaining_budget(message, bot, selectedCat[chat_id])
+#########################################################
 
-    except Exception as e:
-        logging.exception(str(e))
-        bot.reply_to(date_entered, 'Oh no. ' + str(e))
+
+def actual_curr_val(currency, amount, formatted_date):
+    amount = float(amount)
+    json_file_path = 'currency.json'
+    json_data = ""
+
+    with open(json_file_path, 'r') as file:
+        json_data = json.load(file)
+
+    last_updated_at = json_data['meta']['last_updated_at']
+    last_updated_date = date(int(last_updated_at[:4]), int(last_updated_at[5:7]), int(last_updated_at[8:10]))
+    if str(last_updated_date) != str(formatted_date):
+        print(formatted_date, last_updated_date)
+        updated_json_data = update_currencies(json_file_path, json_data, formatted_date)
+        # print(updated_json_data)
+    else:
+        print("Used the old currency data")
+
+    with open(json_file_path, 'r') as file:
+        json_data = json.load(file)
+
+    for curr in json_data['data']:
+        if currency == json_data['data'][curr]['code']:
+            amount /= json_data['data'][curr]['value']
+            break
+    amount = round(amount, 2)
+    return amount
+################################################################
+
+
+def post_date_input(message, bot, date_entered):
+    
+    chat_id = message.chat.id
+    amount = float(selectedAm[chat_id])
+    currency = str(selectedCurr[chat_id])
+
+        ####################################################
+
+    formatted_date = date_entered.strftime('%Y-%m-%d')
+    date_object = datetime.strptime(formatted_date, '%Y-%m-%d')
+    start_date = datetime.strptime('1999-01-01', '%Y-%m-%d')
+    end_date = datetime.today()
+
 
 def add_user_expense_record(bot,chat_id, record_to_be_added):
     user_list = helper.read_json()
@@ -147,6 +175,7 @@ def add_user_expense_record(bot,chat_id, record_to_be_added):
     user_list[str(chat_id)]['expense_data'].append(record_to_be_added)
     return user_list
 
+
 def add_user_income_record(bot,chat_id, record_to_be_added):
     user_list = helper.read_json()
     if str(chat_id) not in user_list:
@@ -154,5 +183,3 @@ def add_user_income_record(bot,chat_id, record_to_be_added):
 
     user_list[str(chat_id)]['income_data'].append(record_to_be_added)
     return user_list
-
-
