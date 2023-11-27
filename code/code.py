@@ -13,7 +13,9 @@ import add
 import budget
 import category
 import add_recurring
+import add_group_exp
 import pdf
+import plot_graphs
 from datetime import datetime
 from jproperties import Properties
 
@@ -73,6 +75,18 @@ def command_add(message):
 @bot.message_handler(commands=['add_recurring'])
 def command_add_recurring(message):
     add_recurring.run(message, bot)
+
+
+# function to add group expenses
+@bot.message_handler(commands=['add_group_exp'])
+def command_add_recurring(message):
+    add_group_exp.run(message, bot)
+
+
+# function to return graphs
+@bot.message_handler(commands=['visualize'])
+def command_add_recurring(message):
+    plot_graphs.run(message, bot)
 
     
 # function to fetch expenditure history of the user
