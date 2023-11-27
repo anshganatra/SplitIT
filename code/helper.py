@@ -44,17 +44,42 @@ income_or_expense_options = {
     'expense': 'Expense'
 }
 
+# currency_options = {
+#     'Euro': 'Euro',
+#     'USD': 'USD',
+#     'INR': 'INR'
+# }
+
 currency_options = {
-    'Euro': 'Euro',
     'USD': 'USD',
-    'INR': 'INR'
+    'EUR': 'EUR',
+    'JPY': 'JPY',
+    'GBP': 'GBP',
+    'AUD': 'AUD',
+    'CAD': 'CAD',
+    'CHF': 'CHF',
+    'HKD': 'HKD',
+    'NZD': 'NZD',
+    'SEK': 'SEK',
+    'KRW': 'KRW',
+    'NOK': 'NOK',
+    'INR': 'INR',
+    'MXN': 'MXN',
+    'TWD': 'TWD',
+    'ZAR': 'ZAR',
+    'BRL': 'BRL',
+    'DKK': 'KK',
+    'PLN': 'PLN'
 }
+
 
 # set of implemented commands and their description
 commands = {
     'menu': 'Display this menu',
     'add': 'Record/Add a new Spending or Income',
     'add_recurring': 'Add a new recurring expense/income for future months',
+    'add_group_exp': 'Add a group expense',
+    'visualize': 'Get visual representation of the money you spent or earned in different categories.',
     'display': 'Show sum of expenditure for the current day/month',
     'estimate': 'Show an estimate of expenditure for the next day/month',
     'history': 'Display spending.income history',
@@ -94,6 +119,7 @@ def write_json(user_list):
     except FileNotFoundError:
         print('Sorry, the data file could not be found.')
 
+
 def validate_entered_amount(amount_entered):
     if amount_entered is None:
         return 0
@@ -113,6 +139,7 @@ def validate_entered_date(date_entered):
         # except ValueError:
         #     msg = "Not a valid date: '{0}'.".format(date_entered)
         #     raise argparse.ArgumentTypeError(msg)
+
 
 def validate_entered_duration(duration_entered):
     if duration_entered is None:
