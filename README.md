@@ -11,8 +11,8 @@
 ![Fork](https://img.shields.io/github/forks/nainisha-b/MyExpenseBot?style=social)
 <hr>
 <p align="center">
-<a><img  height=25% width=25% 
-  src="https://github.com/NCSU-Group70-CSC505-SE-Fall-23/MyExpenseBot/assets/70905787/9a750927-f4d0-4078-a49e-c90894371ed8" alt="Income and Expense tracking made easy!"></a>
+<a><img 
+  src="https://github.com/NCSU-Group70-CSC505-SE-Fall-23/MyExpenseBot/assets/141549134/ec3e390a-5b72-4b75-803c-85f952ee8b97" alt="Income and Expense tracking made easy!"></a>
 </p>
 <hr>
 
