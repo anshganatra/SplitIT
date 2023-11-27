@@ -6,7 +6,7 @@ The `plot_graphs` module in MyExpenseBot is responsible for interacting with the
 
 ### Location of Code
 
-The source code for the `plot_graphs` module can be found [here](path/to/plot_graphs.py).
+The source code for the `plot_graphs` module can be found [here](https://github.com/NCSU-Group70-CSC505-SE-Fall-23/MyExpenseBot/blob/project3/code/plot_graphs.py).
 
 ## Functions
 
