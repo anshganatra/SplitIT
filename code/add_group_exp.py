@@ -75,3 +75,18 @@ def write_json(user_list):
         print('Sorry, the data file could not be found.')
         restart_script()
 
+def add_user_expense_record(bot, chat_id, record_to_be_added, member_list, convert_value_str):
+    user_list = read_json()
+    if str(chat_id) not in user_list:
+        user_list[str(chat_id)] = createNewUserRecord()
+
+    for member in member_list:
+        if not user_list[str(chat_id)]['details'].get(member):
+            user_list[str(chat_id)]['details'][member] = float(convert_value_str)
+        else:
+            user_list[str(chat_id)]['details'][member] += float(convert_value_str)
+
+    user_list[str(chat_id)]['expense'].append(record_to_be_added)
+    return user_list
+
+
