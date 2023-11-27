@@ -121,9 +121,6 @@ def post_amount_input(message, bot, selectedCurrency):
         logging.exception(str(e))
         bot.reply_to(message, 'Oh no. ' + str(e))
 
-#########################################################
-
-
 def actual_curr_val(currency, amount, formatted_date):
     amount = float(amount)
     json_file_path = './currencies.json'
