@@ -99,7 +99,7 @@ The journey of MyExpenseBot continues as we explore avenues for further improvem
 
 
 ## :movie_camera: Checkout our video
-[![Untitled 2-PhotoRoom (1)](https://github.com/NCSU-Group70-CSC505-SE-Fall-23/MyExpenseBot/assets/70905787/0ab1a685-8942-4752-b960-9ef9af4a1da8)](https://www.youtube.com/watch?v=eY8S-Q2oAFc&ab_channel=ChaitanyaSrusti)
+https://github.com/NCSU-Group70-CSC505-SE-Fall-23/MyExpenseBot/assets/70905787/ae3864fa-5822-49ea-8b6b-0a4f5985905f
 
 
 
