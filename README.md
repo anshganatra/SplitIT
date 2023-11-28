@@ -2,7 +2,6 @@
 ![MIT license](https://img.shields.io/badge/License-MIT-green.svg)
 [![Platform](https://img.shields.io/badge/Platform-Telegram-blue)](https://desktop.telegram.org/)
 ![GitHub](https://img.shields.io/badge/Language-Python-blue.svg)
-[![GitHub contributors](https://img.shields.io/github/contributors/NCSU-Group70-CSC505-SE-Fall-23/MyExpenseBot)](https://github.com/NCSU-Group70-CSC505-SE-Fall-23/MyExpenseBot/graphs/contributors)
 [![DOI](https://zenodo.org/badge/DOI/10.5281/zenodo.10211911.svg)](https://doi.org/10.5281/zenodo.10211911)
 [![Build Status](https://app.travis-ci.com/sak007/MyDollarBot-BOTGo.svg?branch=main)](https://app.travis-ci.com/github/sak007/MyDollarBot-BOTGo)
 [![codecov](https://codecov.io/gh/sak007/MyDollarBot-BOTGo/branch/main/graph/badge.svg?token=5AYMR8MNMP)](https://codecov.io/gh/sak007/MyDollarBot-BOTGo)
@@ -10,6 +9,7 @@
 [![GitHub closed issues](https://img.shields.io/github/issues-closed/nainisha-b/MyExpenseBot)](https://github.com/nainisha-b/MyExpenseBot/issues?q=is%3Aissue+is%3Aclosed)
 ![GitHub contributors](https://img.shields.io/github/contributors/NCSU-Group70-CSC505-SE-Fall-23/MyExpenseBot)
 ![GitHub commit activity (branch)](https://img.shields.io/github/commit-activity/w/NCSU-Group70-CSC505-SE-Fall-23/MyExpenseBot)
+![GitHub repo size](https://img.shields.io/github/repo-size/NCSU-Group70-CSC505-SE-Fall-23/MyExpenseBot)
 ![Fork](https://img.shields.io/github/forks/NCSU-Group70-CSC505-SE-Fall-23/MyExpenseBot?style=social)
 <hr>
 <p align="center">
