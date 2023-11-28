@@ -87,11 +87,6 @@ Enjoy a faster and more responsive MyExpenseBot with the implementation of Local
 | 17  | GCP Deployment                               | Deployed on Google Cloud Platform for accessibility        |
 
 
-
-**"Embrace the MyExpenseBot advantage,"** cried Alex, their voice echoing through the digital corridors of financial possibility. **"Your financial odyssey awaits – a journey of simplicity, prosperity, freedom, and collaboration. Rush out, fellow travelers, and let MyExpenseBot be your guiding light to a future of financial excellence!"**
-
-
-
 ## 🌟 What more can be done?
 Please refer to the [issue list available](https://github.com/orgs/NCSU-Group70-CSC505-SE-Fall-23/projects/1/views/1) to see what more can be done to make MyExpenseBot better and to have a look at the tasks to be done, tasks currently in progress and tasks already done.
 
