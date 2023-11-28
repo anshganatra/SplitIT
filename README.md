@@ -168,6 +168,17 @@ Locally, we use the coverage package in python for code coverage. The commands t
 coverage run -m pytest test/
 coverage report
 ```
+<a id="Use-Cases"></a>
+## 📚 Use Cases
+
+### 1. Travel Expense Management
+
+Imagine you're on a trip with friends or colleagues, and you want to keep track of all travel-related expenses. MyExpenseBot makes it effortless to log transportation costs, accommodation expenses, dining bills, and other travel expenditures. It helps in managing and splitting expenses among the travel group, ensuring everyone stays informed about the collective spending.
+
+### 2. Freelancer Income Tracking
+
+For freelancers managing multiple clients or projects, organizing income streams is crucial. MyExpenseBot can serve as a valuable tool to record various sources of income, categorize payments, and generate reports for each client or project. It simplifies financial tracking for freelancers, aiding in better invoicing and financial planning.
+
 
 <a id="connect"></a>
 ### 🌐 Connect with the Authors
