@@ -177,7 +177,7 @@ For freelancers managing multiple clients or projects, organizing income streams
 ### 🌐 Connect with the Authors
 
 - **Title:** 'Track My Income and Expense'
-- **Version:** '5.1'
+- **Version:** '5.0.1'
 - **Description:** 'An easy-to-use Telegram Bot to track everyday income and expenses'
 
 - #### Authors (Iteration 5): Nisarg, Chaitanya, Mitesh, Aniruddha
