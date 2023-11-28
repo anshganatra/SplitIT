@@ -30,6 +30,11 @@
   <a href="#Testing">Testing</a>
   ::
   <a href="#connect">Connect with authors</a>
+  ::
+  <a href="#Technology-Stack">TechnologyStack</a>
+  ::
+  <a href="#Use-Cases">Use Cases</a>
+  
 </p>
 
 ## MyExpenseBot Documentation - Version 5.0
