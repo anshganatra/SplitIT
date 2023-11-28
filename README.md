@@ -88,8 +88,10 @@ Enjoy a faster and more responsive MyExpenseBot with the implementation of Local
 | 16  | Daily/Monthly Expense Tracking              | View expenses for better insights                         |
 
 
-## 🌟 What more can be done?
-Please refer to the [issue list available](https://github.com/orgs/NCSU-Group70-CSC505-SE-Fall-23/projects/1/views/1) to see what more can be done to make MyExpenseBot better and to have a look at the tasks to be done, tasks currently in progress and tasks already done.
+## 🗺️ What more can be done?
+### 🌐 Exploring Further Possibilities
+The journey of MyExpenseBot continues as we explore avenues for further improvements and enhancements. Check our [issue list](https://github.com/orgs/NCSU-Group70-CSC505-SE-Fall-23/projects/1/views/1) to discover ongoing tasks, proposed enhancements, and future plans to refine MyExpenseBot for an even better user experience.
+
 
 ## :movie_camera: Checkout our video
 https://github.com/NCSU-Group70-CSC505-SE-Fall-23/slash/assets/70905787/fe229f61-2bec-4920-96f4-6b693a468bcf
