@@ -106,6 +106,13 @@ Also, you can watch the video demo of the Slash project with audio explanation h
 
 
 ---
+## 💻 Technology Stack
+
+The MyExpenseBot project leverages the following technologies:
+
+- **Python 3.12:** Utilized as the primary programming language for bot development.
+- **Shell Scripting:** Employed for automation and running project-related scripts.
+
 
 <a id="Installation-guide"></a>
 ## 🚀 Installation guide
