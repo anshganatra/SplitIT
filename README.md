@@ -101,6 +101,8 @@ The journey of MyExpenseBot continues as we explore avenues for further improvem
 ## :movie_camera: Checkout our video
 https://github.com/NCSU-Group70-CSC505-SE-Fall-23/MyExpenseBot/assets/70905787/ae3864fa-5822-49ea-8b6b-0a4f5985905f
 
+### Also you can watch the demo in better quality [here](https://www.youtube.com/watch?v=eY8S-Q2oAFc&ab_channel=ChaitanyaSrusti)
+
 
 
 
