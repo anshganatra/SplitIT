@@ -1,4 +1,4 @@
-# Contributing to - MyExpenseBot v5
+# Contributing to - TrackMyDollar v5
 
 Follow the set of guidelines below to contribute to MyExpenseBot!
 
