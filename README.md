@@ -86,7 +86,6 @@ Enjoy a faster and more responsive MyExpenseBot with the implementation of Local
 | 14  | Currency Support                             | Allow users to choose preferred currency for conversion   |
 | 15  | Telegram Deployment                         | Access the bot on Telegram (@testforbudgetmanagerbot)     |
 | 16  | Daily/Monthly Expense Tracking              | View expenses for better insights                         |
-| 17  | GCP Deployment                               | Deployed on Google Cloud Platform for accessibility        |
 
 
 ## 🌟 What more can be done?
