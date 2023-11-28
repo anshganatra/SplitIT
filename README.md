@@ -99,10 +99,9 @@ The journey of MyExpenseBot continues as we explore avenues for further improvem
 
 
 ## :movie_camera: Checkout our video
-https://github.com/NCSU-Group70-CSC505-SE-Fall-23/slash/assets/70905787/fe229f61-2bec-4920-96f4-6b693a468bcf
+[![Untitled 2-PhotoRoom (1)](https://github.com/NCSU-Group70-CSC505-SE-Fall-23/MyExpenseBot/assets/70905787/0ab1a685-8942-4752-b960-9ef9af4a1da8)](https://www.youtube.com/watch?v=eY8S-Q2oAFc&ab_channel=ChaitanyaSrusti)
 
 
-Also, you can watch the video demo of the Slash project with audio explanation here https://youtu.be/XH2iKbnvyMs.
 
 
 ---
