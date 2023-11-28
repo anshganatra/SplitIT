@@ -1,10 +1,10 @@
-# Contributing to TrackMyDollar - MyExpenseBot v3
+# Contributing to - MyExpenseBot v5
 
 Follow the set of guidelines below to contribute to MyExpenseBot!
 
 ## Code of Conduct
 
-By participating, you are expected to uphold this code. Please report unacceptable behavior to nbhalla@ncsu.edu.
+By participating, you are expected to uphold this code. Please report unacceptable behavior to ncsugroup70@gmail.com.
 
 Prerequistes required before starting this project
 
@@ -20,7 +20,7 @@ If you like our project and would like to contribue otherwise, please note:
  
 ### Reporting Bugs
 
-This section guides you through submitting a bug report for TrackMyDollar.
+This section guides you through submitting a bug report for MyExpenseBot.
 Following these guidelines helps maintainers and the community understand your report, reproduce the behavior and find related reports.
 
 Before Submitting A Bug Report
