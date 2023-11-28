@@ -106,6 +106,7 @@ Also, you can watch the video demo of the Slash project with audio explanation h
 
 
 ---
+<a id="Technology-Stack"></a>
 ## 💻 Technology Stack
 
 The MyExpenseBot project leverages the following technologies:
