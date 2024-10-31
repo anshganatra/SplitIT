@@ -2,6 +2,8 @@ import re
 import json
 import os
 from datetime import datetime
+from models import *
+from db_operations import *
 
 choices = ['Date', 'Category', 'Cost']
 plot = ['Bar with budget', 'Pie','Bar without budget']
@@ -154,13 +156,13 @@ def validate_entered_duration(duration_entered):
 def getUserIncomeHistory(user_id):
     data = getUserData(user_id)
     if data is not None:
-        return data['income_data']
+        return data.transactions['income_data']
     return None
 
 def getUserExpenseHistory(user_id):
     data = getUserData(user_id)
     if data is not None:
-        return data['expense_data']
+        return data.transactions['expense_data']
     return None
 
 def getUserHistory(user_id, selectedType):
@@ -171,12 +173,12 @@ def getUserHistory(user_id, selectedType):
     
 
 def getUserData(user_id):
-    user_list = read_json()
-    if user_list is None:
+    userTransaction = read_user_transaction(user_id)
+
+    if userTransaction == None:
         return None
-    if (str(user_id) in user_list):
-        return user_list[str(user_id)]
-    return None
+    
+    return userTransaction
 
 
 def throw_exception(e, message, bot, logging):
