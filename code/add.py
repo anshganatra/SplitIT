@@ -7,6 +7,8 @@ from telegram_bot_calendar import DetailedTelegramCalendar, LSTEP
 from telebot import types
 from datetime import datetime, date
 from currency_api import update_currencies
+from models import *
+from db_operations import *
 
 option = {}
 selectedTyp = {}
@@ -187,9 +189,11 @@ def post_date_input(message, bot, date_entered):
         ######################################################
         date_str, category_str, amount_str, convert_value_str, currency_str = str(formatted_date), str(selectedCat[user_id]), str(amount), str(amountval), str(selectedCurr[user_id])
         if str(selectedTyp[user_id])=="Income":
-            helper.write_json(add_user_income_record(bot,user_id, "{},{},{},{},{}".format(date_str, category_str, convert_value_str, currency_str, amount_str)))
+            expenseRecord = ExpenseRecord(title="Income", date=date_str, category=category_str, amount=amount_str, currency=currency_str, amountUSD=convert_value_str)
+            add_user_income_record(bot,user_id, expenseRecord.to_dict())
         else:
-            helper.write_json(add_user_expense_record(bot,user_id, "{},{},{},{},{}".format(date_str, category_str, convert_value_str, currency_str, amount_str)))
+            expenseRecord = ExpenseRecord(title="Expense", date=date_str, category=category_str, amount=amount_str, currency=currency_str, amountUSD=convert_value_str)
+            add_user_expense_record(bot,user_id, expenseRecord.to_dict())
         bot.send_message(chat_id, 'The following expenditure has been recorded: You have spent/received ${} for {} on {}. Actual currency is {} and value is {}\n'.format(convert_value_str, category_str, date_str, currency_str,amount_str))
         helper.display_remaining_budget(message, bot, selectedCat[user_id])
 
@@ -202,18 +206,28 @@ def post_date_input(message, bot, date_entered):
 
 
 def add_user_expense_record(bot,user_id, record_to_be_added):
-    user_list = helper.read_json()
-    if str(user_id) not in user_list:
-        user_list[str(user_id)] = helper.createNewUserRecord()
+    userTransaction = read_user_transaction(user_id)
 
-    user_list[str(user_id)]['expense_data'].append(record_to_be_added)
-    return user_list
+    if userTransaction == None:
+        userTransaction = UserTransactions(user_id=user_id)
+        create_user_transaction(userTransaction)
+
+    userTransaction.transactions["expense_data"].append(record_to_be_added)
+
+    update_user_transaction(user_id, userTransaction.to_dict())
+
+    return userTransaction
 
 
 def add_user_income_record(bot,user_id, record_to_be_added):
-    user_list = helper.read_json()
-    if str(user_id) not in user_list:
-        user_list[str(user_id)] = helper.createNewUserRecord()
+    userTransaction = read_user_transaction(user_id)
 
-    user_list[str(user_id)]['income_data'].append(record_to_be_added)
-    return user_list
+    if userTransaction == None:
+        userTransaction = UserTransactions(user_id=user_id)
+        create_user_transaction(userTransaction)
+
+    userTransaction.transactions["income_data"].append(record_to_be_added)
+
+    update_user_transaction(user_id, userTransaction.to_dict())
+
+    return userTransaction
