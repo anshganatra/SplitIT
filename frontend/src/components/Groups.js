@@ -95,8 +95,7 @@ const Groups = ({ groups, onAddTransaction }) => {
                 onChange={handleTransactionChange}
               />
             </Form.Group>
-            <Form.Row className="mt-3">
-              <Form.Group as={Col} controlId="transactionAmount">
+              <Form.Group controlId="transactionAmount" className="mt-3">
                 <Form.Label>Amount</Form.Label>
                 <Form.Control
                   type="number"
@@ -106,7 +105,7 @@ const Groups = ({ groups, onAddTransaction }) => {
                   onChange={handleTransactionChange}
                 />
               </Form.Group>
-              <Form.Group as={Col} controlId="transactionCurrency">
+              <Form.Group controlId="transactionCurrency" className="mt-3">
                 <Form.Label>Currency</Form.Label>
                 <Form.Control
                   type="text"
@@ -116,7 +115,6 @@ const Groups = ({ groups, onAddTransaction }) => {
                   onChange={handleTransactionChange}
                 />
               </Form.Group>
-            </Form.Row>
             <Form.Group controlId="transactionPaidBy" className="mt-3">
               <Form.Label>Paid By</Form.Label>
               <Form.Control
