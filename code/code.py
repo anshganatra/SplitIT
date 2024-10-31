@@ -104,6 +104,7 @@ def command_edit(message):
 # function to display total expenditure
 @bot.message_handler(commands=['display'])
 def command_display(message):
+    print(message.from_user)
     display.run(message, bot)
 
 
@@ -132,11 +133,11 @@ def command_category(message):
     pdf.run(message, bot)
 
 # not used
-def addUserHistory(chat_id, user_record):
+def addUserHistory(user_id, user_record):
     global user_list
-    if(not(str(chat_id) in user_list)):
-        user_list[str(chat_id)] = []
-    user_list[str(chat_id)].append(user_record)
+    if(not(str(user_id) in user_list)):
+        user_list[str(user_id)] = []
+    user_list[str(user_id)].append(user_record)
     return user_list
 
 

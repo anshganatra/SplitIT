@@ -151,31 +151,31 @@ def validate_entered_duration(duration_entered):
     return 0
 
 
-def getUserIncomeHistory(chat_id):
-    data = getUserData(chat_id)
+def getUserIncomeHistory(user_id):
+    data = getUserData(user_id)
     if data is not None:
         return data['income_data']
     return None
 
-def getUserExpenseHistory(chat_id):
-    data = getUserData(chat_id)
+def getUserExpenseHistory(user_id):
+    data = getUserData(user_id)
     if data is not None:
         return data['expense_data']
     return None
 
-def getUserHistory(chat_id, selectedType):
+def getUserHistory(user_id, selectedType):
     if selectedType == "Income":
-        return getUserIncomeHistory(chat_id)
+        return getUserIncomeHistory(user_id)
     else:
-        return getUserExpenseHistory(chat_id)
+        return getUserExpenseHistory(user_id)
     
 
-def getUserData(chat_id):
+def getUserData(user_id):
     user_list = read_json()
     if user_list is None:
         return None
-    if (str(chat_id) in user_list):
-        return user_list[str(chat_id)]
+    if (str(user_id) in user_list):
+        return user_list[str(user_id)]
     return None
 
 
@@ -188,58 +188,59 @@ def createNewUserRecord():
     return data_format
 
 
-def getOverallBudget(chatId):
-    data = getUserData(chatId)
+def getOverallBudget(userId):
+    data = getUserData(userId)
     if data is None:
         return None
     return data['budget']['overall']
 
 
-def getCategoryBudget(chatId):
-    data = getUserData(chatId)
+def getCategoryBudget(userId):
+    data = getUserData(userId)
     if data is None:
         return None
     return data['budget']['category']
 
 
-def getCategoryBudgetByCategory(chatId, cat):
-    if not isCategoryBudgetByCategoryAvailable(chatId, cat):
+def getCategoryBudgetByCategory(userId, cat):
+    if not isCategoryBudgetByCategoryAvailable(userId, cat):
         return None
-    data = getCategoryBudget(chatId)
+    data = getCategoryBudget(userId)
     return data[cat]
 
 
-def canAddBudget(chatId):
-    return (getOverallBudget(chatId) is None) and (getCategoryBudget(chatId) is None)
+def canAddBudget(userId):
+    return (getOverallBudget(userId) is None) and (getCategoryBudget(userId) is None)
 
 
-def isOverallBudgetAvailable(chatId):
-    return getOverallBudget(chatId) is not None
+def isOverallBudgetAvailable(userId):
+    return getOverallBudget(userId) is not None
 
 
-def isCategoryBudgetAvailable(chatId):
-    return getCategoryBudget(chatId) is not None
+def isCategoryBudgetAvailable(userId):
+    return getCategoryBudget(userId) is not None
 
 
-def isCategoryBudgetByCategoryAvailable(chatId, cat):
-    data = getCategoryBudget(chatId)
+def isCategoryBudgetByCategoryAvailable(userId, cat):
+    data = getCategoryBudget(userId)
     if data is None:
         return False
     return cat in data.keys()
 
 
 def display_remaining_budget(message, bot, cat):
-    chat_id = message.chat.id
-    if isOverallBudgetAvailable(chat_id):
+    user_id = message.from_user.id
+    if isOverallBudgetAvailable(user_id):
         display_remaining_overall_budget(message, bot)
-    elif isCategoryBudgetByCategoryAvailable(chat_id, cat):
+    elif isCategoryBudgetByCategoryAvailable(user_id, cat):
         display_remaining_category_budget(message, bot, cat)
 
 
 def display_remaining_overall_budget(message, bot):
     print('here')
     chat_id = message.chat.id
-    remaining_budget = calculateRemainingOverallBudget(chat_id)
+    user_id = message.from_user.id
+    remaining_budget = calculateRemainingOverallBudget(user_id)
     print("here", remaining_budget)
     if remaining_budget >= 0:
         msg = '\nRemaining Overall Budget is $' + str(remaining_budget)
@@ -248,9 +249,9 @@ def display_remaining_overall_budget(message, bot):
     bot.send_message(chat_id, msg)
 
 
-def calculateRemainingOverallBudget(chat_id):
-    budget = getOverallBudget(chat_id)
-    history = getUserExpenseHistory(chat_id)
+def calculateRemainingOverallBudget(user_id):
+    budget = getOverallBudget(user_id)
+    history = getUserExpenseHistory(user_id)
     query = datetime.now().today().strftime(getMonthFormat())
     queryResult = [value for index, value in enumerate(history) if str(query) in value]
 
@@ -268,7 +269,8 @@ def calculate_total_spendings(queryResult):
 
 def display_remaining_category_budget(message, bot, cat):
     chat_id = message.chat.id
-    remaining_budget = calculateRemainingCategoryBudget(chat_id, cat)
+    user_id = message.from_user.id
+    remaining_budget = calculateRemainingCategoryBudget(user_id, cat)
     if remaining_budget >= 0:
         msg = '\nRemaining Budget for ' + cat + ' is $' + str(remaining_budget)
     else:
@@ -276,9 +278,9 @@ def display_remaining_category_budget(message, bot, cat):
     bot.send_message(chat_id, msg)
 
 
-def calculateRemainingCategoryBudget(chat_id, cat):
-    budget = getCategoryBudgetByCategory(chat_id, cat)
-    history = getUserExpenseHistory(chat_id)
+def calculateRemainingCategoryBudget(user_id, cat):
+    budget = getCategoryBudgetByCategory(user_id, cat)
+    history = getUserExpenseHistory(user_id)
     query = datetime.now().today().strftime(getMonthFormat())
     queryResult = [value for index, value in enumerate(history) if str(query) in value]
 

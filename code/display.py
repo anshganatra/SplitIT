@@ -10,7 +10,8 @@ from datetime import datetime
 def run(message, bot):
     helper.read_json()
     chat_id = message.chat.id
-    history = helper.getUserExpenseHistory(chat_id)
+    user_id = message.from_user.id
+    history = helper.getUserExpenseHistory(user_id)
     if history is None:
         bot.send_message(chat_id, "Sorry, there are no records of the spending!")
     else:
@@ -29,12 +30,13 @@ def display_total(message, bot):
     global bud
     try:
         chat_id = message.chat.id
+        user_id = message.from_user.id
         DayWeekMonth = message.text
 
         if DayWeekMonth not in helper.getSpendDisplayOptions():
             raise Exception("Sorry I can't show spendings for \"{}\"!".format(DayWeekMonth))
 
-        history = helper.getUserExpenseHistory(chat_id)
+        history = helper.getUserExpenseHistory(user_id)
         if history is None:
             raise Exception("Oops! Looks like you do not have any spending records!")
 
@@ -45,10 +47,10 @@ def display_total(message, bot):
         total_text = ""
         # get budget data
         budgetData = {}
-        if helper.isOverallBudgetAvailable(chat_id):
-            budgetData = helper.getOverallBudget(chat_id)
-        elif helper.isCategoryBudgetAvailable(chat_id):
-            budgetData = helper.getCategoryBudget(chat_id)
+        if helper.isOverallBudgetAvailable(user_id):
+            budgetData = helper.getOverallBudget(user_id)
+        elif helper.isCategoryBudgetAvailable(user_id):
+            budgetData = helper.getCategoryBudget(user_id)
 
         if DayWeekMonth == 'Day':
             query = datetime.now().today().strftime(helper.getDateFormat())
@@ -83,6 +85,7 @@ def display_total(message, bot):
 
 def plot_total(message, bot):
      chat_id = message.chat.id
+     user_id = message.from_user.id
      pyi=message.text
      if pyi == 'Bar with budget':
        
