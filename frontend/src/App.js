@@ -24,7 +24,7 @@ function App() {
       paid_by: 'user@example.com',
       category: 'Food',
       shares: { 'friend@example.com': 25 },
-      selected_date: new Date().toISOString(),
+      selected_date: new Date().toISOString().slice(0, 10),
     },
   ]);
   const [userBalance, setUserBalance] = useState({
@@ -34,8 +34,21 @@ function App() {
     ]
   });
   const [groups, setGroups] = useState([
-    { title: 'Group 1', members: [], expenses: [] },
-    { title: 'Group 2', members: [], expenses: [] }
+    {
+      title: 'Group 1',
+      members: [],
+      expenses: [
+        { title: 'Dinner', amount: 50, currency: 'USD', paid_by: 'user1', category: 'Food', selected_date: '2024-10-01' },
+        { title: 'Movie', amount: 20, currency: 'USD', paid_by: 'user2', category: 'Entertainment', selected_date: '2024-10-02' }
+      ]
+    },
+    {
+      title: 'Group 2',
+      members: [],
+      expenses: [
+        { title: 'Coffee', amount: 10, currency: 'USD', paid_by: 'user3', category: 'Food', selected_date: '2024-10-03' }
+      ]
+    }
   ]);
 
   const handleLogin = (userData) => {

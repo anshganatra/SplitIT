@@ -1,5 +1,6 @@
 import React, { useState } from 'react';
-import { ListGroup, Button, Modal, Form, InputGroup, Col } from 'react-bootstrap';
+import { ListGroup, Button, Modal, Form, InputGroup } from 'react-bootstrap';
+import GroupDetails from './GroupDetails';
 
 const Groups = ({ groups, onAddTransaction }) => {
   const [showModal, setShowModal] = useState(false);
@@ -48,6 +49,11 @@ const Groups = ({ groups, onAddTransaction }) => {
     }
   };
 
+  // Function to handle selecting a group
+  const handleGroupClick = (group) => {
+    setSelectedGroup(group);
+  };
+
   return (
     <div className="groups-component">
       <h3>Groups</h3>
@@ -55,7 +61,12 @@ const Groups = ({ groups, onAddTransaction }) => {
       {/* List of Groups */}
       <ListGroup className="mt-3 mb-3">
         {groups.map((group, index) => (
-          <ListGroup.Item key={index} className="d-flex justify-content-between align-items-center">
+          <ListGroup.Item 
+          key={index} 
+          action 
+          onClick={() => handleGroupClick(group)} 
+          className="d-flex justify-content-between align-items-center" 
+          >
             {group.title}
             <Button variant="primary" onClick={() => handleOpenModal(group.title)}>
               Add Transaction
@@ -63,6 +74,8 @@ const Groups = ({ groups, onAddTransaction }) => {
           </ListGroup.Item>
         ))}
       </ListGroup>
+      {/* Group Details */}
+      {selectedGroup && <GroupDetails group={selectedGroup} />}
 
       {/* Add Transaction Modal */}
       <Modal show={showModal} onHide={handleCloseModal}>
