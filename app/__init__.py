@@ -1,5 +1,6 @@
 from flask import Flask
 from app.config import Config
+from app.models import User
 from flask_pymongo import PyMongo
 from flask_jwt_extended import JWTManager
 
@@ -18,7 +19,9 @@ def create_app():
 
     # Register blueprints
     from app.routes.auth import auth_bp
+    from app.routes.users import users_bp
 
     app.register_blueprint(auth_bp, url_prefix='/auth')
+    app.register_blueprint(users_bp, url_prefix='/users')
 
     return app
