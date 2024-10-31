@@ -194,14 +194,14 @@ def getOverallBudget(userId):
     data = getUserData(userId)
     if data is None:
         return None
-    return data['budget']['overall']
+    return data.budget['overall']
 
 
 def getCategoryBudget(userId):
     data = getUserData(userId)
     if data is None:
         return None
-    return data['budget']['category']
+    return data.budget['category']
 
 
 def getCategoryBudgetByCategory(userId, cat):

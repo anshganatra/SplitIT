@@ -1,13 +1,15 @@
 import helper
-
+from db_operations import * 
 
 def run(message, bot):
     chat_id = message.chat.id
     user_id = message.from_user.id
-    user_list = helper.read_json()
-    print(user_list)
-    if str(user_id) in user_list:
-        user_list[str(user_id)]['budget']['overall'] = None
-        user_list[str(user_id)]['budget']['category'] = None
-        helper.write_json(user_list)
+    userTransaction = read_user_transaction(user_id)
+    print(userTransaction)
+    
+    if user_id != None:
+        userTransaction.budget["overall"] = None
+        userTransaction.budget["category"] = {}
+        update_user_transaction(user_id, userTransaction.to_dict())
+
     bot.send_message(chat_id, 'Budget deleted!')

@@ -1,7 +1,7 @@
 import helper
 import logging
 from telebot import types
-
+from db_operations import * 
 
 def run(message, bot):
     chat_id = message.chat.id
@@ -54,13 +54,16 @@ def post_overall_amount_input(message, bot):
         amount_value = helper.validate_entered_amount(message.text)
         if amount_value == 0:
             raise Exception("Invalid amount.")
-        user_list = helper.read_json()
-        if str(user_id) not in user_list:
-            user_list[str(user_id)] = helper.createNewUserRecord()
-        user_list[str(user_id)]['budget']['overall'] = amount_value
-        helper.write_json(user_list)
+        userTransaction = read_user_transaction(user_id)
+
+        if userTransaction == None:
+            userTransaction = UserTransactions(user_id=user_id)
+            create_user_transaction(userTransaction)
+
+        userTransaction.budget['overall'] = amount_value
+        update_user_transaction(user_id, userTransaction.to_dict())
         bot.send_message(chat_id, 'Budget Updated!')
-        return user_list
+        return userTransaction
     except Exception as e:
         helper.throw_exception(e, message, bot, logging)
 
@@ -102,13 +105,17 @@ def post_category_amount_input(message, bot, category):
         amount_value = helper.validate_entered_amount(message.text)
         if amount_value == 0:
             raise Exception("Invalid amount.")
-        user_list = helper.read_json()
-        if str(user_id) not in user_list:
-            user_list[str(user_id)] = helper.createNewUserRecord()
-        if user_list[str(user_id)]['budget']['category'] is None:
-            user_list[str(user_id)]['budget']['category'] = {}
-        user_list[str(user_id)]['budget']['category'][category] = amount_value
-        helper.write_json(user_list)
+        userTransaction = read_user_transaction(user_id)
+
+        if userTransaction == None:
+            userTransaction = UserTransactions(user_id=user_id)
+            create_user_transaction(userTransaction)
+            
+        if userTransaction.budget['category'] is None:
+            userTransaction.budget['category'] = {}
+        userTransaction.budget['category'][category] = amount_value
+
+        update_user_transaction(user_id, userTransaction.to_dict())
         message = bot.send_message(chat_id, 'Budget for ' + category + ' Created!')
         post_category_add(message, bot)
 
