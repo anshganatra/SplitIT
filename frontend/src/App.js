@@ -9,6 +9,7 @@ import Home from './components/Home';
 import Dashboard from './components/Dashboard';
 import Friends from './components/Friends';
 import Groups from './components/Groups';
+import ExpenseManagement from './components/ExpenseManagement';
 import './App.css';
 import 'bootstrap/dist/css/bootstrap.css';
 
@@ -97,6 +98,16 @@ function App() {
       <Container className="mt-4">
         <Routes>
           <Route path="/" element={<Home />} />
+          <Route
+            path="/expense-management"
+            element={
+              isAuthenticated ? (
+                <ExpenseManagement />
+              ) : (
+                <Navigate to="/login" />
+              )
+            }
+          />
           <Route
             path="/dashboard"
             element={

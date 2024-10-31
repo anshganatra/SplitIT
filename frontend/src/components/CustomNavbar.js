@@ -16,6 +16,9 @@ function CustomNavbar({ isAuthenticated, onLogout }) {
     <Navbar bg="primary" variant="dark" expand="lg" sticky="top">
       <Container>
         <Navbar.Brand as={Link} to="/">SplitIT</Navbar.Brand>
+        <Nav className="me-auto">
+          { isAuthenticated && <Nav.Link as={Link} to="/expense-management">Expense Management</Nav.Link>}          
+        </Nav>
         <Nav className="ml-auto">
           {isAuthenticated ? (
             // Authenticated Links
