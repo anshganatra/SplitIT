@@ -1,7 +1,7 @@
 import json
 import matplotlib.pyplot as plt
 import numpy as np
-
+from db_operations import *
 
 def grp_exp_plot():
     plt.title('Expense Details')
@@ -35,16 +35,11 @@ def grp_exp_plot():
     plt.close()
 
 
-def income_plot():
-    # Read JSON data from file
-    with open('./expense_record.json', 'r') as file:
-        json_data = file.read()
-
-    # Load JSON data
-    data = json.loads(json_data)
+def income_plot(user_id):
+    data = read_user_transaction(user_id)
 
     # Extract income data
-    income_data = data["6619121674"]["income_data"]
+    income_data = data.transactions["income_data"]
 
     # Create a dictionary to store income per category
     income_per_category = {}
@@ -52,10 +47,9 @@ def income_plot():
     # Calculate total income
     total_income = 0.0
     for entry in income_data:
-        _, category, amount, _, _ = entry.split(',')
-        amount = float(amount)
+        amount = float(entry["amount"])
         total_income += amount
-        income_per_category[category] = income_per_category.get(category, 0.0) + amount
+        income_per_category[entry["category"]] = income_per_category.get(entry["category"], 0.0) + amount
 
     # Calculate percentages and actual values
     percentages = [(category, income / total_income * 100) for category, income in income_per_category.items()]
@@ -88,16 +82,11 @@ def income_plot():
     plt.close()
 
 
-def expense_plot():
-    # Read JSON data from file
-    with open('./expense_record.json', 'r') as file:
-        json_data = file.read()
-
-    # Load JSON data
-    data = json.loads(json_data)
+def expense_plot(user_id):
+    data = read_user_transaction(user_id)
 
     # Extract Expense data
-    expense_data = data["6619121674"]["expense_data"]
+    expense_data = data.transactions["expense_data"]
 
     # Create a dictionary to store Expense per category
     expense_per_category = {}
@@ -105,10 +94,9 @@ def expense_plot():
     # Calculate total Expense
     total_expense = 0.0
     for entry in expense_data:
-        _, category, amount, _, _ = entry.split(',')
-        amount = float(amount)
+        amount = float(entry["amount"])
         total_expense += amount
-        expense_per_category[category] = expense_per_category.get(category, 0.0) + amount
+        expense_per_category[entry["category"]] = expense_per_category.get(entry["category"], 0.0) + amount
 
     # Calculate percentages and actual values
     percentages = [(category, expense / total_expense * 100) for category, expense in expense_per_category.items()]
