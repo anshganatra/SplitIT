@@ -6,7 +6,6 @@ from telebot import types
 
 def run(message, bot):
     try:
-        helper.read_json()
         chat_id = message.chat.id
         user_id = message.from_user.id
         user_income_history = helper.getUserIncomeHistory(user_id)

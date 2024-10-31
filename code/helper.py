@@ -95,7 +95,7 @@ commands = {
 
 dateFormat = '%d-%b-%y'
 timeFormat = '%H:%M'
-monthFormat = '%b-%Y'
+monthFormat = '%Y-%m'
 
 
 # function to load .json expense record data
@@ -255,7 +255,7 @@ def calculateRemainingOverallBudget(user_id):
     budget = getOverallBudget(user_id)
     history = getUserExpenseHistory(user_id)
     query = datetime.now().today().strftime(getMonthFormat())
-    queryResult = [value for index, value in enumerate(history) if str(query) in value]
+    queryResult = [value for index, value in enumerate(history) if str(query) in value["date"]]
 
     return float(budget) - calculate_total_spendings(queryResult)
 
@@ -284,18 +284,17 @@ def calculateRemainingCategoryBudget(user_id, cat):
     budget = getCategoryBudgetByCategory(user_id, cat)
     history = getUserExpenseHistory(user_id)
     query = datetime.now().today().strftime(getMonthFormat())
-    queryResult = [value for index, value in enumerate(history) if str(query) in value]
-
+    queryResult = [value for index, value in enumerate(history) if str(query) in value["date"]]
     return float(budget) - calculate_total_spendings_for_category(queryResult, cat)
 
 
 def calculate_total_spendings_for_category(queryResult, cat):
     total = 0
-
-    for row in queryResult:
-        s = row.split(',')
-        if cat == s[1]:
-            total = total + float(s[2])
+    for i in range(len(queryResult)):
+        print(queryResult[i]["category"])
+        if cat == queryResult[i]["category"]:
+            print(float(queryResult[i]["amount"]))
+            total = total + float(queryResult[i]["amount"])
     return total
 
 def getSpendCategories():

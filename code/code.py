@@ -51,7 +51,6 @@ def handle_calendar_selection(call):
 # defines how the /start and /help commands have to be handled/processed
 @bot.message_handler(commands=['start', 'menu'])
 def start_and_menu_command(m):
-    helper.read_json()
     global user_list
     chat_id = m.chat.id
 

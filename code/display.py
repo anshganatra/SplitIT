@@ -8,7 +8,6 @@ from datetime import datetime
 
 
 def run(message, bot):
-    helper.read_json()
     chat_id = message.chat.id
     user_id = message.from_user.id
     history = helper.getUserExpenseHistory(user_id)
@@ -55,11 +54,11 @@ def display_total(message, bot):
         if DayWeekMonth == 'Day':
             query = datetime.now().today().strftime(helper.getDateFormat())
             # query all that contains today's date
-            queryResult = [value for index, value in enumerate(history) if str(query) in value]
+            queryResult = [value for index, value in enumerate(history) if str(query) in value["date"]]
         elif DayWeekMonth == 'Month':
             query = datetime.now().today().strftime(helper.getMonthFormat())
             # query all that contains today's date
-            queryResult = [value for index, value in enumerate(history) if str(query) in value]
+            queryResult = [value for index, value in enumerate(history) if str(query) in value["date"]]
 
         total_text = calculate_spendings(queryResult)
         total=total_text
@@ -103,16 +102,13 @@ def plot_total(message, bot):
 def calculate_spendings(queryResult):
     total_dict = {}
 
-    for row in queryResult:
-        # date,cat,money
-        s = row.split(',')
-        # cat
-        cat = s[1]
+    for val in queryResult:
+        cat = val["category"]
         if cat in total_dict:
             # round up to 2 decimal
-            total_dict[cat] = round(total_dict[cat] + float(s[2]), 2)
+            total_dict[cat] = round(total_dict[cat] + float(val["amount"]), 2)
         else:
-            total_dict[cat] = float(s[2])
+            total_dict[cat] = float(val["amount"])
     total_text = ""
     for key, value in total_dict.items():
         total_text += str(key) + " $" + str(value) + "\n"
@@ -122,7 +118,7 @@ def calculate_spendings(queryResult):
 def display_budget_by_text(history, budget_data) -> str:
     query = datetime.now().today().strftime(helper.getMonthFormat())
     # query all expense history that contains today's date
-    queryResult = [value for index, value in enumerate(history) if str(query) in value]
+    queryResult = [value for index, value in enumerate(history) if str(query) in value["date"]]
     total_text = calculate_spendings(queryResult)
     budget_display = ""
     total_text_split = [line for line in total_text.split('\n') if line.strip() != '']

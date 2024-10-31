@@ -14,7 +14,6 @@ def run(message, bot):
 
 def post_type_selection(message, bot):
     try:
-        helper.read_json()
         chat_id = message.chat.id
         selectedType = message.text
         user_history = helper.getUserHistory(chat_id, selectedType)
