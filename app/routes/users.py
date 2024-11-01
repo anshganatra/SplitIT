@@ -1,9 +1,9 @@
 from flask import Blueprint, jsonify, request
 from flask_jwt_extended import jwt_required, get_jwt_identity
-from app import mongo  # Import mongo from app
+from app import mongo 
 from bson.objectid import ObjectId
 from datetime import datetime
-import re  # For email validation
+import re 
 
 users_bp = Blueprint('users', __name__)
 

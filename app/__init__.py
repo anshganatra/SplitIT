@@ -1,4 +1,5 @@
 from flask import Flask
+from flask_cors import CORS
 from app.config import Config
 from flask_pymongo import PyMongo
 from flask_jwt_extended import JWTManager
@@ -8,6 +9,10 @@ jwt = JWTManager()
 
 def create_app():
     app = Flask(__name__)
+    app.url_map.strict_slashes = False
+    
+    CORS(app)
+
     app.config.from_object(Config)
 
     mongo.init_app(app, uri=app.config['MONGO_URI'])
