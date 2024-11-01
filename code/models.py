@@ -60,3 +60,35 @@ class ExpenseRecord:
             currency=data.get("currency"),
             amountUSD=data.get("amountUSD")
         )
+    
+class User:
+    def __init__(self, telegram_user_id, name, email, password_hash, link_code, created_at):
+        self.name = name
+        self.email = email
+        self.telegram_user_id = telegram_user_id
+        self.link_code = link_code
+        self.password_hash = password_hash
+        self.created_at = created_at
+
+    def to_dict(self):
+        """Convert User to a dictionary for MongoDB."""
+        return {
+            "name": self.name,
+            "email": self.email,
+            "telegram_user_id": self.telegram_user_id,
+            "password_hash": self.password_hash,
+            "link_code": self.link_code,
+            "created_at": self.created_at
+        }
+
+    @classmethod
+    def from_dict(cls, data):
+        """Create an User instance from a dictionary."""
+        return cls(
+            name = data.get("name"),
+            email = data.get("email"),
+            telegram_user_id = data.get("telegram_user_id"),
+            password_hash = data.get("password_hash"),
+            link_code = data.get("link_code"),
+            created_at = data.get("created_at")
+        )

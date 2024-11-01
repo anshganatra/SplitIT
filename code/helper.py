@@ -89,6 +89,7 @@ commands = {
     'edit': 'Edit/Change spending details',
     'budget': 'Add/Update/View/Delete budget',
     'category': 'Add/Delete/Show custom categories',
+    'link': 'Link Telegram User with email',
     'pdf': 'Generate a pdf for Income or History'
 }
 

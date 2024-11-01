@@ -15,6 +15,7 @@ import category
 import add_recurring
 import add_group_exp
 import pdf
+import link
 import plot_graphs
 from datetime import datetime
 from jproperties import Properties
@@ -130,6 +131,12 @@ def command_category(message):
 @bot.message_handler(commands=['pdf'])
 def command_category(message):
     pdf.run(message, bot)
+
+# function to link user
+@bot.message_handler(commands=['link'])
+def command_add_link(message):
+    link.run(message, bot)
+
 
 # not used
 def addUserHistory(user_id, user_record):
