@@ -1,8 +1,11 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import { Table, Button, Modal, Form, Row, Col } from 'react-bootstrap';
 
-const Dashboard = ({ expenses, onAddExpense }) => {
+const Dashboard = () => {
   const [showModal, setShowModal] = useState(false);
+  const [dashboardData, setDashboardData] = useState(false);
+  const [loading, setLoading] = useState(true);
+  const [error, setError] = useState(null);
   const [newExpense, setNewExpense] = useState({
     title: '',
     amount: '',
@@ -25,10 +28,66 @@ const Dashboard = ({ expenses, onAddExpense }) => {
     setNewExpense({ ...newExpense, shares: { ...newExpense.shares, [userId]: share } });
   };
 
-  const handleAddNewExpense = () => {
-    onAddExpense(newExpense); // Add the new expense through the parent function
-    handleCloseModal(); // Close the modal after adding
+  useEffect(() => {
+    // Function to fetch dashboard data
+    const fetchDashboardData = async () => {
+      try {
+        const token = localStorage.getItem('token'); // Retrieve the JWT token from localStorage
+        const response = await fetch('http://192.168.1.205:5000/expenses', {
+          headers: {
+            'Authorization': `Bearer ${token}`, // Include the token in the Authorization header
+            'Content-Type': 'application/json',
+          },
+        });
+
+        if (!response.ok) {
+          throw new Error('Failed to fetch dashboard data');
+        }
+
+        const data = await response.json();
+        setDashboardData(data);
+        setLoading(false);
+      } catch (err) {
+        setError(err.message);
+        setLoading(false);
+      }
+    };
+
+    fetchDashboardData();
+  }, []);
+
+
+  const handleAddExpense = async () => {
+    const token = localStorage.getItem('token');
+    try {
+      const response = await fetch('http://192.168.1.205:5000/add-expense', {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+          'Authorization': `Bearer ${token}`,
+        },
+        body: JSON.stringify(newExpense),
+      });
+
+      if (response.ok) {
+        const result = await response.json();
+        setDashboardData([...dashboardData, result.expense]); // Add the new expense to the dashboard list
+        handleCloseModal(); // Close the modal
+        setNewExpense({ title: '', amount: '', currency: 'USD', paid_by: '', category: '', shares: {}, selected_date: '' }); // Reset form
+      }
+    } catch (err) {
+      console.error('Error adding expense:', err);
+    }
   };
+
+  // Render loading, error, or the dashboard list
+  if (loading) {
+    return <div>Loading...</div>;
+  }
+
+  if (error) {
+    return <div>Error: {error}</div>;
+  }
 
   return (
     <div className="dashboard">
@@ -47,7 +106,7 @@ const Dashboard = ({ expenses, onAddExpense }) => {
           </tr>
         </thead>
         <tbody>
-          {expenses.map((expense, idx) => (
+          {dashboardData.map((expense, idx) => (
             <tr key={idx}>
               <td>{expense.title}</td>
               <td>{expense.amount}</td>
@@ -74,27 +133,27 @@ const Dashboard = ({ expenses, onAddExpense }) => {
           <Form>
             <Form.Group>
               <Form.Label>Title</Form.Label>
-              <Form.Control type="text" name="title" onChange={handleChange} />
+              <Form.Control type="text" name="title" value={newExpense.title} onChange={handleChange} />
             </Form.Group>
             <Form.Group>
               <Form.Label>Amount</Form.Label>
-              <Form.Control type="number" name="amount" onChange={handleChange} />
+              <Form.Control type="number" name="amount" value={newExpense.amount} onChange={handleChange} />
             </Form.Group>
             <Form.Group>
               <Form.Label>Currency</Form.Label>
-              <Form.Control type="text" name="currency" onChange={handleChange} defaultValue="USD" />
+              <Form.Control type="text" name="currency" value={newExpense.currency} onChange={handleChange} defaultValue="USD" />
             </Form.Group>
             <Form.Group>
               <Form.Label>Paid By</Form.Label>
-              <Form.Control type="text" name="paid_by" onChange={handleChange} />
+              <Form.Control type="text" name="paid_by" value={newExpense.paid_by} onChange={handleChange} />
             </Form.Group>
             <Form.Group>
               <Form.Label>Category</Form.Label>
-              <Form.Control type="text" name="category" onChange={handleChange} />
+              <Form.Control type="text" name="category" value={newExpense.category} onChange={handleChange} />
             </Form.Group>
             <Form.Group>
               <Form.Label>Date</Form.Label>
-              <Form.Control type="date" name="selected_date" onChange={handleChange} />
+              <Form.Control type="date" name="selected_date" value={newExpense.date} onChange={handleChange} />
             </Form.Group>
             {/* Add user shares */}
             <Form.Group>
@@ -122,7 +181,7 @@ const Dashboard = ({ expenses, onAddExpense }) => {
           <Button variant="secondary" onClick={handleCloseModal}>
             Cancel
           </Button>
-          <Button variant="primary" onClick={handleAddNewExpense}>
+          <Button variant="primary" onClick={handleAddExpense}>
             Add Expense
           </Button>
         </Modal.Footer>
