@@ -37,6 +37,7 @@ def add_transaction():
         budget = {'overall': None, 'category': {}}
         user_transactions = {
             'user_id': ObjectId(user_id),
+            'telegram_user_id': None,
             'transactions': transactions,
             'budget': budget,
             'created_at': datetime.utcnow()
