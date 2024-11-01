@@ -1,6 +1,5 @@
 from flask import Flask
 from app.config import Config
-from app.models import User, Expense
 from flask_pymongo import PyMongo
 from flask_jwt_extended import JWTManager
 
@@ -21,9 +20,11 @@ def create_app():
     from app.routes.auth import auth_bp
     from app.routes.users import users_bp
     from app.routes.expenses import expenses_bp
+    from app.routes.groups import groups_bp
 
     app.register_blueprint(auth_bp, url_prefix='/auth')
     app.register_blueprint(users_bp, url_prefix='/users')
     app.register_blueprint(expenses_bp, url_prefix='/expenses')
+    app.register_blueprint(groups_bp, url_prefix='/groups')
 
     return app
