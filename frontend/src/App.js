@@ -1,5 +1,5 @@
 // src/App.js
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import { BrowserRouter as Router, Routes, Route, Navigate } from 'react-router-dom';
 import { Container } from 'react-bootstrap';
 import CustomNavbar from './components/CustomNavbar';
@@ -52,6 +52,12 @@ function App() {
     }
   ]);
 
+   // Check for token in localStorage on initial render
+   useEffect(() => {
+    const token = localStorage.getItem('token');
+    setIsAuthenticated(!!token); // Set authentication status based on token presence
+  }, []);
+
   const handleLogin = (userData) => {
     setUser(userData);
     setIsAuthenticated(true);
@@ -67,8 +73,8 @@ function App() {
   };
   
   const handleLogout = () => {
-    setUser(null);
-    setIsAuthenticated(false);
+    localStorage.removeItem('token'); // Remove the token on logout
+    setIsAuthenticated(false); // Update authentication status
   };
 
   const handleAddFriend = (newFriend) => {
