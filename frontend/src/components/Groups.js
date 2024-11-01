@@ -1,11 +1,13 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import { ListGroup, Button, Modal, Form, InputGroup } from 'react-bootstrap';
 import GroupDetails from './GroupDetails';
 
-const Groups = ({ groups, onAddTransaction }) => {
+const Groups = () => {
   const [showModal, setShowModal] = useState(false);
   const [selectedGroup, setSelectedGroup] = useState('');
-  const [transactionData, setTransactionData] = useState({
+  const [error, setError] = useState('');
+  const [loading, setLoading] = useState(true);
+  const [expenseData, setExpenseData] = useState({
     title: '',
     amount: '',
     currency: 'USD',
@@ -13,6 +15,11 @@ const Groups = ({ groups, onAddTransaction }) => {
     category: '',
     selected_date: '',
     shares: {}
+  });
+  const [groupData, setGroupData] = useState({
+    title: '',
+    users: {},
+    expenses: expenseData
   });
 
   const handleOpenModal = (groupTitle) => {
@@ -22,7 +29,7 @@ const Groups = ({ groups, onAddTransaction }) => {
 
   const handleCloseModal = () => {
     setShowModal(false);
-    setTransactionData({
+    setExpenseData({
       title: '',
       amount: '',
       currency: 'USD',
@@ -34,18 +41,32 @@ const Groups = ({ groups, onAddTransaction }) => {
     setSelectedGroup(''); // Clear selected group on modal close
   };
 
-  const handleTransactionChange = (e) => {
+  const handleExpenseChange = (e) => {
     const { name, value } = e.target;
-    setTransactionData({ ...transactionData, [name]: value });
+    setExpenseData({ ...expenseData, [name]: value });
   };
 
-  const handleAddTransaction = () => {
-    if (selectedGroup) {
-      onAddTransaction(selectedGroup, transactionData);
-      handleCloseModal();
-    } 
-    else {
-        alert("Please select a group before adding a transaction.");
+  const handleAddExpense = async () => {
+    const token = localStorage.getItem('token');
+    try {
+      const response = await fetch('http://192.168.1.205:5000/add-expense', {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+          'Authorization': `Bearer ${token}`,
+        },
+        body: JSON.stringify(expenseData),
+      });
+
+      if (response.ok) {
+        const result = await response.json();
+        setExpenseData([...expenseData, result.expense]); // Add the new expense to the expenses list
+        setGroupData([...groupData, result.expense]); // Add the new expense to the group expenses list
+        handleCloseModal(); // Close the modal
+        setExpenseData({ title: '', amount: '', currency: 'USD', paid_by: '', category: '', shares: {}, selected_date: '' }); // Reset form
+      }
+    } catch (err) {
+      console.error('Error adding expense:', err);
     }
   };
 
@@ -54,13 +75,53 @@ const Groups = ({ groups, onAddTransaction }) => {
     setSelectedGroup(group);
   };
 
+  useEffect(() => {
+    // Function to fetch groups data
+    const fetchGroups = async (e) => {
+        e.preventDefault();
+        setError('');
+
+        try {
+            const token = localStorage.getItem('token'); // Retrieve the JWT token from localStorage
+            const response = await fetch('http://192.168.1.205:5000/groups', {
+            headers: {
+                'Authorization': `Bearer ${token}`, // Include the token in the Authorization header
+                'Content-Type': 'application/json',
+            },
+            });
+
+            if (!response.ok) {
+            throw new Error('Failed to fetch groups data');
+            }
+
+            const data = await response.json();
+            setExpenseData(data);
+            setLoading(false);
+        } catch (err) {
+            setError(err.message);
+            setLoading(false);
+        }
+    };
+
+    fetchGroups();
+  }, []);
+
+    // Render loading, error, or the dashboard list
+  if (loading) {
+    return <div>Loading...</div>;
+  }
+
+  if (error) {
+    return <div>Error: {error}</div>;
+  }
+
   return (
     <div className="groups-component">
       <h3>Groups</h3>
       
       {/* List of Groups */}
       <ListGroup className="mt-3 mb-3">
-        {groups.map((group, index) => (
+        {expenseData.map((group, index) => (
           <ListGroup.Item 
           key={index} 
           action 
@@ -89,7 +150,7 @@ const Groups = ({ groups, onAddTransaction }) => {
               <Form.Label>Select Group</Form.Label>
               <Form.Control as="select" value={selectedGroup} onChange={(e) => setSelectedGroup(e.target.value)}>
                 <option value="">Select a group</option>
-                {groups.map((group, index) => (
+                {groupData.map((group, index) => (
                   <option key={index} value={group.title}>
                     {group.title}
                   </option>
@@ -104,8 +165,8 @@ const Groups = ({ groups, onAddTransaction }) => {
                 type="text"
                 name="title"
                 placeholder="Enter transaction title"
-                value={transactionData.title}
-                onChange={handleTransactionChange}
+                value={expenseData.title}
+                onChange={handleExpenseChange}
               />
             </Form.Group>
               <Form.Group controlId="transactionAmount" className="mt-3">
@@ -114,8 +175,8 @@ const Groups = ({ groups, onAddTransaction }) => {
                   type="number"
                   name="amount"
                   placeholder="Amount"
-                  value={transactionData.amount}
-                  onChange={handleTransactionChange}
+                  value={expenseData.amount}
+                  onChange={handleExpenseChange}
                 />
               </Form.Group>
               <Form.Group controlId="transactionCurrency" className="mt-3">
@@ -124,8 +185,8 @@ const Groups = ({ groups, onAddTransaction }) => {
                   type="text"
                   name="currency"
                   placeholder="Currency (e.g., USD)"
-                  value={transactionData.currency}
-                  onChange={handleTransactionChange}
+                  value={expenseData.currency}
+                  onChange={handleExpenseChange}
                 />
               </Form.Group>
             <Form.Group controlId="transactionPaidBy" className="mt-3">
@@ -134,8 +195,8 @@ const Groups = ({ groups, onAddTransaction }) => {
                 type="text"
                 name="paid_by"
                 placeholder="Enter payer"
-                value={transactionData.paid_by}
-                onChange={handleTransactionChange}
+                value={expenseData.paid_by}
+                onChange={handleExpenseChange}
               />
             </Form.Group>
             <Form.Group controlId="transactionCategory" className="mt-3">
@@ -144,8 +205,8 @@ const Groups = ({ groups, onAddTransaction }) => {
                 type="text"
                 name="category"
                 placeholder="Enter category"
-                value={transactionData.category}
-                onChange={handleTransactionChange}
+                value={expenseData.category}
+                onChange={handleExpenseChange}
               />
             </Form.Group>
             <Form.Group controlId="transactionDate" className="mt-3">
@@ -153,8 +214,8 @@ const Groups = ({ groups, onAddTransaction }) => {
               <Form.Control
                 type="date"
                 name="selected_date"
-                value={transactionData.selected_date}
-                onChange={handleTransactionChange}
+                value={expenseData.selected_date}
+                onChange={handleExpenseChange}
               />
             </Form.Group>
 
@@ -166,9 +227,9 @@ const Groups = ({ groups, onAddTransaction }) => {
                   type="text"
                   placeholder="User ID"
                   onChange={(e) =>
-                    setTransactionData({
-                      ...transactionData,
-                      shares: { ...transactionData.shares, [e.target.value]: '' }
+                    setExpenseData({
+                      ...expenseData,
+                      shares: { ...expenseData.shares, [e.target.value]: '' }
                     })
                   }
                 />
@@ -176,11 +237,11 @@ const Groups = ({ groups, onAddTransaction }) => {
                   type="number"
                   placeholder="Share Amount"
                   onChange={(e) =>
-                    setTransactionData({
-                      ...transactionData,
+                    setExpenseData({
+                      ...expenseData,
                       shares: {
-                        ...transactionData.shares,
-                        [Object.keys(transactionData.shares)[0]]: e.target.value
+                        ...expenseData.shares,
+                        [Object.keys(expenseData.shares)[0]]: e.target.value
                       }
                     })
                   }
@@ -193,7 +254,7 @@ const Groups = ({ groups, onAddTransaction }) => {
           <Button variant="secondary" onClick={handleCloseModal}>
             Cancel
           </Button>
-          <Button variant="primary" onClick={handleAddTransaction}>
+          <Button variant="primary" onClick={handleAddExpense}>
             Add Transaction
           </Button>
         </Modal.Footer>
