@@ -134,7 +134,7 @@ def add_user_expense_record(bot,user_id, record_to_be_added):
     userTransaction = read_user_transaction(user_id)
 
     if userTransaction == None:
-        userTransaction = UserTransactions(user_id=user_id)
+        userTransaction = UserTransactions(telegram_user_id=user_id)
         create_user_transaction(userTransaction)
 
     userTransaction.transactions["expense_data"].append(record_to_be_added)
@@ -147,7 +147,7 @@ def add_user_income_record(bot,user_id, record_to_be_added):
     userTransaction = read_user_transaction(user_id)
 
     if userTransaction == None:
-        userTransaction = UserTransactions(user_id=user_id)
+        userTransaction = UserTransactions(telegram_user_id=user_id)
         create_user_transaction(userTransaction)
 
     userTransaction.transactions["income_data"].append(record_to_be_added)

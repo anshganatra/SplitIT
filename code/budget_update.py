@@ -57,7 +57,7 @@ def post_overall_amount_input(message, bot):
         userTransaction = read_user_transaction(user_id)
 
         if userTransaction == None:
-            userTransaction = UserTransactions(user_id=user_id)
+            userTransaction = UserTransactions(telegram_user_id=user_id)
             create_user_transaction(userTransaction)
 
         userTransaction.budget['overall'] = amount_value
@@ -108,7 +108,7 @@ def post_category_amount_input(message, bot, category):
         userTransaction = read_user_transaction(user_id)
 
         if userTransaction == None:
-            userTransaction = UserTransactions(user_id=user_id)
+            userTransaction = UserTransactions(telegram_user_id=user_id)
             create_user_transaction(userTransaction)
             
         if userTransaction.budget['category'] is None:

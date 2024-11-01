@@ -1,8 +1,9 @@
 from datetime import datetime
 
 class UserTransactions:
-    def __init__(self, user_id, transactions=None, budget=None, created_at=None):
+    def __init__(self, telegram_user_id, user_id=None, transactions=None, budget=None, created_at=None):
         self.user_id = user_id
+        self.telegram_user_id = telegram_user_id
         self.transactions = transactions or {'income_data': [], 'expense_data': []}
         self.budget = budget or {'overall': None, 'category': {}}
         self.created_at = created_at or datetime.utcnow()
@@ -11,6 +12,7 @@ class UserTransactions:
         """Convert UserTransactions instance to a dictionary for MongoDB."""
         return {
             "user_id": self.user_id,
+            "telegram_user_id": self.telegram_user_id,
             "transactions": self.transactions,
             "budget": self.budget,
             "created_at": self.created_at
@@ -21,6 +23,7 @@ class UserTransactions:
         """Create a UserTransactions instance from a dictionary."""
         return cls(
             user_id=data['user_id'],
+            telegram_user_id = data['telegram_user_id'],
             transactions=data.get('transactions', {}),
             budget=data.get('budget', {'overall': None, 'category': {}}),
             created_at=data.get('created_at', datetime.utcnow())
