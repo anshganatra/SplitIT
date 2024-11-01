@@ -19,7 +19,7 @@ def create_group():
 
     group = {
         'title': title,
-        'members': [user_id] + members,
+        'members': members,
         'expenses': expenses,
         'created_at': datetime.utcnow()
     }
@@ -31,38 +31,18 @@ def create_group():
     for member_i, member_j in combinations(members, 2):
         # Add member_j to member_i's friends list
         user_balance_i = mongo.db.user_balances.find_one({'user': member_i})
-        if not user_balance_i:
-            # Create a new UserBalance document for member_i
-            user_balance_i = {
-                'user': member_i,
-                'friends': [member_j],
-                'balances': {},
-                'created_at': datetime.utcnow()
-            }
-            mongo.db.user_balances.insert_one(user_balance_i)
-        else:
-            if member_j not in user_balance_i.get('friends', []):
-                mongo.db.user_balances.update_one(
-                    {'user': member_i},
-                    {'$addToSet': {'friends': member_j}}
-                )
+        if member_j not in user_balance_i.get('friends', []):
+            mongo.db.user_balances.update_one(
+                {'user': member_i},
+                {'$addToSet': {'friends': member_j}}
+            )
 
         # Add member_i to member_j's friends list
         user_balance_j = mongo.db.user_balances.find_one({'user': member_j})
-        if not user_balance_j:
-            # Create a new UserBalance document for member_j
-            user_balance_j = {
-                'user': member_j,
-                'friends': [member_i],
-                'balances': {},
-                'created_at': datetime.utcnow()
-            }
-            mongo.db.user_balances.insert_one(user_balance_j)
-        else:
-            if member_i not in user_balance_j.get('friends', []):
-                mongo.db.user_balances.update_one(
-                    {'user': member_j},
-                    {'$addToSet': {'friends': member_i}})
+        if member_i not in user_balance_j.get('friends', []):
+            mongo.db.user_balances.update_one(
+                {'user': member_j},
+                {'$addToSet': {'friends': member_i}})
 
     return jsonify({'group_id': group_id}), 201
 
