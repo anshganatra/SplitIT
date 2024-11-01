@@ -1,8 +1,9 @@
 from datetime import datetime
+from bson import ObjectId
 
 class UserTransactions:
     def __init__(self, telegram_user_id, user_id=None, transactions=None, budget=None, created_at=None):
-        self.user_id = user_id
+        self.user_id = ObjectId(user_id)
         self.telegram_user_id = telegram_user_id
         self.transactions = transactions or {'income_data': [], 'expense_data': []}
         self.budget = budget or {'overall': None, 'category': {}}
@@ -11,7 +12,7 @@ class UserTransactions:
     def to_dict(self):
         """Convert UserTransactions instance to a dictionary for MongoDB."""
         return {
-            "user_id": self.user_id,
+            "user_id": ObjectId(self.user_id),
             "telegram_user_id": self.telegram_user_id,
             "transactions": self.transactions,
             "budget": self.budget,
@@ -62,7 +63,8 @@ class ExpenseRecord:
         )
     
 class User:
-    def __init__(self, telegram_user_id, name, email, password_hash, link_code, created_at):
+    def __init__(self, _id, telegram_user_id, name, email, password_hash, link_code, created_at):
+        self._id = ObjectId(_id)
         self.name = name
         self.email = email
         self.telegram_user_id = telegram_user_id
@@ -73,6 +75,7 @@ class User:
     def to_dict(self):
         """Convert User to a dictionary for MongoDB."""
         return {
+            "_id": ObjectId(self._id),
             "name": self.name,
             "email": self.email,
             "telegram_user_id": self.telegram_user_id,
@@ -85,6 +88,7 @@ class User:
     def from_dict(cls, data):
         """Create an User instance from a dictionary."""
         return cls(
+            _id = data.get("_id"),
             name = data.get("name"),
             email = data.get("email"),
             telegram_user_id = data.get("telegram_user_id"),

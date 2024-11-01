@@ -44,7 +44,7 @@ def post_code_input(message, bot, email_id):
         
         link_code = message.text
         result = link_user(user_id, email_id, link_code)
-
+    
         if result != None:
             bot.send_message(chat_id, 'Yayyy! User has been successfully linked to the email.')
         else:
