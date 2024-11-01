@@ -1,4 +1,6 @@
 from datetime import datetime
+import random
+from bson import ObjectId
 from flask import Blueprint, request, jsonify
 from app import mongo
 from werkzeug.security import generate_password_hash, check_password_hash
@@ -21,12 +23,24 @@ def register():
         'name': name,
         'email': email,
         'password_hash': password_hash,
+        'telegram_user_id': None,
+        'link_code': str(random.randint(1000,9999)),
         'created_at': datetime.utcnow()
     }
     result = mongo.db.users.insert_one(user)
     user_id = str(result.inserted_id)
 
     access_token = create_access_token(identity=user_id)
+
+    user_balance = {
+        'user': ObjectId(user_id),
+        'friends': [],
+        'balances': {},
+        'telegram_user_id': None,
+        'created_at': datetime.utcnow()
+    }
+    mongo.db.user_balances.insert_one(user_balance)
+    
     return jsonify({'access_token': access_token}), 201
 
 @auth_bp.route('/login', methods=['POST'])
