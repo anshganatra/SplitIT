@@ -20,7 +20,7 @@ def create_expense():
     amount = data.get('amount')
     selected_date = datetime.strptime(data.get('selected_date'), '%Y-%m-%d')
     paid_by = ObjectId(user_id)
-    shares = {ObjectId(k): v for k, v in data.get('shares').items()}
+    shares = {str(k): v for k, v in data.get('shares', {}).items()}  # Convert keys to strings
     group_id = data.get('group_id')
 
     expense = {
@@ -58,7 +58,7 @@ def create_expense():
     if group_id:
         mongo.db.groups.update_one(
             {'_id': ObjectId(group_id)},
-            {'$addToSet': {'expenses': expense_id}}
+            {'$addToSet': {'expenses': result.inserted_id}}
         )
 
     # Update balances between users
