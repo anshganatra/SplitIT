@@ -69,12 +69,14 @@ def create_expense():
 @expenses_bp.route('/', methods=['GET'])
 @jwt_required()
 def get_expenses():
-    user_id = ObjectId(get_jwt_identity())
-    expenses = mongo.db.expenses.find({'shares.' + str(user_id): {'$exists': True}})
+    user_id = str(ObjectId(get_jwt_identity()))
+    expenses = mongo.db.expenses.find({f'shares.{user_id}': {'$exists': True}})
     expense_list = []
     for expense in expenses:
         expense['_id'] = str(expense['_id'])
         expense['paid_by'] = str(expense['paid_by'])
+        if 'group_id' in expense:
+            expense['group_id'] = str(expense['group_id'])
         expense['shares'] = {str(k): v for k, v in expense['shares'].items()}
         expense_list.append(expense)
     return jsonify(expense_list), 200
