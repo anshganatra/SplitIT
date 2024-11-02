@@ -65,12 +65,9 @@ def get_transactions():
     user_id = get_jwt_identity()
     user_transactions = mongo.db.user_transactions.find_one({'user_id': ObjectId(user_id)})
 
-    if not user_transactions:
-        return jsonify({'message': 'No transactions found'}), 404
-
-    # Convert ObjectIds to strings if necessary
-    user_transactions['_id'] = str(user_transactions['_id'])
-    user_transactions['user_id'] = str(user_transactions['user_id'])
+    if user_transactions:
+        user_transactions['_id'] = str(user_transactions['_id'])
+        user_transactions['user_id'] = str(user_transactions['user_id'])
 
     return jsonify(user_transactions), 200
 
