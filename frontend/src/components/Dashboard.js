@@ -1,9 +1,10 @@
 import React, { useState, useEffect } from 'react';
 import { Table, Button, Modal, Form, Row, Col } from 'react-bootstrap';
+import { fetchDashboardData, addExpense } from '../api/dashboardData';
 
 const Dashboard = () => {
   const [showModal, setShowModal] = useState(false);
-  const [dashboardData, setDashboardData] = useState(false);
+  const [dashboardData, setDashboardData] = useState([]);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState(null);
   const [newExpense, setNewExpense] = useState({
@@ -13,7 +14,7 @@ const Dashboard = () => {
     paid_by: '',
     category: '',
     selected_date: '',
-    shares: {}
+    shares: []
   });
 
   const handleShowModal = () => setShowModal(true);
@@ -30,22 +31,10 @@ const Dashboard = () => {
 
   useEffect(() => {
     // Function to fetch dashboard data
-    const fetchDashboardData = async () => {
+    const getDashboardData = async () => {
       try {
-        const token = localStorage.getItem('token'); // Retrieve the JWT token from localStorage
-        const response = await fetch('http://192.168.1.205:5000/expenses', {
-          headers: {
-            'Authorization': `Bearer ${token}`, // Include the token in the Authorization header
-            'Content-Type': 'application/json',
-          },
-        });
-
-        if (!response.ok) {
-          throw new Error('Failed to fetch dashboard data');
-        }
-
-        const data = await response.json();
-        setDashboardData(data);
+        const dashboardData = await fetchDashboardData()
+        setDashboardData(dashboardData);
         setLoading(false);
       } catch (err) {
         setError(err.message);
@@ -53,28 +42,16 @@ const Dashboard = () => {
       }
     };
 
-    fetchDashboardData();
+    getDashboardData();
   }, []);
 
 
   const handleAddExpense = async () => {
-    const token = localStorage.getItem('token');
     try {
-      const response = await fetch('http://192.168.1.205:5000/add-expense', {
-        method: 'POST',
-        headers: {
-          'Content-Type': 'application/json',
-          'Authorization': `Bearer ${token}`,
-        },
-        body: JSON.stringify(newExpense),
-      });
-
-      if (response.ok) {
-        const result = await response.json();
-        setDashboardData([...dashboardData, result.expense]); // Add the new expense to the dashboard list
-        handleCloseModal(); // Close the modal
-        setNewExpense({ title: '', amount: '', currency: 'USD', paid_by: '', category: '', shares: {}, selected_date: '' }); // Reset form
-      }
+      const response = await addExpense(newExpense)
+      setDashboardData([...dashboardData, response.expense]); // Add the new expense to the dashboard list
+      handleCloseModal(); // Close the modal
+      setNewExpense({ title: '', amount: '', currency: 'USD', paid_by: '', category: '', shares: [], selected_date: '' }); // Reset form
     } catch (err) {
       console.error('Error adding expense:', err);
     }

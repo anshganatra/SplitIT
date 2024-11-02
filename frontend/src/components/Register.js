@@ -2,6 +2,7 @@
 import React, { useState } from 'react';
 import { Form, Button, Card, Container } from 'react-bootstrap';
 import { useNavigate } from 'react-router-dom';
+import { registerUser } from '../api/registerUser';
 
 
 function Register() {
@@ -23,19 +24,10 @@ function Register() {
 
     try {
       // Send registration data to the backend
-      const response = await fetch('http://192.168.1.205:5000/register', {
-        method: 'POST',
-        headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({ formData }),
-      });
+      const response = await registerUser(formData);
 
-      if (response.ok) {
-        setSuccessMessage('Registration successful! Redirecting to login...');
-        setTimeout(() => navigate('/login'), 2000); // Redirect to login page after 2 seconds
-      } else {
-        const data = await response.json();
-        setError(data.message || 'Registration failed');
-      }
+      setSuccessMessage('Registration successful! Redirecting to login...');
+      setTimeout(() => navigate('/login'), 2000); // Redirect to login page after 2 seconds
     } catch (err) {
       setError('Registration failed. Please try again.');
     }
@@ -46,12 +38,12 @@ function Register() {
       <Card className="p-4">
         <h2 className="text-center mb-4">Create Account</h2>
         <Form onSubmit={handleRegister}>
-          <Form.Group className="mb-3" controlId="username">
-            <Form.Label>Username</Form.Label>
+          <Form.Group className="mb-3" controlId="name">
+            <Form.Label>Name</Form.Label>
             <Form.Control
               type="text"
-              name="username"
-              value={formData.username}
+              name="name"
+              value={formData.name}
               onChange={handleChange}
               required
             />

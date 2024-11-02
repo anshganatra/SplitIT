@@ -1,6 +1,8 @@
 // src/components/Login.js
 import React, { useState } from 'react';
 import { Form, Button, Card, Container } from 'react-bootstrap';
+import { loginUser } from '../api/loginUser';
+
 
 function Login({ onLogin }) {
   const [credentials, setCredentials] = useState({ email: '', password: '' });
@@ -11,37 +13,20 @@ function Login({ onLogin }) {
     setCredentials({ ...credentials, [name]: value });
   };
 
-  // const handleSubmit = (e) => {
-  //   e.preventDefault();
-  //   console.log('Logging In:', credentials);
-  //   onLogin({ email_address: credentials.email });
-  // };
-
   // Function to handle login
   const handleLogin = async (e) => {
     e.preventDefault();
 
     try {
       // Send login credentials to the backend
-      const response = await fetch('http://192.168.1.205:5000/login', {
-        method: 'POST',
-        headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({ credentials }),
-      });
+      const response = await loginUser(credentials)
+      console.log(response)
+      
+      // Store the token in localStorage
+      localStorage.setItem('token', response['access_token']);
 
-      // Parse the response
-      const data = await response.json();
-
-      // Check if the login was successful
-      if (response.ok) {
-        // Store the token in localStorage
-        localStorage.setItem('token', data.token);
-
-        // Call the onLogin function to update app state
-        onLogin();
-      } else {
-        setError(data.message); // Display error message
-      }
+      // Call the onLogin function to update app state
+      onLogin();
     } catch (err) {
       setError('Login failed. Please try again.');
       console.error('Error logging in:', err);

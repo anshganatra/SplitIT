@@ -1,5 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import { ListGroup, Button, Modal, Form, InputGroup } from 'react-bootstrap';
+import { fetchGroups, addGroupExpense } from '../api/groupsData';
 import GroupDetails from './GroupDetails';
 
 const Groups = () => {
@@ -14,12 +15,14 @@ const Groups = () => {
     paid_by: '',
     category: '',
     selected_date: '',
-    shares: {}
+    shares: []
   });
   const [groupData, setGroupData] = useState({
+    _id: '',
     title: '',
-    users: {},
-    expenses: expenseData
+    created_at: '',
+    members: [],
+    expenses: [],
   });
 
   const handleOpenModal = (groupTitle) => {
@@ -47,24 +50,13 @@ const Groups = () => {
   };
 
   const handleAddExpense = async () => {
-    const token = localStorage.getItem('token');
     try {
-      const response = await fetch('http://192.168.1.205:5000/add-expense', {
-        method: 'POST',
-        headers: {
-          'Content-Type': 'application/json',
-          'Authorization': `Bearer ${token}`,
-        },
-        body: JSON.stringify(expenseData),
-      });
-
-      if (response.ok) {
-        const result = await response.json();
-        setExpenseData([...expenseData, result.expense]); // Add the new expense to the expenses list
-        setGroupData([...groupData, result.expense]); // Add the new expense to the group expenses list
-        handleCloseModal(); // Close the modal
-        setExpenseData({ title: '', amount: '', currency: 'USD', paid_by: '', category: '', shares: {}, selected_date: '' }); // Reset form
-      }
+      const expense = await addGroupExpense(expenseData)
+      
+      setExpenseData([...expenseData, expense]); // Add the new expense to the expenses list
+      setGroupData([...groupData, expense]); // Add the new expense to the group expenses list
+      handleCloseModal(); // Close the modal
+      setExpenseData({ title: '', amount: '', currency: 'USD', paid_by: '', category: '', shares: {}, selected_date: '' }); // Reset form
     } catch (err) {
       console.error('Error adding expense:', err);
     }
@@ -77,25 +69,11 @@ const Groups = () => {
 
   useEffect(() => {
     // Function to fetch groups data
-    const fetchGroups = async (e) => {
-        e.preventDefault();
-        setError('');
+    const fetchGroupsData = async (e) => {
 
         try {
-            const token = localStorage.getItem('token'); // Retrieve the JWT token from localStorage
-            const response = await fetch('http://192.168.1.205:5000/groups', {
-            headers: {
-                'Authorization': `Bearer ${token}`, // Include the token in the Authorization header
-                'Content-Type': 'application/json',
-            },
-            });
-
-            if (!response.ok) {
-            throw new Error('Failed to fetch groups data');
-            }
-
-            const data = await response.json();
-            setExpenseData(data);
+            const groups = await fetchGroups();
+            setGroupData(groups);
             setLoading(false);
         } catch (err) {
             setError(err.message);
@@ -103,10 +81,10 @@ const Groups = () => {
         }
     };
 
-    fetchGroups();
+    fetchGroupsData();
   }, []);
 
-    // Render loading, error, or the dashboard list
+  // Render loading, error, or the groups list
   if (loading) {
     return <div>Loading...</div>;
   }
@@ -121,9 +99,9 @@ const Groups = () => {
       
       {/* List of Groups */}
       <ListGroup className="mt-3 mb-3">
-        {expenseData.map((group, index) => (
+        {groupData.map((group) => (
           <ListGroup.Item 
-          key={index} 
+          key={group._id} 
           action 
           onClick={() => handleGroupClick(group)} 
           className="d-flex justify-content-between align-items-center" 
