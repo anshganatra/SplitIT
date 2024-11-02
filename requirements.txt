@@ -16,3 +16,4 @@ Flask-Mail
 pymongo
 werkzeug
 python-dotenv
+flask_cors
