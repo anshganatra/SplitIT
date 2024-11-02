@@ -244,6 +244,7 @@ def test_throw_exception(mock_telebot, mocker):
     mc.reply_to.return_value = True
 
     message = create_message("message from testing")
+    message.from_user = types.User(11, False, 'test')
 
     throw_exception("hello, exception from testing", message, mc, logging)
     mc.reply_to.assert_called_with(message, 'Oh no! hello, exception from testing')
@@ -348,6 +349,7 @@ def test_display_remaining_overall_budget(mock_telebot, mocker):
     mc.send_message.return_value = True
     helper.calculateRemainingOverallBudget = mock.Mock(return_value=100)
     message = create_message("hello from testing")
+    message.from_user = types.User(11, False, 'test')
     helper.display_remaining_overall_budget(message, mc)
 
     mc.send_message.assert_called_with(11, '\nRemaining Overall Budget is $100')
@@ -359,6 +361,7 @@ def test_display_remaining_overall_budget_exceeding_case(mock_telebot, mocker):
     mc.send_message.return_value = True
     helper.calculateRemainingOverallBudget = mock.Mock(return_value=-10)
     message = create_message("hello from testing")
+    message.from_user = types.User(11, False, 'test')
     helper.display_remaining_overall_budget(message, mc)
 
     mc.send_message.assert_called_with(11, '\nBudget Exceded!\nExpenditure exceeds the budget by $10')
@@ -370,6 +373,7 @@ def test_display_remaining_category_budget(mock_telebot, mocker):
     mc.send_message.return_value = True
     helper.calculateRemainingCategoryBudget = mock.Mock(return_value=150)
     message = create_message("hello from testing")
+    message.from_user = types.User(11, False, 'test')
     helper.display_remaining_category_budget(message, mc, "Food")
 
     mc.send_message.assert_called_with(11, '\nRemaining Budget for Food is $150')
@@ -381,6 +385,7 @@ def test_display_remaining_category_budget_exceeded(mock_telebot, mocker):
     mc.send_message.return_value = True
     helper.calculateRemainingCategoryBudget = mock.Mock(return_value=-90)
     message = create_message("hello from testing")
+    message.from_user = types.User(11, False, 'test')
     helper.display_remaining_category_budget(message, mc, "Food")
 
     mc.send_message.assert_called_with(11, '\nBudget for Food Exceded!\nExpenditure exceeds the budget by $90')
@@ -390,6 +395,7 @@ def test_display_remaining_category_budget_exceeded(mock_telebot, mocker):
 def test_display_remaining_budget_overall_case(mock_telebot, mocker):
     mc = mock_telebot.return_value
     message = create_message("hello from testing")
+    message.from_user = types.User(11, False, 'test')
 
     helper.isOverallBudgetAvailable = mock.Mock(return_value=True)
     helper.display_remaining_overall_budget = mock.Mock(return_value=True)
@@ -402,6 +408,7 @@ def test_display_remaining_budget_overall_case(mock_telebot, mocker):
 def test_display_remaining_budget_category_case(mock_telebot, mocker):
     mc = mock_telebot.return_value
     message = create_message("hello from testing")
+    message.from_user = types.User(11, False, 'test')
 
     helper.isOverallBudgetAvailable = mock.Mock(return_value=False)
     helper.isCategoryBudgetByCategoryAvailable = mock.Mock(return_value=True)

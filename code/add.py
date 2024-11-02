@@ -170,13 +170,13 @@ def post_date_input(message, bot, date_entered):
         formatted_date = date_entered.strftime('%Y-%m-%d')
         date_object = datetime.strptime(formatted_date, '%Y-%m-%d')
         start_date = datetime.strptime('1999-01-01', '%Y-%m-%d')
-        end_date = datetime.today()
+        end_date = datetime.today() + 1
 
         # Check if the date falls within the range
         if start_date <= date_object <= end_date:
             amountval = actual_curr_val(currency, amount, formatted_date)
         else:
-            raise Exception(f"The date {formatted_date} is outside the range ({start_date} -- {end_date}).")
+            raise Exception(f"Error: Future dates are not allowed.")
 
         # if currency == 'Euro':
         #     actual_value = float(amount) * 1.05

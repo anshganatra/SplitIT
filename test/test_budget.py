@@ -8,6 +8,7 @@ def test_run(mock_telebot, mocker):
     mc = mock_telebot.return_value
     mc.reply_to.return_value = True
     message = create_message("hello from test run!")
+    message.from_user = types.User(11, False, 'test')
     budget.run(message, mc)
     assert mc.reply_to.called
 
@@ -20,6 +21,8 @@ def test_post_operation_selection_invalid_case(mock_telebot, mocker):
     budget.helper.getBudgetOptions.return_value = {}
 
     message = create_message("hello from budget test run!")
+    message.from_user = types.User(11, False, 'test')
+    message.from_user = types.User(11, False, 'test')
     budget.post_operation_selection(message, mc)
     mc.send_message.assert_called_with(11, 'Invalid', reply_markup=ANY)
 
@@ -38,6 +41,7 @@ def test_post_operation_selection_update_case(mock_telebot, mocker):
         'delete': 'Delete'}
 
     message = create_message('Add/Update')
+    message.from_user = types.User(11, False, 'test')
     budget.post_operation_selection(message, mc)
     assert budget.budget_update.run.called
 
@@ -56,6 +60,7 @@ def test_post_operation_selection_view_case(mock_telebot, mocker):
         'delete': 'Delete'}
 
     message = create_message('View')
+    message.from_user = types.User(11, False, 'test')
     budget.post_operation_selection(message, mc)
     assert budget.budget_view.run.called
 
@@ -74,6 +79,7 @@ def test_post_operation_selection_delete_case(mock_telebot, mocker):
         'delete': 'Delete'}
 
     message = create_message('Delete')
+    message.from_user = types.User(11, False, 'test')
     budget.post_operation_selection(message, mc)
     assert budget.budget_delete.run.called
 

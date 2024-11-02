@@ -12,6 +12,7 @@ def test_display_overall_budget(mock_telebot, mocker):
     mocker.patch.object(budget_view, 'helper')
     budget_view.helper.getOverallBudget.return_value = ""
     message = create_message("hello from testing")
+    message.from_user = types.User(11, False, 'test')
     budget_view.display_overall_budget(message, mc)
     assert mc.send_message.called
 
@@ -23,6 +24,7 @@ def test_display_category_budget(mock_telebot, mocker):
     mocker.patch.object(budget_view, 'helper')
     budget_view.helper.getCategoryBudget.return_value = {'items': ""}
     message = create_message("hello from testing")
+    message.from_user = types.User(11, False, 'test')
     budget_view.display_category_budget(message, mc)
     assert mc.send_message.called
     mc.send_message.assert_called_with(11, ANY)
@@ -37,6 +39,7 @@ def test_run_overall_budget(mock_telebot, mocker):
 
     budget_view.display_overall_budget = mock.Mock(return_value=True)
     message = create_message("hello from testing")
+    message.from_user = types.User(11, False, 'test')
     budget_view.run(mc, message)
 
     assert (budget_view.display_overall_budget.called)
@@ -53,6 +56,7 @@ def test_run_category_budget(mock_telebot, mocker):
     budget_view.display_category_budget = mock.Mock(return_value=True)
 
     message = create_message("hello from testing")
+    message.from_user = types.User(11, False, 'test')
     budget_view.run(mc, message)
     assert (budget_view.display_category_budget.called)
 
@@ -67,6 +71,7 @@ def test_run_failing_case(mock_telebot, mocker):
     budget_view.helper.throw_exception.return_value = True
 
     message = create_message("hello from testing")
+    message.from_user = types.User(11, False, 'test')
     budget_view.run(mc, message)
     assert (budget_view.helper.throw_exception.called)
 

@@ -34,6 +34,7 @@ def test_delete_run_with_data(mock_telebot, mocker):
     print("Hello", MOCK_USER_DATA)
     delete.helper.write_json.return_value = True
     MOCK_Message_data = create_message("Hello")
+    message.from_user = types.User(11, False, 'test')
     mc = mock_telebot.return_value
     mc.send_message.return_value = True
     delete.run(MOCK_Message_data, mc)
@@ -46,6 +47,7 @@ def test_delete_with_no_data(mock_telebot, mocker):
     delete.helper.read_json.return_value = {}
     delete.helper.write_json.return_value = True
     MOCK_Message_data = create_message("Hello")
+    message.from_user = types.User(11, False, 'test')
     mc = mock_telebot.return_value
     mc.send_message.return_value = True
     delete.run(MOCK_Message_data, mc)
