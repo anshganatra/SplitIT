@@ -16,7 +16,6 @@ import 'bootstrap/dist/css/bootstrap.css';
 
 function App() {
   const [isAuthenticated, setIsAuthenticated] = useState(false);
-  const [user, setUser] = useState(null); // Store logged-in user details
   const [expenses, setExpenses] = useState([
     {
       title: 'Lunch',
@@ -55,16 +54,17 @@ function App() {
    // Check for token in localStorage on initial render
    useEffect(() => {
     const token = localStorage.getItem('token');
-    setIsAuthenticated(!!token); // Set authentication status based on token presence
-  }, []);
+    if (token) {
+      setIsAuthenticated(true);
+    }
+    console.log(isAuthenticated) // Set authentication status based on token presence
+  }, [isAuthenticated]);
 
-  const handleLogin = (userData) => {
-    setUser(userData);
+  const handleLogin = () => {
     setIsAuthenticated(true);
   };
   
-  const handleRegister = (userData) => {
-    setUser(userData);
+  const handleRegister = () => {
     setIsAuthenticated(true);
   };
 
@@ -118,7 +118,7 @@ function App() {
             path="/dashboard"
             element={
               isAuthenticated ? (
-                <Dashboard user={user} expenses={expenses} onAddExpense={handleAddExpense} />
+                <Dashboard expenses={expenses} onAddExpense={handleAddExpense} />
               ) : (
                 <Navigate to="/login" />
               )
