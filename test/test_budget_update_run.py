@@ -1,4 +1,4 @@
-from code import budget_update
+from telebot_code import budget_update
 #import mock
 from unittest import mock
 from unittest.mock import ANY

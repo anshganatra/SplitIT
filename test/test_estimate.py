@@ -2,7 +2,7 @@ import os
 import json
 from unittest.mock import patch
 from telebot import types
-from code import estimate
+from telebot_code import estimate
 
 
 @patch('telebot.telebot')

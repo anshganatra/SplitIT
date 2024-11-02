@@ -1,6 +1,6 @@
 import os
 import json
-from code import delete
+from telebot_code import delete
 from unittest.mock import patch
 from telebot import types
 
@@ -47,7 +47,6 @@ def test_delete_with_no_data(mock_telebot, mocker):
     delete.helper.read_json.return_value = {}
     delete.helper.write_json.return_value = True
     MOCK_Message_data = create_message("Hello")
-    message.from_user = types.User(11, False, 'test')
     mc = mock_telebot.return_value
     mc.send_message.return_value = True
     delete.run(MOCK_Message_data, mc)

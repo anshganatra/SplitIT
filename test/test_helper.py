@@ -1,5 +1,5 @@
-from code import helper
-from code.helper import isCategoryBudgetByCategoryAvailable, throw_exception
+from telebot_code import helper
+from telebot_code.helper import isCategoryBudgetByCategoryAvailable, throw_exception
 from unittest.mock import ANY
 from telebot import types
 from unittest.mock import patch

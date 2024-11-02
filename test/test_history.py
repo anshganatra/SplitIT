@@ -1,6 +1,6 @@
 import os
 import json
-from code import history
+from telebot_code import history
 from unittest.mock import patch
 from telebot import types
 

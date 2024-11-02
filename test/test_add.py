@@ -4,13 +4,13 @@ import json
 from unittest.mock import patch
 from bson import ObjectId
 from telebot import types
-from code import add
+from telebot_code import add
 from mock import ANY
 from unittest.mock import Mock, ANY
 from datetime import datetime, timedelta
 from telegram_bot_calendar import DetailedTelegramCalendar
-from code import db_operations
-from code.models import *
+from telebot_code import db_operations
+from telebot_code.models import *
 
 dateFormat = '%d-%b-%Y' 
 timeFormat = '%H:%M'

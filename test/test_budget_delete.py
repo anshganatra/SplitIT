@@ -1,12 +1,12 @@
-from code import budget_delete
+from telebot_code import budget_delete
 #from mock.mock import patch
 from unittest.mock import patch
 from telebot import types
 
 from bson import ObjectId
-from code import db_operations
-from code.db_operations import * 
-from code.models import *
+from telebot_code import db_operations
+from telebot_code.db_operations import * 
+from telebot_code.models import *
 
 @patch('telebot.telebot')
 @patch('db_operations.read_user_transaction')

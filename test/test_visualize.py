@@ -1,9 +1,9 @@
 import pytest
 from unittest.mock import patch, mock_open
-from code import visualize
+from telebot_code import visualize
 from bson import ObjectId
-from code import db_operations
-from code.models import *
+from telebot_code import db_operations
+from telebot_code.models import *
 @pytest.fixture
 def mock_open_function():
     return mock_open(read_data='''{

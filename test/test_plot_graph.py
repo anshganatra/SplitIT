@@ -1,6 +1,6 @@
 # import unittest
 # from unittest.mock import patch, MagicMock
-# from code import plot_graphs
+# from telebot_code import plot_graphs
 # import logging
 # import sys
 # import telebot

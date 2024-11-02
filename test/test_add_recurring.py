@@ -4,11 +4,11 @@ from unittest.mock import patch
 #from mock.mock import patch
 from telebot import types
 from unittest.mock import Mock, ANY
-from code import add
+from telebot_code import add
 
 from bson import ObjectId
-from code import db_operations
-from code.models import *
+from telebot_code import db_operations
+from telebot_code.models import *
 
 mock_obj = Mock(spec=['called_with'])
 dateFormat = '%d-%b-%Y'
