@@ -5,12 +5,12 @@
 [![DOI](https://zenodo.org/badge/DOI/10.5281/zenodo.10211911.svg)](https://doi.org/10.5281/zenodo.10211911)
 [![Build Status](https://app.travis-ci.com/sak007/MyDollarBot-BOTGo.svg?branch=main)](https://app.travis-ci.com/github/sak007/MyDollarBot-BOTGo)
 [![codecov](https://codecov.io/gh/sak007/MyDollarBot-BOTGo/branch/main/graph/badge.svg?token=5AYMR8MNMP)](https://codecov.io/gh/sak007/MyDollarBot-BOTGo)
-[![GitHub issues](https://img.shields.io/github/issues/NCSU-Group70-CSC505-SE-Fall-23/MyExpenseBot)](https://github.com/NCSU-Group70-CSC505-SE-Fall-23/MyExpenseBot/issues?q=is%3Aopen+is%3Aissue)
-[![GitHub closed issues](https://img.shields.io/github/issues-closed/NCSU-Group70-CSC505-SE-Fall-23/MyExpenseBot)](https://github.com/NCSU-Group70-CSC505-SE-Fall-23/MyExpenseBot/issues?q=is%3Aissue+is%3Aclosed)
-![GitHub contributors](https://img.shields.io/github/contributors/NCSU-Group70-CSC505-SE-Fall-23/MyExpenseBot)
-![GitHub commit activity (branch)](https://img.shields.io/github/commit-activity/w/NCSU-Group70-CSC505-SE-Fall-23/MyExpenseBot)
-![GitHub repo size](https://img.shields.io/github/repo-size/NCSU-Group70-CSC505-SE-Fall-23/MyExpenseBot)
-![Fork](https://img.shields.io/github/forks/NCSU-Group70-CSC505-SE-Fall-23/MyExpenseBot?style=social)
+[![GitHub issues](https://img.shields.io/github/issues/anshganatra/SplitIT)](https://github.com/anshganatra/SplitIT/issues?q=is%3Aopen+is%3Aissue)
+[![GitHub closed issues](https://img.shields.io/github/issues-closed/anshganatra/SplitIT)](https://github.com/NCSU-Group70-CSC505-SE-Fall-23/MyExpenseBot/issues?q=is%3Aissue+is%3Aclosed)
+![GitHub contributors](https://img.shields.io/github/contributors/anshganatra/SplitIT)
+![GitHub commit activity (branch)](https://img.shields.io/github/commit-activity/w/anshganatra/SplitIT)
+![GitHub repo size](https://img.shields.io/github/repo-size/anshganatra/SplitIT)
+![Fork](https://img.shields.io/github/forks/anshganatra/SplitIT?style=social)
 <hr>
 <p align="center">
 <a><img 
@@ -123,7 +123,7 @@ The below instructions can be followed in order to set-up this bot at your end i
 
 1. ### Clone this Repository:
 ```bash
-  git clone https://github.com/NCSU-Group70-CSC505-SE-Fall-23/MyExpenseBot.git
+  git clone https://github.com/anshganatra/SplitIT.git
 ```
 
 2. ### Start a terminal session in the directory where the project has been cloned. Run the following command to install the required dependencies:
@@ -136,12 +136,17 @@ The below instructions can be followed in order to set-up this bot at your end i
 - Search for "BotFather" in Telegram.
 - Use `/newbot` to create a new bot.
 - Follow instructions, get a TOKEN.
+4. ### Create MongoDB instance on MongoDB Atlas
 
-4. ### Update TOKEN in user.properties:
+- Go to MongoDB Atlas, create a few tier database.
+- Install MongoDB Compass
+- Use the connection string from Atlas to connect to DB.
 
-- Open `user.properties`, update TOKEN.
+5. ### Update TOKEN in user.properties:
 
-5. ### Run the Telegram Bot:
+- Open `user.properties`, update TOKEN and MONGODB_URI
+
+6. ### Run the Telegram Bot:
 
 ```bash
 ./run.sh (or) bash run.sh (or) sh run.sh 
@@ -185,8 +190,10 @@ For freelancers managing multiple clients or projects, organizing income streams
 ### 🌐 Connect with the Authors
 
 - **Title:** 'Track My Income and Expense'
-- **Version:** '5.0.1'
+- **Version:** '6.0.1'
 - **Description:** 'An easy-to-use Telegram Bot to track everyday income and expenses'
+
+- #### Authors (Iteration 5): Ansh, Tarun, Yash
 
 - #### Authors (Iteration 5): Nisarg, Chaitanya, Mitesh, Aniruddha
 
