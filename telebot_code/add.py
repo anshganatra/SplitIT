@@ -5,7 +5,7 @@ import calendar
 import json
 from telegram_bot_calendar import DetailedTelegramCalendar, LSTEP
 from telebot import types
-from datetime import datetime, date
+from datetime import datetime, date, timedelta
 from currency_api import update_currencies
 from models import *
 from db_operations import *
@@ -170,7 +170,7 @@ def post_date_input(message, bot, date_entered):
         formatted_date = date_entered.strftime('%Y-%m-%d')
         date_object = datetime.strptime(formatted_date, '%Y-%m-%d')
         start_date = datetime.strptime('1999-01-01', '%Y-%m-%d')
-        end_date = datetime.today() + 1
+        end_date = datetime.today() + + timedelta(days=7)
 
         # Check if the date falls within the range
         if start_date <= date_object <= end_date:
