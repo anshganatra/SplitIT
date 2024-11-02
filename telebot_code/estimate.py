@@ -5,9 +5,9 @@ from telebot import types
 
 
 def run(message, bot):
-    helper.read_json()
     chat_id = message.chat.id
-    history = helper.getUserExpenseHistory(chat_id)
+    user_id = message.from_user.id
+    history = helper.getUserExpenseHistory(user_id)
     if history is None:
         bot.send_message(
             chat_id, "Oops! Looks like you do not have any spending records!")
@@ -26,6 +26,7 @@ def run(message, bot):
 def estimate_total(message, bot):
     try:
         chat_id = message.chat.id
+        user_id = message.from_user.id
         DayWeekMonth = message.text
 
         if DayWeekMonth not in helper.getSpendEstimateOptions():
@@ -33,7 +34,7 @@ def estimate_total(message, bot):
                 "Sorry I can't show an estimate for \"{}\"!".format(
                     DayWeekMonth))
 
-        history = helper.getUserHistory(chat_id)
+        history = helper.getUserHistory(user_id, 'expense')
         if history is None:
             raise Exception(
                 "Oops! Looks like you do not have any spending records!")
@@ -73,17 +74,15 @@ def estimate_total(message, bot):
 def calculate_estimate(queryResult, days_to_estimate):
     total_dict = {}
     days_data_available = {}
-    for row in queryResult:
-        # date,cat,money
-        s = row.split(',')
+    for val in queryResult:
         # cat
-        cat = s[1]
-        date_str = s[0][0:11]
+        cat = val["category"]
+        date_str = val["date"][0:11]
         if cat in total_dict:
             # round up to 2 decimal
-            total_dict[cat] = round(total_dict[cat] + float(s[2]), 2)
+            total_dict[cat] = round(total_dict[cat] + float(val["amount"]), 2)
         else:
-            total_dict[cat] = float(s[2])
+            total_dict[cat] = float(val["amount"])
         if date_str not in days_data_available:
             days_data_available[date_str] = True
 

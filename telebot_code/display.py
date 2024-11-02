@@ -8,9 +8,9 @@ from datetime import datetime
 
 
 def run(message, bot):
-    helper.read_json()
     chat_id = message.chat.id
-    history = helper.getUserExpenseHistory(chat_id)
+    user_id = message.from_user.id
+    history = helper.getUserExpenseHistory(user_id)
     if history is None:
         bot.send_message(chat_id, "Sorry, there are no records of the spending!")
     else:
@@ -29,12 +29,13 @@ def display_total(message, bot):
     global bud
     try:
         chat_id = message.chat.id
+        user_id = message.from_user.id
         DayWeekMonth = message.text
 
         if DayWeekMonth not in helper.getSpendDisplayOptions():
             raise Exception("Sorry I can't show spendings for \"{}\"!".format(DayWeekMonth))
 
-        history = helper.getUserExpenseHistory(chat_id)
+        history = helper.getUserExpenseHistory(user_id)
         if history is None:
             raise Exception("Oops! Looks like you do not have any spending records!")
 
@@ -45,19 +46,19 @@ def display_total(message, bot):
         total_text = ""
         # get budget data
         budgetData = {}
-        if helper.isOverallBudgetAvailable(chat_id):
-            budgetData = helper.getOverallBudget(chat_id)
-        elif helper.isCategoryBudgetAvailable(chat_id):
-            budgetData = helper.getCategoryBudget(chat_id)
+        if helper.isOverallBudgetAvailable(user_id):
+            budgetData = helper.getOverallBudget(user_id)
+        elif helper.isCategoryBudgetAvailable(user_id):
+            budgetData = helper.getCategoryBudget(user_id)
 
         if DayWeekMonth == 'Day':
             query = datetime.now().today().strftime(helper.getDateFormat())
             # query all that contains today's date
-            queryResult = [value for index, value in enumerate(history) if str(query) in value]
+            queryResult = [value for index, value in enumerate(history) if str(query) in value["date"]]
         elif DayWeekMonth == 'Month':
             query = datetime.now().today().strftime(helper.getMonthFormat())
             # query all that contains today's date
-            queryResult = [value for index, value in enumerate(history) if str(query) in value]
+            queryResult = [value for index, value in enumerate(history) if str(query) in value["date"]]
 
         total_text = calculate_spendings(queryResult)
         total=total_text
@@ -83,6 +84,7 @@ def display_total(message, bot):
 
 def plot_total(message, bot):
      chat_id = message.chat.id
+     user_id = message.from_user.id
      pyi=message.text
      if pyi == 'Bar with budget':
        
@@ -100,16 +102,13 @@ def plot_total(message, bot):
 def calculate_spendings(queryResult):
     total_dict = {}
 
-    for row in queryResult:
-        # date,cat,money
-        s = row.split(',')
-        # cat
-        cat = s[1]
+    for val in queryResult:
+        cat = val["category"]
         if cat in total_dict:
             # round up to 2 decimal
-            total_dict[cat] = round(total_dict[cat] + float(s[2]), 2)
+            total_dict[cat] = round(total_dict[cat] + float(val["amount"]), 2)
         else:
-            total_dict[cat] = float(s[2])
+            total_dict[cat] = float(val["amount"])
     total_text = ""
     for key, value in total_dict.items():
         total_text += str(key) + " $" + str(value) + "\n"
@@ -119,7 +118,7 @@ def calculate_spendings(queryResult):
 def display_budget_by_text(history, budget_data) -> str:
     query = datetime.now().today().strftime(helper.getMonthFormat())
     # query all expense history that contains today's date
-    queryResult = [value for index, value in enumerate(history) if str(query) in value]
+    queryResult = [value for index, value in enumerate(history) if str(query) in value["date"]]
     total_text = calculate_spendings(queryResult)
     budget_display = ""
     total_text_split = [line for line in total_text.split('\n') if line.strip() != '']

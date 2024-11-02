@@ -2,7 +2,7 @@ import os
 import json
 from unittest.mock import patch
 from telebot import types
-from code import display
+from telebot_code import display
 
 
 @patch('telebot.telebot')
@@ -10,6 +10,7 @@ def test_run(mock_telebot, mocker):
     mc = mock_telebot.return_value
     mc.reply_to.return_value = True
     message = create_message("hello from test run!")
+    message.from_user = types.User(11, False, 'test')
     display.run(message, mc)
     assert mc.send_message.called
 
@@ -19,6 +20,7 @@ def test_no_data_available(mock_telebot, mocker):
     mc = mock_telebot.return_value
     mc.reply_to.return_value = True
     message = create_message("/spendings")
+    message.from_user = types.User(11, False, 'test')
     display.run(message, mc)
     assert mc.send_message.called
 
@@ -28,6 +30,7 @@ def test_invalid_format(mock_telebot, mocker):
     mc = mock_telebot.return_value
     mc.reply_to.return_value = True
     message = create_message("luster")
+    message.from_user = types.User(11, False, 'test')
     try:
         display.display_total(message, mc)
         assert False
@@ -40,6 +43,7 @@ def test_valid_format(mock_telebot, mocker):
     mc = mock_telebot.return_value
     mc.reply_to.return_value = True
     message = create_message("Month")
+    message.from_user = types.User(11, False, 'test')
     try:
         display.display_total(message, mc)
         assert True
@@ -52,6 +56,7 @@ def test_valid_format_day(mock_telebot, mocker):
     mc = mock_telebot.return_value
     mc.reply_to.return_value = True
     message = create_message("Day")
+    message.from_user = types.User(11, False, 'test')
     try:
         display.display_total(message, mc)
         assert True
@@ -71,6 +76,7 @@ def test_spending_run_working(mock_telebot, mocker):
     mc = mock_telebot.return_value
     mc.reply_to.return_value = True
     message = create_message("Day")
+    message.from_user = types.User(11, False, 'test')
     message.text = "Day"
     display.run(message, mc)
     assert not mc.send_message.called
@@ -88,6 +94,7 @@ def test_spending_display_working(mock_telebot, mocker):
     mc = mock_telebot.return_value
     mc.reply_to.return_value = True
     message = create_message("Day")
+    message.from_user = types.User(11, False, 'test')
     message.text = "Day"
     display.display_total(message, mc)
     assert mc.send_message.called
@@ -105,6 +112,7 @@ def test_spending_display_month(mock_telebot, mocker):
     mc = mock_telebot.return_value
     mc.reply_to.return_value = True
     message = create_message("Month")
+    message.from_user = types.User(11, False, 'test')
     message.text = "Month"
     display.display_total(message, mc)
     assert mc.send_message.called

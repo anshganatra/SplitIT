@@ -31,15 +31,16 @@ def post_category_selection(message, bot):
     try:
         markup = types.ReplyKeyboardMarkup(one_time_keyboard=True)
         chat_id = message.chat.id
+        user_id = message.from_user.id
         category = message.text
 
         if category == "Income":
             message = bot.reply_to(message, f'Generating your Income graph', reply_markup=markup)
-            visualize.income_plot()
+            visualize.income_plot(user_id)
             bot.send_document(chat_id, open("./graphs/income_chart.pdf", "rb"))
         elif category == "Expense":
             message = bot.reply_to(message, f'Generating your Expense graph', reply_markup=markup)
-            visualize.expense_plot()
+            visualize.expense_plot(user_id)
             bot.send_document(chat_id, open("./graphs/expense_chart.pdf", "rb"))
         elif category == "Group Expense":
             message = bot.reply_to(message, f'Generating your Group Expense graph', reply_markup=markup)

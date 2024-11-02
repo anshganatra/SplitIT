@@ -1,13 +1,14 @@
 import helper
 import logging
 from telebot import types
-
+from db_operations import * 
 
 def run(message, bot):
     chat_id = message.chat.id
-    if helper.isOverallBudgetAvailable(chat_id):
-        update_overall_budget(chat_id, bot)
-    elif helper.isCategoryBudgetAvailable(chat_id):
+    user_id = message.from_user.id
+    if helper.isOverallBudgetAvailable(user_id):
+        update_overall_budget(chat_id, user_id, bot)
+    elif helper.isCategoryBudgetAvailable(user_id):
         update_category_budget(message, bot)
     else:
         markup = types.ReplyKeyboardMarkup(one_time_keyboard=True)
@@ -22,22 +23,23 @@ def run(message, bot):
 def post_type_selection(message, bot):
     try:
         chat_id = message.chat.id
+        user_id = message.from_user.id
         op = message.text
         options = helper.getBudgetTypes()
         if op not in options.values():
             bot.send_message(chat_id, 'Invalid', reply_markup=types.ReplyKeyboardRemove())
             raise Exception("Sorry I don't recognise this operation \"{}\"!".format(op))
         if op == options['overall']:
-            update_overall_budget(chat_id, bot)
+            update_overall_budget(chat_id, user_id, bot)
         elif op == options['category']:
             update_category_budget(message, bot)
     except Exception as e:
         helper.throw_exception(e, message, bot, logging)
 
 
-def update_overall_budget(chat_id, bot):
-    if (helper.isOverallBudgetAvailable(chat_id)):
-        currentBudget = helper.getOverallBudget(chat_id)
+def update_overall_budget(chat_id, user_id, bot):
+    if (helper.isOverallBudgetAvailable(user_id)):
+        currentBudget = helper.getOverallBudget(user_id)
         msg_string = 'Current Budget is ${}\n\nHow much is your new monthly budget? \n(Enter numeric values only)'
         message = bot.send_message(chat_id, msg_string.format(currentBudget))
     else:
@@ -48,16 +50,20 @@ def update_overall_budget(chat_id, bot):
 def post_overall_amount_input(message, bot):
     try:
         chat_id = message.chat.id
+        user_id = message.from_user.id
         amount_value = helper.validate_entered_amount(message.text)
         if amount_value == 0:
             raise Exception("Invalid amount.")
-        user_list = helper.read_json()
-        if str(chat_id) not in user_list:
-            user_list[str(chat_id)] = helper.createNewUserRecord()
-        user_list[str(chat_id)]['budget']['overall'] = amount_value
-        helper.write_json(user_list)
+        userTransaction = read_user_transaction(user_id)
+
+        if userTransaction == None:
+            userTransaction = UserTransactions(telegram_user_id=user_id)
+            create_user_transaction(userTransaction)
+
+        userTransaction.budget['overall'] = amount_value
+        update_user_transaction(user_id, userTransaction.to_dict())
         bot.send_message(chat_id, 'Budget Updated!')
-        return user_list
+        return userTransaction
     except Exception as e:
         helper.throw_exception(e, message, bot, logging)
 
@@ -75,13 +81,14 @@ def update_category_budget(message, bot):
 def post_category_selection(message, bot):
     try:
         chat_id = message.chat.id
+        user_id = message.from_user.id
         selected_category = message.text
         categories = helper.getSpendCategories()
         if selected_category not in categories:
             bot.send_message(chat_id, 'Invalid', reply_markup=types.ReplyKeyboardRemove())
             raise Exception("Sorry I don't recognise this category \"{}\"!".format(selected_category))
-        if helper.isCategoryBudgetByCategoryAvailable(chat_id, selected_category):
-            currentBudget = helper.getCategoryBudgetByCategory(chat_id, selected_category)
+        if helper.isCategoryBudgetByCategoryAvailable(user_id, selected_category):
+            currentBudget = helper.getCategoryBudgetByCategory(user_id, selected_category)
             msg_string = 'Current monthly budget for {} is {}\n\nEnter monthly budget for {}\n(Enter numeric values only)'
             message = bot.send_message(chat_id, msg_string.format(selected_category, currentBudget, selected_category))
         else:
@@ -94,16 +101,21 @@ def post_category_selection(message, bot):
 def post_category_amount_input(message, bot, category):
     try:
         chat_id = message.chat.id
+        user_id = message.from_user.id
         amount_value = helper.validate_entered_amount(message.text)
         if amount_value == 0:
             raise Exception("Invalid amount.")
-        user_list = helper.read_json()
-        if str(chat_id) not in user_list:
-            user_list[str(chat_id)] = helper.createNewUserRecord()
-        if user_list[str(chat_id)]['budget']['category'] is None:
-            user_list[str(chat_id)]['budget']['category'] = {}
-        user_list[str(chat_id)]['budget']['category'][category] = amount_value
-        helper.write_json(user_list)
+        userTransaction = read_user_transaction(user_id)
+
+        if userTransaction == None:
+            userTransaction = UserTransactions(telegram_user_id=user_id)
+            create_user_transaction(userTransaction)
+            
+        if userTransaction.budget['category'] is None:
+            userTransaction.budget['category'] = {}
+        userTransaction.budget['category'][category] = amount_value
+
+        update_user_transaction(user_id, userTransaction.to_dict())
         message = bot.send_message(chat_id, 'Budget for ' + category + ' Created!')
         post_category_add(message, bot)
 

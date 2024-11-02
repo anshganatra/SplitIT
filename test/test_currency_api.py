@@ -2,7 +2,7 @@ import unittest
 from unittest.mock import patch, Mock
 import json
 from datetime import datetime
-from code import currency_api
+from telebot_code import currency_api
 
 class TestCurrencyUpdate(unittest.TestCase):
 

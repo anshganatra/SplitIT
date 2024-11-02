@@ -6,10 +6,10 @@ from telebot import types
 
 def run(message, bot):
     try:
-        helper.read_json()
         chat_id = message.chat.id
-        user_income_history = helper.getUserIncomeHistory(chat_id)
-        user_expense_history = helper.getUserExpenseHistory(chat_id)
+        user_id = message.from_user.id
+        user_income_history = helper.getUserIncomeHistory(user_id)
+        user_expense_history = helper.getUserExpenseHistory(user_id)
         spend_total_str = ""
         income_total_str = ""
         # Amount for each month
@@ -105,11 +105,12 @@ def post_type_selection(message, bot):
     try:
         markup = types.ReplyKeyboardMarkup(one_time_keyboard=True)
         chat_id = message.chat.id
+        user_id = message.from_user.id
         selectedType = message.text
         selected_duration = "Month"
         category_expenses = {}
         duration_expenses = {}
-        user_history = helper.getUserHistory(chat_id, selectedType)
+        user_history = helper.getUserHistory(user_id, selectedType)
         for record in user_history:
             date, category, amount, curr, actualVal = record.split(",")
             date_obj = datetime.strptime(date, "%d-%b-%y")
