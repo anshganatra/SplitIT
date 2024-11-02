@@ -8,4 +8,11 @@ pytest-mock
 python-telegram-bot
 python-telegram-bot-calendar
 currencyapicom
+
+Flask
+Flask-PyMongo
+Flask-JWT-Extended
+Flask-Mail
 pymongo
+werkzeug
+python-dotenv
