@@ -15,6 +15,7 @@ import category
 import add_recurring
 import add_group_exp
 import pdf
+import link
 import plot_graphs
 from datetime import datetime
 from jproperties import Properties
@@ -51,7 +52,6 @@ def handle_calendar_selection(call):
 # defines how the /start and /help commands have to be handled/processed
 @bot.message_handler(commands=['start', 'menu'])
 def start_and_menu_command(m):
-    helper.read_json()
     global user_list
     chat_id = m.chat.id
 
@@ -104,6 +104,7 @@ def command_edit(message):
 # function to display total expenditure
 @bot.message_handler(commands=['display'])
 def command_display(message):
+    print(message.from_user)
     display.run(message, bot)
 
 
@@ -131,12 +132,18 @@ def command_category(message):
 def command_category(message):
     pdf.run(message, bot)
 
+# function to link user
+@bot.message_handler(commands=['link'])
+def command_add_link(message):
+    link.run(message, bot)
+
+
 # not used
-def addUserHistory(chat_id, user_record):
+def addUserHistory(user_id, user_record):
     global user_list
-    if(not(str(chat_id) in user_list)):
-        user_list[str(chat_id)] = []
-    user_list[str(chat_id)].append(user_record)
+    if(not(str(user_id) in user_list)):
+        user_list[str(user_id)] = []
+    user_list[str(user_id)].append(user_record)
     return user_list
 
 

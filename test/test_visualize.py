@@ -1,7 +1,9 @@
 import pytest
 from unittest.mock import patch, mock_open
-from code import visualize
-
+from telebot_code import visualize
+from bson import ObjectId
+from telebot_code import db_operations
+from telebot_code.models import *
 @pytest.fixture
 def mock_open_function():
     return mock_open(read_data='''{
@@ -38,22 +40,20 @@ def test_grp_exp_plot(mock_open_function):
     mock_open.assert_called_once_with('./grp_expense_record.json', 'r')
     mock_savefig.assert_called_once_with('./graphs/grp_expense_chart.pdf')
 
-def test_income_plot(mock_open_function):
-    # Ensure that the file is opened with the correct path
-    with patch('builtins.open', mock_open_function) as mock_open:
-        with patch('matplotlib.pyplot.savefig') as mock_savefig:
-            visualize.income_plot()
+@patch('db_operations.read_user_transaction')
+def test_income_plot(mock1):
+    mock1.return_value = UserTransactions(telegram_user_id=6619121674)
+    with patch('matplotlib.pyplot.savefig') as mock_savefig:
+        visualize.income_plot(6619121674)
 
     # Add assertions based on your expected behavior
-    mock_open.assert_called_once_with('./expense_record.json', 'r')
     mock_savefig.assert_called_once_with('./graphs/income_chart.pdf')
 
-def test_expense_plot(mock_open_function):
-    # Ensure that the file is opened with the correct path
-    with patch('builtins.open', mock_open_function) as mock_open:
-        with patch('matplotlib.pyplot.savefig') as mock_savefig:
-            visualize.expense_plot()
+@patch('db_operations.read_user_transaction')
+def test_expense_plot(mock1):
+    mock1.return_value = UserTransactions(telegram_user_id=6619121674)
+    with patch('matplotlib.pyplot.savefig') as mock_savefig:
+        visualize.expense_plot(6619121674)
 
     # Add assertions based on your expected behavior
-    mock_open.assert_called_once_with('./expense_record.json', 'r')
     mock_savefig.assert_called_once_with('./graphs/expense_chart.pdf')

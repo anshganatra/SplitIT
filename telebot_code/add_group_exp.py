@@ -79,18 +79,18 @@ def write_json(user_list):
         restart_script()
 
 
-def add_user_expense_record(bot, chat_id, record_to_be_added, member_list, convert_value_str):
+def add_user_expense_record(bot, user_id, record_to_be_added, member_list, convert_value_str):
     user_list = read_json()
-    if str(chat_id) not in user_list:
-        user_list[str(chat_id)] = createNewUserRecord()
+    if str(user_id) not in user_list:
+        user_list[str(user_id)] = createNewUserRecord()
 
     for member in member_list:
-        if not user_list[str(chat_id)]['details'].get(member):
-            user_list[str(chat_id)]['details'][member] = float(convert_value_str)
+        if not user_list[str(user_id)]['details'].get(member):
+            user_list[str(user_id)]['details'][member] = float(convert_value_str)
         else:
-            user_list[str(chat_id)]['details'][member] += float(convert_value_str)
+            user_list[str(user_id)]['details'][member] += float(convert_value_str)
 
-    user_list[str(chat_id)]['expense'].append(record_to_be_added)
+    user_list[str(user_id)]['expense'].append(record_to_be_added)
     return user_list
 
 
@@ -124,6 +124,7 @@ def actual_curr_val(currency, amount, formatted_date):
 def expense_date(message, bot, category, individual_amount, date_entered, member_list):
     try:
         chat_id = message.chat.id
+        user_id = message.from_user.id
         amount = individual_amount
         currency = category
 
@@ -139,7 +140,7 @@ def expense_date(message, bot, category, individual_amount, date_entered, member
             raise Exception(f"The date {formatted_date} is outside the range ({start_date} -- {end_date}).")
 
         date_str, amount_str, convert_value_str, currency_str = str(formatted_date), str(amount), str(amountval), str(category)
-        write_json(add_user_expense_record(bot, chat_id, "{},{},{},{},{}".format(date_str, convert_value_str, currency_str, amount_str, member_list), member_list, convert_value_str))
+        write_json(add_user_expense_record(bot, user_id, "{},{},{},{},{}".format(date_str, convert_value_str, currency_str, amount_str, member_list), member_list, convert_value_str))
         bot.send_message(chat_id, 'The following expenditure has been recorded: You have spent ${} in group expenses on {}. Actual currency is {} and value is {}\n'.format(convert_value_str, date_str, currency_str,amount_str))
         restart_script()
 

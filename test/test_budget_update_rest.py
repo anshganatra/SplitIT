@@ -1,4 +1,4 @@
-from code import budget_update
+from telebot_code import budget_update
 from unittest.mock import ANY
 #from unitest.mock import patch
 from unittest.mock import patch
@@ -14,7 +14,7 @@ def test_update_overall_budget_already_available_case(mock_telebot, mocker):
     budget_update.helper.isOverallBudgetAvailable.return_value = True
     budget_update.helper.getOverallBudget.return_value = 100
 
-    budget_update.update_overall_budget(120, mc)
+    budget_update.update_overall_budget(120, 11, mc)
     mc.send_message.assert_called_with(120, ANY)
 
 
@@ -26,7 +26,7 @@ def test_update_overall_budget_new_budget_case(mock_telebot, mocker):
     mocker.patch.object(budget_update, 'helper')
     budget_update.helper.isOverallBudgetAvailable.return_value = True
 
-    budget_update.update_overall_budget(120, mc)
+    budget_update.update_overall_budget(120, 11, mc)
     mc.send_message.assert_called_with(120, ANY)
 
 
@@ -40,6 +40,7 @@ def test_post_overall_amount_input_working(mock_telebot, mocker):
     budget_update.helper.validate_entered_amount.return_value = 150
 
     message = create_message("hello from testing")
+    message.from_user = types.User(11, False, 'test')
     budget_update.post_overall_amount_input(message, mc)
 
     mc.send_message.assert_called_with(11, ANY)
@@ -56,6 +57,7 @@ def test_post_overall_amount_input_nonworking(mock_telebot, mocker):
     budget_update.helper.throw_exception.return_value = True
 
     message = create_message("hello from testing")
+    message.from_user = types.User(11, False, 'test')
     budget_update.post_overall_amount_input(message, mc)
 
     assert(budget_update.helper.throw_exception.called)
@@ -70,6 +72,7 @@ def test_update_category_budget(mock_telebot, mocker):
     budget_update.helper.getSpendCategories.return_value = ['Food', 'Groceries', 'Utilities', 'Transport', 'Shopping', 'Miscellaneous']
 
     message = create_message("hello from testing")
+    message.from_user = types.User(11, False, 'test')
     budget_update.update_category_budget(message, mc)
 
     mc.reply_to.assert_called_with(message, 'Select Category', reply_markup=ANY)
@@ -85,6 +88,7 @@ def test_post_category_selection_category_not_found(mock_telebot, mocker):
     budget_update.helper.throw_exception.return_value = True
 
     message = create_message("hello from testing")
+    message.from_user = types.User(11, False, 'test')
     budget_update.post_category_selection(message, mc)
 
     mc.send_message.assert_called_with(11, 'Invalid', reply_markup=ANY)
@@ -102,6 +106,7 @@ def test_post_category_selection_category_wise_case(mock_telebot, mocker):
     budget_update.helper.isCategoryBudgetByCategoryAvailable.return_value = True
 
     message = create_message("Food")
+    message.from_user = types.User(11, False, 'test')
     budget_update.post_category_selection(message, mc)
 
     mc.send_message.assert_called_with(11, ANY)
@@ -118,6 +123,7 @@ def test_post_category_selection_overall_case(mock_telebot, mocker):
     budget_update.helper.isCategoryBudgetByCategoryAvailable.return_value = False
 
     message = create_message("Food")
+    message.from_user = types.User(11, False, 'test')
     budget_update.post_category_selection(message, mc)
 
     mc.send_message.assert_called_with(11, 'Enter monthly budget for Food\n(Enter numeric values only)')
@@ -132,6 +138,7 @@ def test_post_category_amount_input_working(mock_telebot, mocker):
     budget_update.helper.validate_entered_amount.return_value = 100
 
     message = create_message("Hello from testing")
+    message.from_user = types.User(11, False, 'test')
     budget_update.post_category_amount_input(message, mc, "Food")
 
     mc.send_message.assert_called_with(11, 'Budget for Food Created!')
@@ -147,6 +154,7 @@ def test_post_category_amount_input_nonworking_case(mock_telebot, mocker):
     budget_update.helper.throw_exception.return_value = True
 
     message = create_message("Hello from testing")
+    message.from_user = types.User(11, False, 'test')
     budget_update.post_category_amount_input(message, mc, "Food")
 
     assert(budget_update.helper.throw_exception.called)
@@ -158,6 +166,7 @@ def test_post_category_add(mock_telebot, mocker):
     mc.reply_to.return_value = True
 
     message = create_message("hello from testing!")
+    message.from_user = types.User(11, False, 'test')
     budget_update.post_category_add(message, mc)
 
     mc.reply_to.assert_called_with(message, 'Select Option', reply_markup=ANY)

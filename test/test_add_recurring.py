@@ -4,8 +4,11 @@ from unittest.mock import patch
 #from mock.mock import patch
 from telebot import types
 from unittest.mock import Mock, ANY
-from code import add
+from telebot_code import add
 
+from bson import ObjectId
+from telebot_code import db_operations
+from telebot_code.models import *
 
 mock_obj = Mock(spec=['called_with'])
 dateFormat = '%d-%b-%Y'
@@ -18,6 +21,7 @@ def test_run(mock_telebot, mocker):
     mc = mock_telebot.return_value
     mc.reply_to.return_value = True
     message = create_message("hello from test run!")
+    message.from_user = types.User(11, False, 'test')
     add.run(message, mc)
     assert(mc.reply_to.called)
 
@@ -28,6 +32,7 @@ def test_post_category_selection_working(mock_telebot, mocker):
     mc.send_message.return_value = True
 
     message = create_message("hello from testing!")
+    message.from_user = types.User(11, False, 'test')
     add.post_category_selection(message, mc,'Income')
     assert(mc.send_message.called)
 
@@ -42,6 +47,7 @@ def test_post_category_selection_noMatchingCategory(mock_telebot, mocker):
     add.helper.getSpendCategories.return_value = None
 
     message = create_message("hello from testing!")
+    message.from_user = types.User(11, False, 'test')
     add.post_category_selection(message, mc, 'Income')
     assert(mc.reply_to.called)
 
@@ -52,6 +58,7 @@ def test_post_amount_input_working(mock_telebot, mocker):
     mc.send_message.return_value = True
 
     message = create_message("hello from testing!")
+    message.from_user = types.User(11, False, 'test')
     add.post_category_selection(message, mc, 'Income')
     assert(mc.send_message.called)
 
@@ -70,7 +77,8 @@ def test_post_amount_input_working_withdata(mock_telebot, mocker):
     add.option.return_value = {11, "here"}
 
     message = create_message("hello from testing!")
-    add.post_amount_input(message, mc, 'Food', 'Income')
+    message.from_user = types.User(11, False, 'test')
+    add.post_amount_input(message, mc, 'Income')
     assert(mc.send_message.called)
 
 
@@ -82,7 +90,8 @@ def test_post_amount_input_nonworking(mock_telebot, mocker):
     mocker.patch.object(add, 'helper')
     add.helper.validate_entered_amount.return_value = 0
     message = create_message("hello from testing!")
-    add.post_amount_input(message, mc, 'Food','Income')
+    message.from_user = types.User(11, False, 'test')
+    add.post_amount_input(message, mc, 'Income')
     assert(mc.reply_to.called)
 
 
@@ -108,19 +117,24 @@ def test_post_amount_input_nonworking(mock_telebot, mocker):
 #     mc.send_message.assert_called_with(11, ANY)
 
 
-def test_add_user_record_nonworking(mocker):
-    mocker.patch.object(add, 'helper')
+@patch('db_operations.create_user_transaction')
+@patch('db_operations.read_user_transaction')
+def test_add_user_record_nonworking(mocker2, mocker1):
+    mocker1.return_value = ObjectId('54f112defba522406c9cc208')
+    mocker2.return_value = UserTransactions(telegram_user_id=1234)
     add.helper.read_json.return_value = {}
-    addeduserrecord = add.add_user_income_record(1, ANY,"record : test")
+    addeduserrecord = add.add_user_income_record(1, 1234,"record : test")
     assert(addeduserrecord)
 
-
-def test_add_user_record_working(mocker):
-    MOCK_USER_DATA = test_read_json()
-    mocker.patch.object(add, 'helper')
+@patch('db_operations.create_user_transaction')
+@patch('db_operations.read_user_transaction')
+def test_add_user_record_working(mocker2, mocker1):
+    MOCK_USER_DATA = UserTransactions(1234)
+    mocker1.return_value = ObjectId('54f112defba522406c9cc208')
+    mocker2.return_value = UserTransactions(telegram_user_id=1234)
     add.helper.read_json.return_value = MOCK_USER_DATA
-    addeduserrecord = add.add_user_income_record(1, ANY,"record : test")
-    if(len(MOCK_USER_DATA) + 1 == len(addeduserrecord)):
+    addeduserrecord = add.add_user_income_record(1, 1234,"record : test")
+    if(addeduserrecord != None):
         assert True
 
 

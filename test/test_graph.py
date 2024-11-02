@@ -1,4 +1,4 @@
-from code import graphing
+from telebot_code import graphing
 from unittest.mock import ANY
 
 dummy_total_text_none = ""

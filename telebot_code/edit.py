@@ -2,6 +2,7 @@ import re
 import helper
 from telebot import types
 from telegram_bot_calendar import DetailedTelegramCalendar, LSTEP
+from db_operations import *
 
 def run(m, bot):
     markup = types.ReplyKeyboardMarkup(one_time_keyboard=True)
@@ -13,23 +14,21 @@ def run(m, bot):
     bot.register_next_step_handler(msg, select_income_or_expense_to_be_edited, bot)
 
 def select_income_or_expense_to_be_edited(msg, bot):
-    chat_id = msg.chat.id
+    user_id = msg.from_user.id
     markup = types.ReplyKeyboardMarkup(one_time_keyboard=True)
     markup.row_width = 2
     selectedType = msg.text
     if(selectedType == "Income"):
-        for c in helper.getUserIncomeHistory(chat_id):
-            income_data = c.split(',')
-            str_date = "Date=" + income_data[0]
-            str_category = ",\t\tCategory=" + income_data[1]
-            str_amount = ",\t\tAmount=$" + income_data[2]
+        for c in helper.getUserIncomeHistory(user_id):
+            str_date = "Date=" + c['date']
+            str_category = ",\t\tCategory=" + c['category']
+            str_amount = ",\t\tAmount=$" + c['amount']
             markup.add(str_date + str_category + str_amount)
     else:
-        for c in helper.getUserExpenseHistory(chat_id):
-            expense_data = c.split(',')
-            str_date = "Date=" + expense_data[0]
-            str_category = ",\t\tCategory=" + expense_data[1]
-            str_amount = ",\t\tAmount=$" + expense_data[2]
+        for c in helper.getUserExpenseHistory(user_id):
+            str_date = "Date=" + c['date']
+            str_category = ",\t\tCategory=" + c['category']
+            str_amount = ",\t\tAmount=$" + c['amount']
             markup.add(str_date + str_category + str_amount)
 
     info = bot.reply_to(msg, "Select income/expense to be edited:", reply_markup=markup)
@@ -94,77 +93,85 @@ def enter_updated_data(m, bot, selected_data, selectedType):
 
 
 def edit_date(m, bot, selected_data, selectedType,result):
-    user_list = helper.read_json()
     new_date = str(helper.validate_entered_date(result))
 
-    chat_id = m.chat.id
-    data_edit = helper.getUserHistory(chat_id, selectedType)
+    user_id = m.from_user.id
+    user_transactions = helper.getUserData(user_id=user_id)
+
+    data_edit = helper.getUserHistory(user_id, selectedType)
     for i in range(len(data_edit)):
-        user_data = data_edit[i].split(",")
+        user_data = data_edit[i]
         selected_date = selected_data[0].split("=")[1]
         selected_category = selected_data[1].split("=")[1]
         selected_amount = selected_data[2].split("=")[1]
         if (
-            user_data[0] == selected_date and user_data[1] == selected_category and user_data[2] == selected_amount[1:]
+            user_data["date"] == selected_date and user_data["category"] == selected_category and user_data["amount"] == selected_amount[1:]
         ):
-            data_edit[i] = (
-                new_date + "," + selected_category + "," + selected_amount[1:]
-            )
+            data_edit[i]["date"] = new_date
             break
     if selectedType == "Income":
-            user_list[str(chat_id)]['income_data'] = data_edit
-            helper.write_json(user_list)
+            user_transactions.transactions['income_data'] = data_edit
+            update_user_transaction(user_id, user_transactions.to_dict())
     else:
-            user_list[str(chat_id)]['expense_data'] = data_edit
-            helper.write_json(user_list)
+            user_transactions.transactions['expense_data'] = data_edit
+            update_user_transaction(user_id, user_transactions.to_dict())
+            
     bot.reply_to(m, "Date is updated")
 
 
 def edit_cat(m, bot, selected_data, selectedType):
-    user_list = helper.read_json()
-    chat_id = m.chat.id
-    data_edit = helper.getUserHistory(chat_id, selectedType)
+    user_id = m.from_user.id
+    user_transactions = helper.getUserData(user_id=user_id)
+
+    data_edit = helper.getUserHistory(user_id, selectedType)
     new_cat = "" if m.text is None else m.text
     for i in range(len(data_edit)):
-        user_data = data_edit[i].split(',')
+        user_data = data_edit[i]
         selected_date = selected_data[0].split('=')[1]
         selected_category = selected_data[1].split('=')[1]
         selected_amount = selected_data[2].split('=')[1]
-        if user_data[0] == selected_date and user_data[1] == selected_category and user_data[2] == selected_amount[1:]:
-            data_edit[i] = selected_date + ',' + new_cat + ',' + selected_amount[1:]
+        if (
+            user_data["date"] == selected_date and user_data["category"] == selected_category and user_data["amount"] == selected_amount[1:]
+        ):
+            data_edit[i]["category"] = new_cat
             break
 
     if selectedType == "Income":
-            user_list[str(chat_id)]['income_data'] = data_edit
-            helper.write_json(user_list)
+        user_transactions.transactions['income_data'] = data_edit
+        update_user_transaction(user_id, user_transactions.to_dict())
+
     else:
-            user_list[str(chat_id)]['expense_data'] = data_edit
-            helper.write_json(user_list)
+        user_transactions.transactions['expense_data'] = data_edit
+        update_user_transaction(user_id, user_transactions.to_dict())
+
     bot.reply_to(m, "Category is updated")
 
 
 def edit_cost(m, bot, selected_data, selectedType):
-    user_list = helper.read_json()
     new_cost = "" if m.text is None else m.text
-    chat_id = m.chat.id
-    data_edit = helper.getUserHistory(chat_id, selectedType)
+    user_id = m.from_user.id
+    user_transactions = helper.getUserData(user_id=user_id)
+    data_edit = helper.getUserHistory(user_id, selectedType)
 
     if helper.validate_entered_amount(new_cost) != 0:
         for i in range(len(data_edit)):
-            user_data = data_edit[i].split(',')
+            user_data = data_edit[i]
             selected_date = selected_data[0].split('=')[1]
             selected_category = selected_data[1].split('=')[1]
             selected_amount = selected_data[2].split('=')[1]
-            if user_data[0] == selected_date and user_data[1] == selected_category and user_data[2] == selected_amount[1:]:
-                data_edit[i] = selected_date + ',' + selected_category + ',' + new_cost
+            if (
+                user_data["date"] == selected_date and user_data["category"] == selected_category and user_data["amount"] == selected_amount[1:]
+            ):
+                data_edit[i]["amount"] = new_cost
                 break
+
         if selectedType == "Income":
-            user_list[str(chat_id)]['income_data'] = data_edit
-            helper.write_json(user_list)
+            user_transactions.transactions['income_data'] = data_edit
+            update_user_transaction(user_id, user_transactions.to_dict())
             bot.reply_to(m, "Income amount is updated")
         else:
-            user_list[str(chat_id)]['expense_data'] = data_edit
-            helper.write_json(user_list)
+            user_transactions.transactions['expense_data'] = data_edit
+            update_user_transaction(user_id, user_transactions.to_dict())
             bot.reply_to(m, "Expense amount is updated")
     else:
         bot.reply_to(m, "The cost is invalid")

@@ -1,4 +1,4 @@
-from code import budget_update
+from telebot_code import budget_update
 #import mock
 from unittest import mock
 from unittest.mock import ANY
@@ -15,6 +15,7 @@ def test_run_overall_budget_overall_case(mock_telebot, mocker):
 
     budget_update.update_overall_budget = mock.Mock(return_value=True)
     message = create_message("hello from testing")
+    message.from_user = types.User(11, False, 'test')
     budget_update.run(message, mc)
 
     assert (budget_update.update_overall_budget.called)
@@ -30,6 +31,7 @@ def test_run_overall_budget_category_case(mock_telebot, mocker):
 
     budget_update.update_category_budget = mock.Mock(return_value=True)
     message = create_message("hello from testing")
+    message.from_user = types.User(11, False, 'test')
     budget_update.run(message, mc)
 
     assert (budget_update.update_category_budget.called)
@@ -44,6 +46,7 @@ def test_run_overall_budget_new_budget_case(mock_telebot, mocker):
     budget_update.helper.isCategoryBudgetAvailable.return_value = False
 
     message = create_message("hello from testing")
+    message.from_user = types.User(11, False, 'test')
     budget_update.run(message, mc)
 
     assert (mc.reply_to.called)
@@ -60,6 +63,7 @@ def test_post_type_selection_failing_case(mock_telebot, mocker):
 
     # budget_update.update_overall_budget = mock.Mock(return_value=True)
     message = create_message("hello from testing")
+    message.from_user = types.User(11, False, 'test')
     budget_update.post_type_selection(message, mc)
     assert(mc.send_message.called)
     assert(budget_update.helper.throw_exception.called)
@@ -77,6 +81,7 @@ def test_post_type_selection_overall_budget_case(mock_telebot, mocker):
 
     budget_update.update_overall_budget = mock.Mock(return_value=True)
     message = create_message("Overall Budget")
+    message.from_user = types.User(11, False, 'test')
     budget_update.post_type_selection(message, mc)
     assert (budget_update.update_overall_budget.called)
 
@@ -93,6 +98,7 @@ def test_post_type_selection_categorywise_budget_case(mock_telebot, mocker):
 
     budget_update.update_category_budget = mock.Mock(return_value=True)
     message = create_message("Category-Wise Budget")
+    message.from_user = types.User(11, False, 'test')
     budget_update.post_type_selection(message, mc)
     assert (budget_update.update_category_budget.called)
 
@@ -103,6 +109,7 @@ def test_post_option_selectio_working(mock_telebot, mocker):
     budget_update.update_category_budget = mock.Mock(return_value=True)
 
     message = create_message("Continue")
+    message.from_user = types.User(11, False, 'test')
     budget_update.post_option_selection(message, mc)
 
     assert(budget_update.update_category_budget.called)
@@ -114,6 +121,7 @@ def test_post_option_selection_nonworking(mock_telebot, mocker):
     budget_update.update_category_budget = mock.Mock(return_value=True)
 
     message = create_message("Randomtext")
+    message.from_user = types.User(11, False, 'test')
     budget_update.post_option_selection(message, mc)
 
     assert(budget_update.update_category_budget.called is False)
