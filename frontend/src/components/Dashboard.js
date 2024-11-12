@@ -153,13 +153,35 @@ const Dashboard = () => {
               <Form.Label>Amount</Form.Label>
               <Form.Control type="number" name="amount" value={newExpense.amount} onChange={handleChange} />
             </Form.Group>
-            <Form.Group>
+            <Form.Group controlId="transactionCurrency" className="mt-3">
+              <Form.Label>Currency</Form.Label>
+              <Form.Control
+                as="select"
+                name="currency"
+                value={newExpense.currency}
+                onChange={handleChange} defaultValue="USD"
+              >
+                <option value="USD">USD - US Dollar</option>
+                <option value="EUR">EUR - Euro</option>
+                <option value="GBP">GBP - British Pound</option>
+                <option value="INR">INR - Indian Rupee</option>
+                <option value="JPY">JPY - Japanese Yen</option>
+                <option value="AUD">AUD - Australian Dollar</option>
+                <option value="CAD">CAD - Canadian Dollar</option>
+                <option value="CHF">CHF - Swiss Franc</option>
+                <option value="CNY">CNY - Chinese Yuan</option>
+                <option value="NZD">NZD - New Zealand Dollar</option>
+                <option value="SEK">SEK - Swedish Krona</option>
+                <option value="SGD">SGD - Singapore Dollar</option>
+              </Form.Control>
+            </Form.Group>
+            {/* <Form.Group>
               <Form.Label>Currency</Form.Label>
               <Form.Control type="text" name="currency" value={newExpense.currency} onChange={handleChange} defaultValue="USD" />
-            </Form.Group>
+            </Form.Group> */}
             <Form.Group>
               <Form.Label>Paid By</Form.Label>
-              <Form.Control type="text" name="paid_by" value={newExpense.paid_by} onChange={handleChange} disabled/>
+              <Form.Control type="text" name="paid_by" value="You" onChange={handleChange} disabled/>
             </Form.Group>
             <Form.Group>
               <Form.Label>Category</Form.Label>
