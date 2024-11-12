@@ -22,29 +22,13 @@ def add_transaction():
         'category': data.get('category'),
         'amount': data.get('amount'),
         'currency': data.get('currency'),
-        'amount_usd': data.get('amount_usd')
+        'amount_usd': data.get('amount_usd') if data.get('amount_usd') != None else None
     }
 
     # Update user's transactions
     user_transactions = mongo.db.user_transactions.find_one({'user_id': ObjectId(user_id)})
 
-    if not user_transactions:
-        # Create a new document if it doesn't exist
-        transactions = {
-            'income_data': [],
-            'expense_data': []
-        }
-        budget = {'overall': None, 'category': {}}
-        user_transactions = {
-            'user_id': ObjectId(user_id),
-            'telegram_user_id': None,
-            'transactions': transactions,
-            'budget': budget,
-            'created_at': datetime.utcnow()
-        }
-
-    else:
-        transactions = user_transactions['transactions']
+    transactions = user_transactions['transactions']
 
     # Append the new transaction
     transactions_key = 'income_data' if transaction_type == 'income' else 'expense_data'

@@ -20,7 +20,7 @@ def create_expense():
     amount = data.get('amount')
     selected_date = datetime.strptime(data.get('selected_date'), '%Y-%m-%d')
     paid_by = ObjectId(user_id)
-    shares = {str(k): v for k, v in data.get('shares', {}).items()}  # Convert keys to strings
+    shares = {str(k): int(v) for k, v in data.get('shares', {}).items()}  # Convert keys to strings
     group_id = data.get('group_id')
 
     expense = {
@@ -50,7 +50,7 @@ def create_expense():
         for user_id_str in shares.keys():
             if ObjectId(user_id_str) not in group_member_ids:
                 return jsonify({'message': f'User {user_id_str} is not a member of the group'}), 400
-
+    
     result = mongo.db.expenses.insert_one(expense)
     expense_id = str(result.inserted_id)
 

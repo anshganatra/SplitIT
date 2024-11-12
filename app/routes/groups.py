@@ -15,6 +15,7 @@ def create_group():
 
     title = data.get('title')
     members = [ObjectId(uid) for uid in data.get('members')]
+    members.append(user_id)
     expenses = [] 
 
     group = {
@@ -44,7 +45,11 @@ def create_group():
                 {'user': member_j},
                 {'$addToSet': {'friends': member_i}})
 
-    return jsonify({'group_id': group_id}), 201
+    group['_id'] = group_id
+    group['members'] = [str(member) for member in members]
+    group['expenses'] = []  
+
+    return jsonify(group), 201
 
 
 @groups_bp.route('/', methods=['GET'])
