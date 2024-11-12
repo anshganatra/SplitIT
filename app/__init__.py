@@ -1,3 +1,4 @@
+from datetime import timedelta
 from flask import Flask
 from flask_cors import CORS
 from app.config import Config
@@ -14,6 +15,7 @@ def create_app():
     CORS(app)
 
     app.config.from_object(Config)
+    app.config["JWT_ACCESS_TOKEN_EXPIRES"] = timedelta(minutes=300)
 
     mongo.init_app(app, uri=app.config['MONGO_URI'])
     jwt.init_app(app)

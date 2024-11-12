@@ -40,6 +40,20 @@ def register():
         'created_at': datetime.utcnow()
     }
     mongo.db.user_balances.insert_one(user_balance)
+
+    transactions = {
+            'income_data': [],
+            'expense_data': []
+        }
+    budget = {'overall': None, 'category': {}}
+    user_transactions = {
+        'user_id': ObjectId(user_id),
+        'telegram_user_id': None,
+        'transactions': transactions,
+        'budget': budget,
+        'created_at': datetime.utcnow()
+    }
+    mongo.db.user_transactions.insert_one(user_transactions)
     
     return jsonify({'access_token': access_token}), 201
 

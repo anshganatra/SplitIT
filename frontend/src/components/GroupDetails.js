@@ -1,9 +1,8 @@
-// GroupDetails.js
 import React, { useState, useEffect } from 'react';
 import { Table } from 'react-bootstrap';
 import { fetchDashboardData } from '../api/dashboardData';
 
-const GroupDetails = ({ group }) => {
+const GroupDetails = ({ group, friends, currentUser }) => {
   const [error, setError] = useState('');
   const [loading, setLoading] = useState(true);
   const [allExpenses, setAllExpenses] = useState([]);
@@ -14,7 +13,6 @@ const GroupDetails = ({ group }) => {
     const getDashboardData = async () => {
       try {
         let allExpenseData = await fetchDashboardData();
-        console.log("Fetched data:", allExpenseData); // Check the fetched data
         setAllExpenses(allExpenseData); // Update the state with fetched data
         setLoading(false);
       } catch (err) {
@@ -24,22 +22,28 @@ const GroupDetails = ({ group }) => {
     };
 
     getDashboardData(); // Run only once on mount
-  }, []); // Empty dependency array
+  }, []);
 
   useEffect(() => {
-    console.log("AllExpenses:", allExpenses); // Log to verify `allExpenses` updates
-
-    // Filter expenses by matching `_id` with `group.expenses`
-    if (group && group.expenses && allExpenses.length > 0) {
-      const matchingExpenses = allExpenses.filter((expense) => 
-        group.expenses.includes(expense._id)
+    // Filter expenses by matching `group_id` in `allExpenses` with the group's `_id`
+    if (group && group._id && allExpenses.length > 0) {
+      const matchingExpenses = allExpenses.filter(
+        (expense) => expense.group_id === group._id
       );
-      console.log("Matching Expenses:", matchingExpenses); // Log the filtered expenses
       setFilteredGroupExpenses(matchingExpenses);
     }
-  }, [allExpenses, group]); // Runs when `allExpenses` or `group` changes
+  }, [allExpenses, group]);
 
-  if (!group || !group.expenses) {
+  // Helper function to resolve user ID to name
+  const resolveUserName = (userId) => {
+    if (userId === currentUser._id) {
+      return `${currentUser.name} (You)`;
+    }
+    const friend = friends.find((friend) => friend.id === userId);
+    return friend ? friend.name : 'Unknown User';
+  };
+
+  if (!group || !group._id) {
     return <div>This group has no transaction history.</div>;
   }
 
@@ -65,7 +69,7 @@ const GroupDetails = ({ group }) => {
             <th>Created at</th>
             <th>Currency</th>
             <th>Paid By</th>
-            <th>Selected date</th>
+            <th>Selected Date</th>
             <th>Shares</th>
           </tr>
         </thead>
@@ -75,11 +79,17 @@ const GroupDetails = ({ group }) => {
               <td>{expense.title}</td>
               <td>{expense.amount}</td>
               <td>{expense.category}</td>
-              <td>{expense.created_at}</td>
+              <td>{new Date(expense.created_at).toLocaleString()}</td>
               <td>{expense.currency}</td>
-              <td>{expense.paid_by}</td>
-              <td>{expense.selected_date}</td>
-              <td>{JSON.stringify(expense.shares)}</td>
+              <td>{resolveUserName(expense.paid_by)}</td>
+              <td>{new Date(expense.selected_date).toLocaleDateString()}</td>
+              <td>
+                {Object.entries(expense.shares).map(([userId, shareAmount]) => (
+                  <div key={userId}>
+                    {resolveUserName(userId)}: {shareAmount}
+                  </div>
+                ))}
+              </td>
             </tr>
           ))}
         </tbody>
