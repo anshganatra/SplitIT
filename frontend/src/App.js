@@ -14,6 +14,7 @@ import './App.css';
 import 'bootstrap/dist/css/bootstrap.css';
 import { ToastContainer, toast } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
+import Profile from './components/Profile';
 
 
 function App() {
@@ -161,6 +162,16 @@ function App() {
             element={
               isAuthenticated ? (
                 <Groups groups={groups} onAddTransaction={handleAddTransaction} />
+              ) : (
+                <Navigate to="/login" />
+              )
+            }
+          />
+          <Route
+            path="/profile"
+            element={
+              isAuthenticated ? (
+                <Profile/>
               ) : (
                 <Navigate to="/login" />
               )

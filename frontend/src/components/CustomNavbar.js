@@ -26,6 +26,7 @@ function CustomNavbar({ isAuthenticated, onLogout }) {
               <Nav.Link as={Link} to="/dashboard">Dashboard</Nav.Link>
               <Nav.Link as={Link} to="/friends">Friends</Nav.Link>
               <Nav.Link as={Link} to="/groups">Groups</Nav.Link>
+              <Nav.Link as={Link} to="/profile">Profile</Nav.Link>
               <Button variant="outline-light" onClick={handleLogoutClick} className="ml-2">
                 Logout
               </Button>
