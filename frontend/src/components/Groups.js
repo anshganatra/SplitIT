@@ -15,15 +15,9 @@ const Groups = () => {
     paid_by: '',
     category: '',
     selected_date: '',
-    shares: []
+    shares: {}
   });
-  const [groupData, setGroupData] = useState({
-    _id: '',
-    title: '',
-    created_at: '',
-    members: [],
-    expenses: [],
-  });
+  const [groupData, setGroupData] = useState([]);
 
   const handleOpenModal = (groupTitle) => {
     setSelectedGroup(groupTitle);
@@ -44,6 +38,11 @@ const Groups = () => {
     setSelectedGroup(''); // Clear selected group on modal close
   };
 
+  // Function to handle selecting a group
+  const handleGroupClick = (group) => {
+    setSelectedGroup(group);
+  };
+  
   const handleExpenseChange = (e) => {
     const { name, value } = e.target;
     setExpenseData({ ...expenseData, [name]: value });
@@ -51,36 +50,31 @@ const Groups = () => {
 
   const handleAddExpense = async () => {
     try {
-      const expense = await addGroupExpense(expenseData)
-      
-      setExpenseData([...expenseData, expense]); // Add the new expense to the expenses list
-      setGroupData([...groupData, expense]); // Add the new expense to the group expenses list
+      await addGroupExpense(expenseData); // Submit the expense data
+      // Refetch group data to reflect the newly added expense
+      await fetchGroupsData();
       handleCloseModal(); // Close the modal
-      setExpenseData({ title: '', amount: '', currency: 'USD', paid_by: '', category: '', shares: {}, selected_date: '' }); // Reset form
     } catch (err) {
       console.error('Error adding expense:', err);
+      setError("Error adding expense.");
     }
   };
 
-  // Function to handle selecting a group
-  const handleGroupClick = (group) => {
-    setSelectedGroup(group);
+  // Fetches groups data
+  const fetchGroupsData = async () => {
+    try {
+      setError('');
+      setLoading(true);
+      const groups = await fetchGroups();
+      setGroupData(groups);
+      setLoading(false);
+    } catch (err) {
+      setError(err.message);
+      setLoading(false);
+    }
   };
 
   useEffect(() => {
-    // Function to fetch groups data
-    const fetchGroupsData = async (e) => {
-
-        try {
-            const groups = await fetchGroups();
-            setGroupData(groups);
-            setLoading(false);
-        } catch (err) {
-            setError(err.message);
-            setLoading(false);
-        }
-    };
-
     fetchGroupsData();
   }, []);
 
@@ -101,10 +95,10 @@ const Groups = () => {
       <ListGroup className="mt-3 mb-3">
         {groupData.map((group) => (
           <ListGroup.Item 
-          key={group._id} 
-          action 
-          onClick={() => handleGroupClick(group)} 
-          className="d-flex justify-content-between align-items-center" 
+            key={group._id} 
+            action 
+            onClick={() => handleGroupClick(group)} 
+            className="d-flex justify-content-between align-items-center"
           >
             {group.title}
             <Button variant="primary" onClick={() => handleOpenModal(group.title)}>
@@ -113,6 +107,7 @@ const Groups = () => {
           </ListGroup.Item>
         ))}
       </ListGroup>
+      
       {/* Group Details */}
       {selectedGroup && <GroupDetails group={selectedGroup} />}
 
@@ -128,8 +123,8 @@ const Groups = () => {
               <Form.Label>Select Group</Form.Label>
               <Form.Control as="select" value={selectedGroup} onChange={(e) => setSelectedGroup(e.target.value)}>
                 <option value="">Select a group</option>
-                {groupData.map((group, index) => (
-                  <option key={index} value={group.title}>
+                {groupData.map((group) => (
+                  <option key={group._id} value={group.title}>
                     {group.title}
                   </option>
                 ))}
@@ -147,26 +142,26 @@ const Groups = () => {
                 onChange={handleExpenseChange}
               />
             </Form.Group>
-              <Form.Group controlId="transactionAmount" className="mt-3">
-                <Form.Label>Amount</Form.Label>
-                <Form.Control
-                  type="number"
-                  name="amount"
-                  placeholder="Amount"
-                  value={expenseData.amount}
-                  onChange={handleExpenseChange}
-                />
-              </Form.Group>
-              <Form.Group controlId="transactionCurrency" className="mt-3">
-                <Form.Label>Currency</Form.Label>
-                <Form.Control
-                  type="text"
-                  name="currency"
-                  placeholder="Currency (e.g., USD)"
-                  value={expenseData.currency}
-                  onChange={handleExpenseChange}
-                />
-              </Form.Group>
+            <Form.Group controlId="transactionAmount" className="mt-3">
+              <Form.Label>Amount</Form.Label>
+              <Form.Control
+                type="number"
+                name="amount"
+                placeholder="Amount"
+                value={expenseData.amount}
+                onChange={handleExpenseChange}
+              />
+            </Form.Group>
+            <Form.Group controlId="transactionCurrency" className="mt-3">
+              <Form.Label>Currency</Form.Label>
+              <Form.Control
+                type="text"
+                name="currency"
+                placeholder="Currency (e.g., USD)"
+                value={expenseData.currency}
+                onChange={handleExpenseChange}
+              />
+            </Form.Group>
             <Form.Group controlId="transactionPaidBy" className="mt-3">
               <Form.Label>Paid By</Form.Label>
               <Form.Control

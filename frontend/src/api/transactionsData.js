@@ -24,7 +24,7 @@ export const fetchTransactionsData = async() => {
 export const addTransaction = async(transaction) => {
     try {
         // Send registration data to the backend
-        const response = await fetch(`${BASE_URL}/expenses`, {
+        const response = await fetch(`${BASE_URL}/transactions/add`, {
           method: 'POST',
           headers: { 
             'Content-Type': 'application/json',
@@ -38,7 +38,7 @@ export const addTransaction = async(transaction) => {
         }
         return await response.json();
     } catch (error) {
-        console.error('Error addding transaction:', error);
+        console.error('Error adding transaction:', error);
         throw error;
     }
 };

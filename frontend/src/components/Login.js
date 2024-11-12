@@ -24,7 +24,7 @@ function Login({ onLogin }) {
       
       // Store the token in localStorage
       localStorage.setItem('token', response['access_token']);
-
+      // await new Promise(r => setTimeout(r, 5000));
       // Call the onLogin function to update app state
       onLogin();
     } catch (err) {

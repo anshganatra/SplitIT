@@ -1,40 +1,20 @@
-// ExpenseManagement.js
 import React, { useState, useEffect } from 'react';
 import { Table, Button, Row, Col } from 'react-bootstrap';
 import AddTransactionModal from './AddTransactionalModal';
 import { fetchTransactionsData, addTransaction } from '../api/transactionsData';
+import { toast } from 'react-toastify';
 
 const ExpenseManagement = () => {
-  const [income, setIncome] = useState([{
-    amount: '',
-    amount_usd: '',
-    category: '',
-    currency: '',
-    date: '',
-    title: '',
-  }]);
-  const [expenditure, setExpenditure] = useState([{
-    amount: '',
-    amount_usd: '',
-    category: '',
-    currency: '',
-    date: '',
-    title: '',
-  }]);
-  const [transactions, setTransactions] = useState({
-    income_data: [...income],
-    expense_data: [...expenditure],
-  })
+  const [income, setIncome] = useState([]);
+  const [expenditure, setExpenditure] = useState([]);
   const [transactionData, setTransactionData] = useState({
-    _id: '',
-    transactions: transactions,
-    user_id: '',    
+    income_data: [],
+    expense_data: [],
   });
   const [transactionType, setTransactionType] = useState('');
-  const [loading, setLoading] = useState('');
+  const [loading, setLoading] = useState(true);
   const [error, setError] = useState('');
   const [showModal, setShowModal] = useState(false);
-  
 
   const handleShowModal = (type) => {
     setTransactionType(type);
@@ -43,40 +23,39 @@ const ExpenseManagement = () => {
 
   const handleCloseModal = () => setShowModal(false);
 
-  const handleAddTransaction = async (transaction) => {
+  const handleAddTransaction = async (transaction, transactionType) => {
     try {
-      const response = await addTransaction(transaction)
-      
-      if (transactionType === 'income') {
-        setIncome([...income, response.income]); // Add the new expense to the expenses list
-        // setIncome({ title: '', amount: '', currency: 'USD', category: '', selected_date: '' }); // Reset form
-      }
-      else {
-        setExpenditure([...expenditure, response.expense]); // Add the new expense to the group expenses list
-        // setExpenditure({ title: '', amount: '', currency: 'USD', category: '', selected_date: '' }); // Reset form
-      }
-      setTransactionData([...transactionData, response]);
+      transaction.type = transactionType;
+      await addTransaction(transaction);
+
+      // Refetch transaction data to update the table
+      await fetchExpenseManagementData();
+
       handleCloseModal(); // Close the modal
+      toast.success("Transaction created successfully.");
     } catch (err) {
-      console.error('Error adding expense:', err);
+      console.error('Error adding transaction:', err);
+      toast.warn("Error creating transaction.");
+    }
+  };
+
+  // Fetches transactions data
+  const fetchExpenseManagementData = async () => {
+    try {
+      setError('');
+      setLoading(true);
+      const response = await fetchTransactionsData();
+      setTransactionData(response.transactions);
+      setIncome(response.transactions.income_data || []);
+      setExpenditure(response.transactions.expense_data || []);
+      setLoading(false);
+    } catch (err) {
+      setError(err.message);
+      setLoading(false);
     }
   };
 
   useEffect(() => {
-    // Function to fetch expenseManagement data
-    const fetchExpenseManagementData = async (e) => {
-        setError('');
-        
-        try {
-            const response = await fetchTransactionsData()
-            setTransactionData(response);
-            setLoading(false);
-        } catch (err) {
-            setError(err.message);
-            setLoading(false);
-        }
-    };
-
     fetchExpenseManagementData();
   }, []);
 
@@ -101,26 +80,24 @@ const ExpenseManagement = () => {
               <tr>
                 <th>Title</th>
                 <th>Amount</th>
-                <th>Amount USD</th>
                 <th>Currency</th>
                 <th>Category</th>
                 <th>Date</th>
               </tr>
             </thead>
             <tbody>
-              {transactionData.transactions['income_data'].map((income) => (
-                <tr key={transactionData._id}>
-                  <td>{income.title}</td>
-                  <td>{income.amount}</td>
-                  <td>{income.amount_usd}</td>
-                  <td>{income.currency}</td>
-                  <td>{income.category}</td>
-                  <td>{income.date}</td>
+              {income.map((incomeItem, index) => (
+                <tr key={index}>
+                  <td>{incomeItem.title}</td>
+                  <td>{incomeItem.amount}</td>
+                  <td>{incomeItem.currency}</td>
+                  <td>{incomeItem.category}</td>
+                  <td>{incomeItem.date}</td>
                 </tr>
               ))}
             </tbody>
           </Table>
-          <Button variant="primary" onClick={() => handleShowModal('income') }>Add New Income</Button>
+          <Button variant="primary" onClick={() => handleShowModal('income')}>Add New Income</Button>
         </Col>
 
         {/* Expenditure Column */}
@@ -131,26 +108,24 @@ const ExpenseManagement = () => {
               <tr>
                 <th>Title</th>
                 <th>Amount</th>
-                <th>Amount USD</th>
                 <th>Currency</th>
                 <th>Category</th>
                 <th>Date</th>
               </tr>
             </thead>
             <tbody>
-            {transactionData.transactions['expense_data'].map((expense) => (
-                <tr key={transactionData._id}>
-                  <td>{expense.title}</td>
-                  <td>{expense.amount}</td>
-                  <td>{expense.amount_usd}</td>
-                  <td>{expense.currency}</td>
-                  <td>{expense.category}</td>
-                  <td>{expense.date}</td>
+              {expenditure.map((expenseItem, index) => (
+                <tr key={index}>
+                  <td>{expenseItem.title}</td>
+                  <td>{expenseItem.amount}</td>
+                  <td>{expenseItem.currency}</td>
+                  <td>{expenseItem.category}</td>
+                  <td>{expenseItem.date}</td>
                 </tr>
               ))}
             </tbody>
           </Table>
-          <Button variant="primary" onClick={() => handleShowModal('expenditure')}>Add New Expenditure</Button>
+          <Button variant="primary" onClick={() => handleShowModal('expense')}>Add New Expense</Button>
         </Col>
       </Row>
 
@@ -159,7 +134,7 @@ const ExpenseManagement = () => {
         show={showModal}
         onClose={handleCloseModal}
         onSubmit={handleAddTransaction}
-        type={transactionType}
+        transactionType={transactionType}
       />
     </div>
   );
